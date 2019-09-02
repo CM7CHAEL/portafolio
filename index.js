@@ -8,7 +8,7 @@ var app = new Vue({
     cards: [{
         img: 'https://corporacioninformatica.com/wp-content/uploads/2015/01/curso-online-de-programacion-web.jpg',
         title: 'Programación Web',
-        description: 'Análisis, desarrollo, mejoras y actualización de plataformas  usando las tecnologías de VueJs, Vuetify, Bootstrap, Php, Laravel'
+        description: 'Análisis, desarrollo, mejoras y actualización de plataformas  usando las tecnologías de VueJs, Angular, Laravel.'
       },
       {
         img: 'https://www.office365product.com/wp-content/uploads/2017/08/office3651.png',
