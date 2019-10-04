@@ -11,7 +11,7 @@ var app = new Vue({
         description: 'Análisis, desarrollo, mejoras y actualización de plataformas  usando las tecnologías de VueJs, Angular, Laravel.'
       },
       {
-        img: 'https://www.office365product.com/wp-content/uploads/2017/08/office3651.png',
+        img: 'https://4.imimg.com/data4/LH/NW/ANDROID-4620860/product-500x500.jpeg',
         title: 'Microsoft Office',
         description: ' Análisis y desarrollo de sistemas y aplicativos a medida Construidos en Excel (VBA, macros) y Access.'
       },
