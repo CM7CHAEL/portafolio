@@ -1,0 +1,70 @@
+
+.home:hover {
+  background: url('/') no-repeat scroll -5px 28px #D16800 !important;
+  opacity: 0.7;
+}
+
+.blog:hover {
+  background: url('/') no-repeat scroll -5px 28px #7A007A !important;
+  opacity: 0.7;
+}
+
+.github:hover {
+  background: url('/') no-repeat scroll -5px 28px #086666 !important;
+  opacity: 0.7;
+}
+
+.linkedin:hover {
+  background: url('/') no-repeat scroll -5px 28px #004870 !important;
+  opacity: 0.7;
+}
+
+.logo {
+  margin-left: 5%;
+  width: 200px;
+  margin-top: -15px;
+  height: 80px;
+}
+
+ul.headerMenu * {
+  font-family: Arial, sans-serif;
+  transition: all 0.2s ease-in-out;
+}
+
+ul.headerMenu {
+  width: 90%;
+  height: 50px;
+  overflow: hidden;
+  background: #000;
+  list-style: none;
+}
+
+ul.headerMenu li {
+  margin-left: 2px;
+  cursor: pointer;
+  float: right;
+  position: relative;
+  width: 15px;
+  padding-bottom: 50px;
+}
+
+ul.headerMenu li h4 {
+  position: relative;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+ul.headerMenu li:hover {
+  width: 160px;
+  background: none;
+}
+
+ul.headerMenu li:hover h4 {
+  top: 10px;
+  padding-left: 5px;
+  color: #fff;
+  background: none;
+}

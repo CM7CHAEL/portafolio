@@ -8,7 +8,12 @@ var app = new Vue({
     cards: [{
         img: 'https://corporacioninformatica.com/wp-content/uploads/2015/01/curso-online-de-programacion-web.jpg',
         title: 'Programación Web',
-        description: 'Análisis, desarrollo, mejoras y actualización de plataformas  usando las tecnologías de VueJs, Angular, Laravel.'
+        description: 'Desarrollo, mejoras y actualización de plataformas  usando las tecnologías de VueJs, Angular, Laravel.'
+      },
+      {
+        img: 'https://www.niyati.com/images/software-testing.png',
+        title: 'Testing',
+        description: 'Pruebas de garantía de calidad para descubrir errores y optimizar la usabilidad.'
       },
       {
         img: 'https://4.imimg.com/data4/LH/NW/ANDROID-4620860/product-500x500.jpeg',
