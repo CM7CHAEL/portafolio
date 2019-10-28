@@ -3,25 +3,26 @@ $(function () {
 })
 
 var app = new Vue({
+  //https://imgbb.com/
   el: '#app',
   data: {
     cards: [{
-        img: 'https://corporacioninformatica.com/wp-content/uploads/2015/01/curso-online-de-programacion-web.jpg',
+        img: 'https://i.ibb.co/Z8B2G25/cursos-sobre-programacion.jpg',
         title: 'Programación Web',
         description: 'Desarrollo, mejoras y actualización de plataformas  usando las tecnologías de VueJs, Angular, Laravel.'
       },
       {
-        img: 'https://www.niyati.com/images/software-testing.png',
+        img: 'https://i.ibb.co/KGJpXx0/software-testing.png',
         title: 'Testing',
         description: 'Pruebas de garantía de calidad para descubrir errores y optimizar la usabilidad.'
       },
       {
-        img: 'https://4.imimg.com/data4/LH/NW/ANDROID-4620860/product-500x500.jpeg',
+        img: 'https://i.ibb.co/8rt2J27/product-500x500.jpg',
         title: 'Microsoft Office',
         description: ' Análisis y desarrollo de sistemas y aplicativos a medida Construidos en Excel (VBA, macros) y Access.'
       },
       {
-        img: 'https://tesecempresadesoporte.files.wordpress.com/2018/04/1495579893-25.png?w=390&h=257',
+        img: 'https://i.ibb.co/P6sgKpf/1495579893-25.png',
         title: 'Soporte al Usuario',
         description: 'Atención a usuarios (consultas, información general, resolución de problemas), Instalación y mantenimiento de S.O'
       }
