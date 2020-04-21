@@ -13,7 +13,8 @@
 
 <body data-spy="scroll" data-target="#navbar" data-offset="57">
   <div id="app">
-    <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"
+      style="background-color: black!important;">
       <div class="container">
         <a class="navbar-brand" href="#">
           Portafolio
@@ -30,11 +31,19 @@
             <li class="nav-item">
               <a class="nav-link" href="certificates.html">Certificado</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Blog</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Proyectos
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" target="_blank" href="https://cm7chael.github.io/chess-mc/">Blog Chess m-c</a>
+                <div class="dropdown-divider"></div>
+                <!-- <a class="dropdown-item" target="_blank" href="#">La española</a> -->
+              </div>
             </li>
           </ul>
-          <a href="mcervera.pdf">
+          <a target="_blank" href="mcervera.pdf">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Curriculum</button>
           </a>
         </div>
@@ -82,7 +91,8 @@
           </div>
         </div>
         <div class="row">
-          <div style="cursor: pointer" class="col-12 col-sm-6 col-md-3 mb-4" v-for="(item, index) in cards" :key="index"  data-placement="bottom" data-toggle="tooltip" :title="item.description">
+          <div style="cursor: pointer" class="col-12 col-sm-6 col-md-3 mb-4" v-for="(item, index) in cards" :key="index"
+            data-placement="bottom" data-toggle="tooltip" :title="item.description">
             <div class="card">
               <img class="card-img-top" height="200px" :src="item.img">
               <div class="card-body">
@@ -106,29 +116,264 @@
           <div class="col-12 col-lg-6 py-2 align-self-center">
             <h2>Michael Cervera Cobeñas</h2>
             <p>
-              Programador Web
+              Programador web enfocado en desarrollo Front-end, con capacidad de trabajo en equipo,
+              autodidacta y con gran iniciativa personal. Experimentando con todas las etapas del ciclo
+              de desarrollo para proyectos web dinámicos.
             </p>
           </div>
         </div>
       </div>
     </section>
     <section id="become-a-speaker" class="py-3">
+      <div class="home">
+        <div class="box animated swing">
+          <h1>CM7CHAEL</h1>
+          <hr />
+          <p>Web application developer</p>
+        </div>
+      </div> <br><br><br><br><br><br><br><br>
+      <!-- <div class="about">
+        <h2>Contacto</h2>
+        <hr class="alt" />
+        <p class="animated">
+         ipsum dolor sit amet, consectetur adipiscing elit. In vitae massa at odio
+          lobortis rutrum non ut justo. Curabitur gravida quis massa et posuere. Morbi sagittis interdum metus sed
+          tempor. Duis sollicitudin ex non ligula tristique,
+          ut scelerisque est consequat. Fusce elementum, enim ac pretium suscipit, urna ipsum ultricies dolor, at
+          molestie velit ligula et diam. Curabitur commodo fermentum sem nec cursus. Proin dapibus magna vitae
+          pellentesque vestibulum. Quisque vel velit
+          arcu. Donec rutrum convallis condimentum. Quisque blandit ex quam, a elementum risus aliquam non. Vivamus
+          pharetra neque velit, at sodales neque molestie vitae. Interdum et malesuada fames ac ante ipsum primis in
+          faucibus. Donec eu lacinia nibh.
+        </p>
+      </div> -->
     </section>
-    <footer id="footer" class="pb-4 pt-4">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-12 col-lg">
-            <a href="#">
-              <p>&copy; CM7CHAEL- 921497120<p>
-            </a>
+    <footer style="width:100%; background: #2c3039; padding-top: 10px;">
+      <div class="container " style="background: #2c3039;">
+        <div class="row" style="padding:10px">
+          <div class="col-sm">
+            <!-- <img style="width:70%; margin-left: 15%; margin-top: 10%;" src="assets/img/RENITLI_LOGO2.jpg"> -->
+          </div>
+          <div class="col-sm">
+            <span class="titulo-pie-pagina"> SITIOS WEB</span>
+            <ul class="links" style="margin-left: 4%;">
+              <li><a target="_blank" href="https://www.facebook.com/cm7chael">https://www.facebook.com/cm7chael</a></li>
+              <li><a target="_blank" href="https://twitter.com/cm7chael">https://twitter.com/cm7chael</a></li>
+              <li><a target="_blank" href="https://www.instagram.com/cm7chael">https://www.instagram.com/cm7chael</a></li>
+              <li><a target="_blank" href="https://github.com/cm7chael">https://github.com/cm7chael</a></li>
+            </ul>
+          </div>
+          <div class="col-sm">
+            <span class="titulo-pie-pagina"> Correo electrónico</span>
+            <ul class="links" style="margin-left: 4%;">
+              <li><a target="_blank" href="#">michaelcervera13@gmail.com</a></li>
+            </ul>
           </div>
         </div>
+      </div>
+      <div class="row" style="background: #000; padding:10px; margin: 0;">
+        <div class="col-sm">
+          <!-- <img class="img-pag" src="assets/img/Logo_cultura.png"> -->
+        </div>
+        <div class="col-sm">
+          <p>☯ Web application developer</p>
+          <p>Pucusana, Lima Perú</p>
+          <p>Central Telefónica: 921497120</p>
+        </div>
+        <div class="col-sm"></div>
       </div>
     </footer>
   </div>
 </body>
 
 </html>
+
+<style>
+  .titulo-pie-pagina {
+  font-size: 14px;
+  color: rgb(142, 142, 142);
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+.links li a,
+pre,
+.links li h1 {
+  margin-left: -18%;
+  color: #8e8e8e;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.img-pag {
+  margin-top: 10px;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  margin-left: 18%;
+}
+
+.row .col-sm p {
+  margin-top: 10px;
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  margin: 0;
+  }
+  hr {
+    width: 70px;
+    height: 4px;
+    margin: 15px auto;
+    background: #fff;
+    border: 0;
+  }
+
+  hr.alt {
+    background: #666;
+  }
+
+  .home {
+    background: linear-gradient(to right, #cccc, #135058);
+    height: 250px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .home::after {
+    content: "";
+    background: linear-gradient(to right, #cccc, #135058);
+    width: 100%;
+    height: 200px;
+    transform: skewY(-5deg);
+    position: absolute;
+    bottom: -100px;
+    z-index: 1;
+  }
+
+  .box {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    color: #fff;
+    height: 200px;
+    width: 300px !important;
+    position: absolute;
+    margin: 50px auto;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 3;
+  }
+
+  .box h1 {
+    font-size: 2.7em;
+    text-transform: uppercase;
+  }
+
+  .box::after,
+  .box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 4px solid #fff;
+  }
+
+  .box::after {
+    -webkit-transform: translate(6px, 6px);
+    transform: translate(6px, 6px);
+  }
+
+  .box::before {
+    -webkit-transform: translate(-6px, -6px);
+    transform: translate(-6px, -6px);
+  }
+
+  .about {
+    text-align: center;
+    width: 100%;
+  }
+
+  .about h2 {
+    position: relative;
+    font-size: 2.5em;
+    margin-top: 190px;
+    color: #666;
+  }
+
+  .about p {
+    font-size: 1.2em;
+    width: 80%;
+    margin: auto;
+    padding-bottom: 200px;
+    color: #666;
+  }
+
+  .about p>span {
+    margin-left: 20px;
+  }
+
+
+  .flex {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 100px auto;
+  }
+
+  .box-alt {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    transform: rotate(-45deg);
+  }
+
+  .box-alt i {
+    transform: rotate(45deg);
+    font-size: 4em;
+  }
+
+  .box-alt::after,
+  .box-alt::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border: 4px solid #fff;
+  }
+
+  .box-alt::after {
+    -webkit-transform: translate(6px, 6px);
+    transform: translate(6px, 6px);
+  }
+
+  .box-alt::before {
+    -webkit-transform: translate(-6px, -6px);
+    transform: translate(-6px, -6px);
+  }
+
+  @media (max-width: 901px) {
+    .flex {
+      width: 300px;
+    }
+  }
+</style>
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

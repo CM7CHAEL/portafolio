@@ -3,7 +3,6 @@ $(function () {
 })
 
 var app = new Vue({
-  //https://imgbb.com/
   el: '#app',
   data: {
     cards: [{
