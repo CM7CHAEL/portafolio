@@ -28,7 +28,7 @@ var app = new Vue({
     ],
     certificates: [{
       img: 'https://storage.googleapis.com/icemdweb-wp-uploads/2017/11/34954f15-marketing-digital-empresas.jpg',
-      title: 'Sql Server 2008',
+      title: 'Marketing Digital',
       fecha: '26 de Abril del 2020',
       description: 'Marketing Digital',
       link: 'https://drive.google.com/file/d/1pBgzKpF8Ouim67Cxlg6rwbndIxSQxN_I/view?usp=sharing'
