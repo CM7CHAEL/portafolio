@@ -45,21 +45,21 @@ var app = new Vue({
       title: 'Curso de Capacitaciòn y Actualizaciòn.',
       fecha: '21 de Agosto del 2018',
       description: 'Programación en Php, Modelamiento en Base de datos, Analisis y Diseño de Sistemas',
-      link: 'https://drive.google.com/file/d/1StPXMr7Hz7KTaFrwUsJivYTGO4uVpilk/view?usp=sharing'
+      link: 'https://drive.google.com/file/d/1baq4iGQ6Ytb3Lb1QCbwHSEvtd76hyYRl/view?usp=sharing'
     },
     {
       img: 'http://imagenes.universia.net/gc/net/images/educacion/c/cu/cur/curso-online-gratuito-mejorar-habilidades-conversacion-ingles.jpg',
       title: 'Ingles',
       fecha: '01 de Agosto del 2018',
       description: 'The Basic english course level',
-      link: 'https://drive.google.com/file/d/1nNsYWF9lFZupTARFL6HZgx8gcNfTwnLJ/view?usp=sharing'
+      link: 'https://drive.google.com/file/d/1IXhJHQDuPH4R3u4dIWEXW8bcZV0IedUe/view?usp=sharing'
     },
     {
       img: 'http://i.eldiario.com.ec/fotos-manabi-ecuador/2019/04/20190402085423_la-tecnologa-a-herramienta-clave-pa.jpg',
       title: 'In Full Dat Tec.',
       fecha: '24 de Octubre del  2017',
       description: 'Enfoque al futuro sobre el acceso al conocimiento, Delitos Informaticos, Negocios en redes social y Bitcoins',
-      link: 'https://drive.google.com/file/d/1TkB2lktBOm3IA-4TNVRTKJYSoOlSH32H/view?usp=sharing'
+      link: 'https://drive.google.com/file/d/1DKVkQxqCj8HpBECpEApLycbi9e-_a5mj/view?usp=sharing'
     },
     {
       img: 'https://i2.wp.com/www.universidadescr.com/blog/wp-content/uploads/cisco.jpg?fit=860%2C365&ssl=1',
@@ -73,14 +73,14 @@ var app = new Vue({
       title: 'Sql Server 2008',
       fecha: '30 de Noviembre del 2016',
       description: 'Normalisacion de Base de datos, Diseño de consultas, Agrupación y resúmenes de datos, Valores de Agregación',
-      link: 'https://drive.google.com/file/d/1wITDW9RQ6qP47ZJYka4WkOxVWWru5Ms_/view?usp=sharing'
+      link: 'https://drive.google.com/file/d/14zy_zYwMn4BRDSb6LcZff6vYFsDZdKtD/view?usp=sharing'
     },
     {
       img: 'https://soyofimatica.com/wp-content/uploads/2018/10/descargar-excel.jpg',
       title: 'Excel Avanzado',
       fecha: '25 de Septiembre del 2016',
       description: 'Formulas, Funciones, Tablas dinámicas, Herramientas de datos, Formularios, Programación Vba',
-      link: 'https://drive.google.com/file/d/1IUUVSR3YXzs-fcInfIN6kmBNfFjssRNr/view?usp=sharing'
+      link: 'https://drive.google.com/file/d/1iFx-wakSiXCa0zPHj7g7-hrfg3sCkbEw/view?usp=sharing'
     }
     ]
   }
