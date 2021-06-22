@@ -27,6 +27,13 @@ var app = new Vue({
     }
     ],
     certificates: [{
+      img: 'https://www.europeanvalley.es/noticias/wp-content/uploads/2019/07/Python.jpeg',
+      title: 'Programación en Python',
+      fecha: '11 de Junio del 2021',
+      description: 'Python',
+      link: 'https://drive.google.com/file/d/1_HD3nDVkaH8AYIGzTYyQ7TuofLGD863t/view?usp=sharing'
+    },
+    {
       img: 'https://storage.googleapis.com/icemdweb-wp-uploads/2017/11/34954f15-marketing-digital-empresas.jpg',
       title: 'Marketing Digital',
       fecha: '26 de Abril del 2020',
