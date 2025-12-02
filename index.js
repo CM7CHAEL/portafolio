@@ -1,65 +1,75 @@
 const experiences = [
   {
-    img: 'https://i.ibb.co/Z8B2G25/cursos-sobre-programacion.jpg',
-    title: 'Programación web',
-    description: 'Desarrollo y optimización de plataformas con Vue, Angular y Laravel.'
+    img: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80',
+    title: 'Estrategia y liderazgo técnico',
+    description: 'Roadmaps, priorización y acompañamiento end-to-end.'
   },
   {
-    img: 'https://i.ibb.co/KGJpXx0/software-testing.png',
-    title: 'Testing',
-    description: 'Pruebas funcionales y exploratorias para asegurar calidad y usabilidad.'
+    img: 'https://images.unsplash.com/photo-1483478550801-ceba5fe50e8e?auto=format&fit=crop&w=900&q=80',
+    title: 'Desarrollo de software',
+    description: 'Frontend y backend con buenas prácticas y entregas iterativas.'
   },
   {
-    img: 'https://i.ibb.co/8rt2J27/product-500x500.jpg',
-    title: 'Microsoft Office',
-    description: 'Aplicativos a medida con Excel (VBA, macros) y Access para operaciones diarias.'
+    img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
+    title: 'Páginas web',
+    description: 'Sitios y landings claros para marcas, productos y campañas.'
   },
   {
-    img: 'https://i.ibb.co/P6sgKpf/1495579893-25.png',
-    title: 'Soporte al usuario',
-    description: 'Atención, capacitación y mantenimiento de sistemas operativos y herramientas.'
+    img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=900&q=80',
+    title: 'Integraciones con APIs',
+    description: 'Conexión con servicios externos y flujos de datos confiables.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1503389152951-9f343605f61e?auto=format&fit=crop&w=900&q=80',
-    title: 'Proyectos de planos',
-    description: 'Digitalización y gestión de planos con flujos claros y trazabilidad.'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80',
+    img: 'https://images.unsplash.com/photo-1526378722484-cc5c8101672f?auto=format&fit=crop&w=900&q=80',
     title: 'Servicios SaaS',
-    description: 'Diseño e integración de soluciones SaaS y microservicios alineados al negocio.'
+    description: 'Plataformas escalables, multi-tenant y listas para crecer.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80',
+    title: 'Soporte y operación',
+    description: 'Monitoreo, QA, releases frecuentes y soporte a usuarios.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
+    title: 'Automatización con IA',
+    description: 'Automatizar procesos con modelos y herramientas de IA.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&w=900&q=80',
+    title: 'Chatbots y asistentes',
+    description: 'Bots conversacionales para atención y soporte 24/7.'
   }
 ]
 
 const projects = [
   {
-    title: 'Learning Programming',
-    description: 'Laboratorio de experimentos frontend y ejercicios prácticos.',
-    link: 'https://cm7chael.github.io/learning-programming/',
-    img: 'https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=800&q=80',
-    stack: ['HTML', 'CSS', 'JS']
+    title: 'StudioXperto',
+    description: 'Consultora digital: estrategia, producto y tecnología end-to-end.',
+    link: 'studioxperto.html',
+    img: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',
+    stack: ['Consultoría', 'Producto', 'TI']
   },
   {
-    title: 'Chess m-c',
-    description: 'Blog técnico y experimentos visuales alrededor de ajedrez.',
-    link: 'https://cm7chael.github.io/chess-mc/',
-    img: 'https://images.unsplash.com/photo-1518131678677-a9a9b7760f4e?auto=format&fit=crop&w=800&q=80',
-    stack: ['Vue', 'UI/UX']
+    title: 'Apps móviles',
+    description: 'Aplicaciones móviles que he construido y lanzado con equipos ágiles.',
+    link: 'apps-moviles.html',
+    img: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=800&q=80',
+    stack: ['iOS/Android', 'UI/UX', 'APIs']
   },
   {
-    title: 'Maquinarias Ochoa',
-    description: 'Sitio corporativo para maquinaria industrial con enfoque comercial.',
-    link: 'http://ochoa-maq.com',
-    img: 'https://images.unsplash.com/photo-1581091870622-7b1c1cc00c05?auto=format&fit=crop&w=800&q=80',
-    stack: ['Landing', 'SEO']
+    title: 'Páginas web',
+    description: 'Sitios y landings para marcas, productos y campañas.',
+    link: 'paginas-web.html',
+    img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80',
+    stack: ['Landing', 'SEO', 'Branding']
   },
   {
-    title: 'Coffee Service Perú',
-    description: 'Presencia digital para servicios de café y soporte técnico.',
-    link: 'https://coffeeserviceperu.com/',
-    img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80',
-    stack: ['WordPress', 'Branding']
-  }
+    title: 'Plataformas web',
+    description: 'Plataformas SaaS y microservicios con integraciones a datos.',
+    link: 'plataformas-web.html',
+    img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
+    stack: ['SaaS', 'APIs', 'Escalabilidad']
+  },
 ]
 
 const certificates = [
