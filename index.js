@@ -1,41 +1,41 @@
 const experiences = [
   {
-    img: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80',
+    img: './assets/image/experiences/estrategia-liderazgo.avif',
     title: 'Estrategia y liderazgo técnico',
     description: 'Roadmaps, priorización y acompañamiento end-to-end.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1483478550801-ceba5fe50e8e?auto=format&fit=crop&w=900&q=80',
+    img: './assets/image/experiences/desarrollo-software.jpg',
     title: 'Desarrollo de software',
     description: 'Frontend y backend con buenas prácticas y entregas iterativas.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
+    img: './assets/image/experiences/web-site.jpg',
     title: 'Páginas web',
     description: 'Sitios y landings claros para marcas, productos y campañas.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=900&q=80',
+    img: './assets/image/experiences/integracion-de-apisnew.jpg',
     title: 'Integraciones con APIs',
     description: 'Conexión con servicios externos y flujos de datos confiables.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1526378722484-cc5c8101672f?auto=format&fit=crop&w=900&q=80',
+    img: './assets/image/experiences/software-como-servicio-saas.webp',
     title: 'Servicios SaaS',
     description: 'Plataformas escalables, multi-tenant y listas para crecer.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80',
+    img: './assets/image/experiences/soporte-remoto.png',
     title: 'Soporte y operación',
     description: 'Monitoreo, QA, releases frecuentes y soporte a usuarios.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80',
+    img: './assets/image/experiences/ia.jpg',
     title: 'Automatización con IA',
     description: 'Automatizar procesos con modelos y herramientas de IA.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&w=900&q=80',
+    img: './assets/image/experiences/chatbot.jpg',
     title: 'Chatbots y asistentes',
     description: 'Bots conversacionales para atención y soporte 24/7.'
   }
@@ -53,7 +53,7 @@ const projects = [
     title: 'Apps móviles',
     description: 'Aplicaciones móviles que he construido y lanzado con equipos ágiles.',
     link: 'apps-moviles.html',
-    img: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61?auto=format&fit=crop&w=800&q=80',
+    img: './assets/image/projects/app.png',
     stack: ['iOS/Android', 'UI/UX', 'APIs']
   },
   {
