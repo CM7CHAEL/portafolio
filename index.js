@@ -6,7 +6,7 @@ const experiences = [
   },
   {
     img: './assets/image/experiences/desarrollo-software.jpg',
-    title: 'Desarrollo de software',
+    title: 'Desarrollo de software Fullstack',
     description: 'Frontend y backend con buenas prácticas y entregas iterativas.'
   },
   {
