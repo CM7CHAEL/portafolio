@@ -46,7 +46,7 @@ const projects = [
     title: 'StudioXperto',
     description: 'Consultora digital: estrategia, producto y tecnología end-to-end.',
     link: 'studioxperto.html',
-    img: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',
+    img: './assets/image/studioxperto.jpg',
     stack: ['Consultoría', 'Producto', 'TI']
   },
   {
