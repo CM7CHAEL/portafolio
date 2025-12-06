@@ -70,6 +70,20 @@ const projects = [
     img: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
     stack: ['SaaS', 'APIs', 'Escalabilidad']
   },
+  {
+    title: 'Cursos, notas y presentaciones',
+    description: 'Apuntes, PPTs y recursos de cursos e instituto para compartir.',
+    link: 'cursos-notas.html',
+    img: 'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=800&q=80',
+    stack: ['Cursos', 'Notas', 'PPT']
+  },
+  {
+    title: 'Plantillas y descargas',
+    description: 'Excel, VBA, Access y software compilado listo para usar.',
+    link: 'plantillas-descargas.html',
+    img: 'https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=80',
+    stack: ['Excel/VBA', 'Access', 'Software']
+  },
 ]
 
 const certificates = [
