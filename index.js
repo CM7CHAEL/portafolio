@@ -44,10 +44,10 @@ const experiences = [
 const projects = [
   {
     title: 'StudioXperto',
-    description: 'Consultora digital: estrategia, producto y tecnología end-to-end.',
+    description: 'Empresa formalizada que hoy opera con gestion familiar; apoyo ocasional en dias libres.',
     link: 'studioxperto.html',
     img: './assets/image/studioxperto.jpg',
-    stack: ['Consultoría', 'Producto', 'TI']
+    stack: ['Empresa formalizada', 'Gestion', 'Fullstack']
   },
   {
     title: 'Apps móviles',
