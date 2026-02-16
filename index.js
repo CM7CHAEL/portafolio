@@ -42,13 +42,13 @@ const experiences = [
 ]
 
 const projects = [
-  {
-    title: 'StudioXperto',
-    description: 'Empresa formalizada que hoy opera con gestion familiar; apoyo ocasional en dias libres.',
-    link: 'studioxperto.html',
-    img: './assets/image/studioxperto.jpg',
-    stack: ['Empresa formalizada', 'Gestion', 'Fullstack']
-  },
+  // {
+  //   title: 'StudioXperto',
+  //   description: 'Empresa formalizada que hoy opera con gestion familiar; apoyo ocasional en dias libres.',
+  //   link: 'studioxperto.html',
+  //   img: './assets/image/studioxperto.jpg',
+  //   stack: ['Empresa formalizada', 'Gestion', 'Fullstack']
+  // },
   {
     title: 'Apps móviles',
     description: 'Aplicaciones móviles que he construido y lanzado con equipos ágiles.',
