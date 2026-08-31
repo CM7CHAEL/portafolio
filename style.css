@@ -348,13 +348,13 @@ h5 {
   fill: currentColor;
 }
 
-.reveal {
+.js .reveal {
   opacity: 0;
   transform: translateY(26px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.reveal.visible {
+.js .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -385,3 +385,10 @@ h5 {
 .card--live{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;text-decoration:none;color:inherit;transition:.2s}
 .card--live:hover{border-color:rgba(255,255,255,.35);transform:translateY(-2px);text-decoration:none;color:inherit}
 .card--live .text-muted{font-size:.85rem}
+
+/* Sin JS la pagina se ve igual; con JS aparece animada. Y si el usuario
+   pidio menos movimiento, no se anima nada. */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .card--live { transition: none; }
+}

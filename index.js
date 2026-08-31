@@ -65,7 +65,7 @@ function renderCards(list, containerId, templateFn) {
 const experienceTemplate = (item) => `
   <div class="col-12 col-md-6 col-lg-4 mb-4">
     <div class="card card--soft h-100">
-      <img class="card-img-top" height="180" src="${item.img}" alt="${item.title}">
+      <img class="card-img-top" src="${item.img}" alt="${item.title}" width="400" height="180" loading="lazy" decoding="async">
       <div class="card-body">
         <span class="badge badge-pill badge-light text-primary">${item.title}</span>
         <p class="card-text mt-2">${item.description}</p>
@@ -77,7 +77,7 @@ const experienceTemplate = (item) => `
 const projectTemplate = (project) => `
   <div class="col-12 col-md-6 col-lg-3 mb-4">
     <div class="card card--project h-100">
-      <img class="card-img-top" src="${project.img}" alt="${project.title}" height="180">
+      <img class="card-img-top" src="${project.img}" alt="${project.title}" width="400" height="180" loading="lazy" decoding="async">
       <div class="card-body d-flex flex-column">
         <h5>${project.title}</h5>
         <p class="card-text flex-grow-1">${project.description}</p>
