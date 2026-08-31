@@ -426,3 +426,6 @@ h5 {
 @media (max-width: 575px) {
   .track__anios { margin-left: 0; width: 100%; }
 }
+
+.cv-link{font-size:.95rem;opacity:.7;text-decoration:underline}
+.cv-link:hover{opacity:1}
