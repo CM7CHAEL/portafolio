@@ -7,6 +7,13 @@ const experiences = [
     quedo: 'El Design System lo consumen mas de quince aplicaciones de la suite sin pedir permiso a nadie.'
   },
   {
+    title: 'StudioXperto',
+    rol: 'Analista Desarrollador',
+    anios: '2026',
+    description: 'Proyectos para Ferreyros, la Universidad Corporativa Intercorp y la UGEL Padre Abad: monitoreo en Google Cloud, migracion de Lumen a Laravel en Cloud Run y una plataforma educativa con app sin conexion.',
+    quedo: 'Aprendix en Cloud Run, con un servicio por modulo.'
+  },
+  {
     title: 'Intelica Consulting',
     rol: 'Analyst Developer',
     anios: '2024 — 2025',
@@ -28,15 +35,15 @@ const experiences = [
     quedo: 'La documentacion tecnica que permitio mantenerlo sin mi.'
   },
   {
-    title: 'StudioXperto',
-    rol: 'Cofundador',
-    anios: '2019 — hoy',
-    description: 'Proyectos a medida para clientes: plataformas web, CRM y aplicaciones moviles.',
-    quedo: 'Sitios y apps de clientes que siguen en produccion.'
+    title: 'Independiente → StudioXperto',
+    rol: 'Desarrollador full stack',
+    anios: '2019 — 2022',
+    description: 'Proyectos a medida para clientes de distintos sectores; desde 2021, bajo StudioXperto. Analisis, desarrollo y coordinacion de un equipo pequeno.',
+    quedo: 'Sitios y sistemas de clientes que siguen en produccion.'
   },
   {
     title: 'Sursa Gas',
-    rol: 'Analista Programador',
+    rol: 'Practicante → Analista Programador Jr.',
     anios: '2016 — 2018',
     description: 'Sistemas a medida de ventas y produccion. Mejora del 70% en tiempos de respuesta de calculos, busquedas e impresiones.',
     quedo: 'El sitio que hice sigue en linea diez anos despues: sursagas.com'
