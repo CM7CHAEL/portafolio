@@ -1,17 +1,10 @@
 const experiences = [
   {
     title: 'CELSA',
-    rol: 'Lider Tecnico',
+    rol: 'Lead Fullstack Developer',
     anios: '2026 — hoy',
     description: 'Arquitectura modular con microfrontends, SSO corporativo con Keycloak, despliegues automatizados sin llaves y un Design System propio.',
     quedo: 'El Design System lo consumen mas de quince aplicaciones de la suite sin pedir permiso a nadie.'
-  },
-  {
-    title: 'StudioXperto',
-    rol: 'Fundador y socio',
-    anios: '2019 — hoy',
-    description: 'Empresa de software formalizada. Direccion tecnica, producto y relacion con clientes.',
-    quedo: 'Opera con equipo propio y productos en produccion.'
   },
   {
     title: 'Intelica Consulting',
@@ -33,6 +26,13 @@ const experiences = [
     anios: '2022 — 2023',
     description: 'Evolucion del portal educativo EVA con Vue 3, .NET Core y SQL Server.',
     quedo: 'La documentacion tecnica que permitio mantenerlo sin mi.'
+  },
+  {
+    title: 'StudioXperto',
+    rol: 'Cofundador',
+    anios: '2019 — hoy',
+    description: 'Proyectos a medida para clientes: plataformas web, CRM y aplicaciones moviles.',
+    quedo: 'Sitios y apps de clientes que siguen en produccion.'
   },
   {
     title: 'Sursa Gas',
