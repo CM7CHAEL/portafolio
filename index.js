@@ -4,7 +4,7 @@ const experiences = [
     rol: 'Lider Tecnico',
     anios: '2026 — hoy',
     description: 'Arquitectura modular con microfrontends, SSO corporativo con Keycloak, despliegues automatizados sin llaves y un Design System propio.',
-    quedo: 'El Design System lo consumen cinco proyectos sin pedir permiso a nadie.'
+    quedo: 'El Design System lo consumen mas de quince aplicaciones de la suite sin pedir permiso a nadie.'
   },
   {
     title: 'StudioXperto',
@@ -46,7 +46,7 @@ const experiences = [
 const projects = [
   {
     title: 'Una suite modular con un solo login',
-    description: 'Doce modulos en produccion sobre una arquitectura federada: cada equipo despliega el suyo sin bloquear a los demas. Autenticacion centralizada con Keycloak/OIDC, despliegues automatizados sin llaves de servicio en los repositorios, y un Design System propio que consumen cinco proyectos.',
+    description: 'Mas de diez modulos sobre una arquitectura federada: cada equipo despliega el suyo sin bloquear a los demas. Autenticacion centralizada con Keycloak/OIDC, despliegues automatizados sin llaves de servicio en los repositorios, y un Design System propio que consumen mas de quince aplicaciones.',
     link: '',
     stack: ['Module Federation', 'Keycloak/OIDC', 'Design System']
   },
