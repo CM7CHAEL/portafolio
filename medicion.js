@@ -26,7 +26,8 @@
   // Raiz del sitio (/portafolio/), sacada de donde se cargo este mismo archivo.
   var RAIZ = ((document.currentScript && document.currentScript.src) || '/').replace(/medicion\.js.*$/, '')
 
-  var esLocal = /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/i.test(location.hostname)
+  // file:// tambien es local: es como se abre cv.html para generar el PDF.
+  var esLocal = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/i.test(location.hostname)
   if (esLocal && location.search.indexOf('sx_track=1') === -1) return
 
   var guardado = null

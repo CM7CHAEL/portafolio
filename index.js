@@ -1,7 +1,7 @@
 const experiences = [
   {
     title: 'CELSA',
-    rol: 'Lead Fullstack Developer',
+    rol: 'Lead Full Stack Developer',
     anios: '2026 — hoy',
     description: 'Arquitectura modular con microfrontends, SSO corporativo con Keycloak, despliegues automatizados sin llaves y un Design System propio.',
     quedo: 'El Design System lo consumen mas de quince aplicaciones de la suite sin pedir permiso a nadie.'
