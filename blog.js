@@ -13,7 +13,6 @@
   var ORG = '6abc25f782f610ad9bd58921' // empresa CM7CHAEL en CentralWeb
   // Raíz del sitio (/portafolio/), según desde dónde se cargó este archivo.
   var RAIZ = ((document.currentScript && document.currentScript.src) || '/').replace(/blog\.js.*$/, '')
-  var SIN_CATEGORIA = { slug: 'otros', name: 'Otros temas' }
   var ESTATICOS = window.ARTICULOS_ESTATICOS || []
 
   function pedir (ruta, params) {
@@ -26,99 +25,50 @@
       .then(function (j) { return j.data })
   }
 
-  function esc (s) {
-    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
-    })
-  }
-  function texto (html) { return String(html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() }
-  function fecha (p) {
-    return new Date(p.publishedAt || p.createdAt).toLocaleDateString('es-PE',
-      { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
-  }
-  function minutos (p) { return Math.max(1, Math.round(texto(p.content).split(' ').length / 220)) }
-  function resumen (p) {
-    var t = (p.seo && p.seo.metaDescription) || p.excerpt || texto(p.content)
-    return t.length > 170 ? t.slice(0, 167) + '…' : t
-  }
-  function portada (p) {
-    return (p.featuredImage && p.featuredImage.url) || (p.gallery && p.gallery[0] && p.gallery[0].url) || ''
-  }
-  function categoria (p) { return (p.category && p.category.slug) ? p.category : SIN_CATEGORIA }
-  function tienePagina (slug) { return ESTATICOS.indexOf(slug) !== -1 }
-  function enlace (p) {
-    return tienePagina(p.slug) ? RAIZ + 'blog/' + p.slug + '.html' : RAIZ + 'blog/articulo.html?p=' + encodeURIComponent(p.slug)
-  }
-  function enlaceCategoria (c) { return RAIZ + 'blog/?c=' + encodeURIComponent(c.slug) }
-
-  // Tarjeta de un artículo. Sin foto de portada, muestra un fondo con el nombre de la categoría.
-  // La primera de cada lista no espera al lazy loading: suele ser lo más grande en pantalla.
-  function tarjeta (p, primera) {
-    var img = portada(p)
-    var cat = categoria(p)
-    var cabecera = img
-      ? '<img class="blog-card__img" src="' + esc(img) + '" alt="" width="1200" height="627"' + (primera ? ' fetchpriority="high"' : ' loading="lazy"') + '>'
-      : '<div class="blog-card__img blog-card__img--vacia"><span>' + esc(cat.name) + '</span></div>'
-    var tags = (p.tags || []).slice(0, 3).map(function (t) { return '<span class="stack__item">' + esc(t) + '</span>' }).join('')
-    return '<a class="blog-card" href="' + enlace(p) + '">' + cabecera +
-      '<div class="blog-card__cuerpo">' +
-      '<p class="blog-card__meta">' + esc(cat.name) + ' · ' + esc(fecha(p)) + ' · ' + minutos(p) + ' min</p>' +
-      '<h3>' + esc(p.title) + '</h3>' +
-      '<p class="blog-card__resumen">' + esc(resumen(p)) + '</p>' +
-      (tags ? '<div class="stack">' + tags + '</div>' : '') +
-      '</div></a>'
-  }
-  function columna (p, i) { return '<div class="col-12 col-md-6 col-lg-4 mb-4">' + tarjeta(p, i === 0) + '</div>' }
-
-  // Agrupa por categoría. Los artículos llegan del más nuevo al más viejo, así que las
-  // categorías quedan ordenadas por su último artículo. "Otros temas" siempre al final.
-  function agrupar (posts) {
-    var grupos = {}
-    var orden = []
-    posts.forEach(function (p) {
-      var c = categoria(p)
-      if (!grupos[c.slug]) { grupos[c.slug] = { slug: c.slug, name: c.name, posts: [] }; orden.push(c.slug) }
-      grupos[c.slug].posts.push(p)
-    })
-    orden.sort(function (a, b) { return (a === SIN_CATEGORIA.slug) - (b === SIN_CATEGORIA.slug) })
-    return orden.map(function (s) { return grupos[s] })
-  }
+  // Las tarjetas, la agrupación y los textos vienen de blog/comun.js, que también usa generar-blog.js.
+  var C = window.BlogComun
+  var CTX = { raiz: RAIZ, estaticos: ESTATICOS, miniaturas: window.ARTICULOS_MINIATURAS || {} }
+  var SIN_CATEGORIA = C.SIN_CATEGORIA
+  var esc = C.esc
+  var fecha = C.fecha
+  var minutos = C.minutos
+  var resumen = C.resumen
+  var portada = C.portada
+  var categoria = C.categoria
+  function tienePagina (slug) { return C.tienePagina(slug, CTX) }
+  function enlaceCategoria (c) { return C.enlaceCategoria(c, CTX) }
+  function columna (p, primera) { return C.columna(p, primera, CTX) }
 
   // ------------------------------------------------------------ portada: los 3 últimos
   var grid = document.getElementById('blog-grid')
   if (grid) {
     pedir('posts', { limit: 3, skip: 0 }).then(function (posts) {
       if (!posts || !posts.length) return
-      grid.innerHTML = posts.map(columna).join('')
+      grid.innerHTML = posts.map(function (p, i) { return columna(p, i === 0) }).join('')
       document.getElementById('blog').hidden = false
     }).catch(function () { /* si falla, la portada queda sin la sección */ })
   }
 
   // ------------------------------------------------------------ lista por categorías
+  // generar-blog.js deja la lista ya escrita (data-slugs dice cuáles trae). Si la API devuelve los
+  // mismos artículos, no se vuelve a pintar: solo se activan los botones de categoría.
   var lista = document.getElementById('blog-lista')
   if (lista) {
     var filtros = document.getElementById('blog-categorias')
+    var prearmada = lista.getAttribute('data-slugs')
     pedir('posts', { limit: 100, skip: 0 }).then(function (posts) {
       if (!posts || !posts.length) {
+        filtros.hidden = true
         lista.innerHTML = '<p class="text-muted">Pronto el primer artículo.</p>'
         return
       }
-      var grupos = agrupar(posts)
+      var grupos = C.agrupar(posts)
       var elegida = new URLSearchParams(location.search).get('c')
       if (!grupos.some(function (g) { return g.slug === elegida })) elegida = null
 
       function pintar () {
-        filtros.innerHTML = '<button type="button" class="blog-chip' + (elegida ? '' : ' activo') + '" data-c="">Todos <span>' + posts.length + '</span></button>' +
-          grupos.map(function (g) {
-            return '<button type="button" class="blog-chip' + (g.slug === elegida ? ' activo' : '') + '" data-c="' + esc(g.slug) + '">' +
-              esc(g.name) + ' <span>' + g.posts.length + '</span></button>'
-          }).join('')
-        lista.innerHTML = grupos.filter(function (g) { return !elegida || g.slug === elegida }).map(function (g) {
-          return '<section class="blog-grupo" id="cat-' + esc(g.slug) + '">' +
-            '<div class="blog-grupo__cabecera"><h2>' + esc(g.name) + '</h2>' +
-            '<span>' + g.posts.length + (g.posts.length === 1 ? ' artículo' : ' artículos') + '</span></div>' +
-            '<div class="row">' + g.posts.map(columna).join('') + '</div></section>'
-        }).join('')
+        filtros.innerHTML = C.chips(posts, grupos, elegida)
+        lista.innerHTML = C.lista(grupos, elegida, CTX)
       }
 
       filtros.addEventListener('click', function (e) {
@@ -129,8 +79,10 @@
         pintar()
       })
       filtros.hidden = false
-      pintar()
+      var iguales = prearmada === posts.map(function (p) { return p.slug }).join(',')
+      if (!iguales || elegida) pintar()
     }).catch(function () {
+      if (prearmada) return // la lista escrita sigue sirviendo; solo no se puede filtrar
       lista.innerHTML = '<p class="text-muted">No se pudo cargar el blog. Intenta de nuevo en un momento.</p>'
     })
   }
@@ -224,7 +176,7 @@
     }).then(function (r) {
       if (!r || !r.posts.length) return
       document.getElementById('relacionados-titulo').textContent = r.titulo
-      document.getElementById('relacionados-grid').innerHTML = r.posts.slice(0, 3).map(function (p) { return columna(p, 1) }).join('')
+      document.getElementById('relacionados-grid').innerHTML = r.posts.slice(0, 3).map(function (p) { return columna(p, false) }).join('')
       caja.hidden = false
     }).catch(function () { /* sin relacionados el artículo se lee igual */ })
   }

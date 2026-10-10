@@ -7,12 +7,15 @@
 // siempre se ve con el título genérico. La página estática ya trae el título, la descripción,
 // la portada y el texto en el HTML. Conviene correrlo cada vez que se publica un artículo.
 //
-// También escribe blog/estaticos.js (los slugs que ya tienen página, para que blog.js enlace a
-// ellas), regenera sitemap.xml y feed.xml. El feed lleva el artículo completo: dev.to lo lee
+// También deja escrita la lista de blog/index.html (para que se vea sin esperar a la API),
+// achica las portadas para las tarjetas (assets/image/blog/miniaturas/), escribe
+// blog/estaticos.js (los slugs con página propia y sus miniaturas), y regenera sitemap.xml y feed.xml. El feed lleva el artículo completo: dev.to lo lee
 // para importar cada artículo con el enlace original apuntando a este sitio.
 
 const fs = require('fs')
 const path = require('path')
+const { execFileSync } = require('child_process')
+const C = require('./blog/comun.js')
 
 const API = 'https://centralweb.studioxperto.com/api/public/blog/'
 const ORG = '6abc25f782f610ad9bd58921' // empresa CM7CHAEL en CentralWeb
@@ -23,19 +26,10 @@ const BLOG = path.join(RAIZ, 'blog')
 // La API pública pide un origen conocido, igual que si la llamara el navegador desde el sitio.
 const CABECERAS = { Accept: 'application/json', Origin: 'https://cm7chael.github.io', 'User-Agent': 'Mozilla/5.0 (generar-blog)' }
 
-function esc (s) {
-  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
-}
-function texto (html) { return String(html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() }
-function fecha (p) {
-  return new Date(p.publishedAt || p.createdAt).toLocaleDateString('es-PE',
-    { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Lima' })
-}
-function minutos (p) { return Math.max(1, Math.round(texto(p.content).split(' ').length / 220)) }
-function resumen (p) {
-  const t = (p.seo && p.seo.metaDescription) || p.excerpt || texto(p.content)
-  return t.length > 170 ? t.slice(0, 167) + '…' : t
-}
+// Los mismos textos que muestra el navegador (blog/comun.js).
+const { esc, texto, fecha, minutos, resumen } = C
+
+// Para compartir, la imagen de SEO manda sobre la portada.
 function portada (p) {
   return (p.seo && p.seo.ogImage) || (p.featuredImage && p.featuredImage.url) || (p.gallery && p.gallery[0] && p.gallery[0].url) || ''
 }
@@ -133,6 +127,53 @@ function feed (articulos) {
     '  </channel>\n</rss>\n'
 }
 
+// Miniatura de 640 px de ancho para las tarjetas: la portada completa pesa 4 veces más y la
+// tarjeta se muestra a ~350 px. Solo para portadas que viven en este repo; las demás se usan tal cual.
+// Achica con System.Drawing de Windows, así el script sigue sin dependencias.
+const MINIATURAS = path.join(RAIZ, 'assets', 'image', 'blog', 'miniaturas')
+function miniatura (url) {
+  const prefijo = SITIO + 'assets/image/blog/'
+  if (!url || !url.startsWith(prefijo) || url.slice(prefijo.length).includes('/')) return null
+  const nombre = url.slice(prefijo.length)
+  const origen = path.join(RAIZ, 'assets', 'image', 'blog', nombre)
+  const destino = path.join(MINIATURAS, nombre.replace(/\.\w+$/, '.jpg'))
+  if (!fs.existsSync(origen)) return null
+  if (!fs.existsSync(destino) || fs.statSync(destino).mtimeMs < fs.statSync(origen).mtimeMs) {
+    fs.mkdirSync(MINIATURAS, { recursive: true })
+    execFileSync('powershell', ['-NoProfile', '-Command', [
+      'Add-Type -AssemblyName System.Drawing',
+      '$src = [System.Drawing.Image]::FromFile($env:MINI_ORIGEN)',
+      '$w = 640; $h = [int]($src.Height * $w / $src.Width)',
+      '$bmp = New-Object System.Drawing.Bitmap $w, $h',
+      '$g = [System.Drawing.Graphics]::FromImage($bmp)',
+      "$g.InterpolationMode = 'HighQualityBicubic'",
+      '$g.DrawImage($src, 0, 0, $w, $h)',
+      "$jpg = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq 'image/jpeg' }",
+      '$par = New-Object System.Drawing.Imaging.EncoderParameters 1',
+      '$par.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter ([System.Drawing.Imaging.Encoder]::Quality), ([long]82)',
+      '$bmp.Save($env:MINI_DESTINO, $jpg, $par)',
+      '$g.Dispose(); $bmp.Dispose(); $src.Dispose()'
+    ].join('; ')], { env: Object.assign({}, process.env, { MINI_ORIGEN: origen, MINI_DESTINO: destino }), stdio: 'inherit' })
+    console.log('miniatura:', path.relative(RAIZ, destino).replace(/\\/g, '/'))
+  }
+  return prefijo + 'miniaturas/' + path.basename(destino)
+}
+
+// Deja escrita la lista de blog/index.html con las mismas piezas que usa blog.js. El
+// navegador compara data-slugs con lo que trae la API y, si coinciden, no la vuelve a pintar.
+function prearmarLista (posts, ctx) {
+  const archivo = path.join(BLOG, 'index.html')
+  let h = fs.readFileSync(archivo, 'utf8')
+  const nav = /<nav class="blog__categorias" id="blog-categorias"[^>]*>[\s\S]*?<\/nav>/
+  const lista = /<div class="container" id="blog-lista"[^>]*>[\s\S]*?<\/div>(\s*<!-- \/blog-lista -->)/
+  if (!nav.test(h) || !lista.test(h)) throw new Error('blog/index.html cambió: no encontré la lista o los botones de categoría')
+  const grupos = C.agrupar(posts)
+  h = h.replace(nav, () => '<nav class="blog__categorias" id="blog-categorias" aria-label="Categorías">' + C.chips(posts, grupos, null) + '</nav>')
+  h = h.replace(lista, (m, fin) => '<div class="container" id="blog-lista" data-slugs="' + esc(posts.map(p => p.slug).join(',')) + '">\n      ' +
+    C.lista(grupos, null, ctx) + '\n    </div>' + fin)
+  fs.writeFileSync(archivo, h)
+}
+
 ;(async () => {
   const plantilla = fs.readFileSync(path.join(BLOG, 'articulo.html'), 'utf8')
   const posts = await pedir('posts', { limit: 100, skip: 0 })
@@ -157,9 +198,18 @@ function feed (articulos) {
     }
   }
 
+  const miniaturas = {}
+  for (const p of posts) {
+    const m = miniatura(C.portada(p))
+    if (m) miniaturas[p.slug] = m
+  }
+  prearmarLista(posts, { raiz: SITIO, estaticos: slugs.map(s => s.slug), miniaturas })
+
   fs.writeFileSync(path.join(BLOG, 'estaticos.js'),
-    '// Generado por generar-blog.js: artículos que ya tienen su página en blog/<slug>.html.\n' +
-    'window.ARTICULOS_ESTATICOS = ' + JSON.stringify(slugs.map(s => s.slug)) + '\n')
+    '// Generado por generar-blog.js: artículos que ya tienen su página en blog/<slug>.html,\n' +
+    '// y la miniatura de su portada para las tarjetas.\n' +
+    'window.ARTICULOS_ESTATICOS = ' + JSON.stringify(slugs.map(s => s.slug)) + '\n' +
+    'window.ARTICULOS_MINIATURAS = ' + JSON.stringify(miniaturas) + '\n')
 
   const fijasSitemap = ['', 'en/', 'blog/', 'cv.html', 'cv-en.html', 'apps-moviles.html']
   const urls = fijasSitemap.map(u => `  <url><loc>${SITIO}${u}</loc></url>`)
@@ -169,5 +219,5 @@ function feed (articulos) {
 
   fs.writeFileSync(path.join(RAIZ, 'feed.xml'), feed(completos))
 
-  console.log(`listo: ${slugs.length} artículo(s), estaticos.js, sitemap.xml y feed.xml`)
+  console.log(`listo: ${slugs.length} artículo(s), lista del blog, estaticos.js, sitemap.xml y feed.xml`)
 })().catch(e => { console.error('FALLA:', e.message); process.exit(1) })
