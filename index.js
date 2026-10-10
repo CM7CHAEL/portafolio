@@ -54,7 +54,7 @@ const projects = [
   {
     title: 'Una suite modular con un solo login',
     description: 'Más de 15 módulos sobre una arquitectura federada: cada equipo despliega el suyo sin bloquear a los demás. Inicio de sesión centralizado con Keycloak/OIDC, despliegues automatizados sin llaves de servicio y un Design System propio que usan 17 aplicaciones.',
-    link: 'blog/articulo.html?p=microfrontends-angular-native-federation-lecciones-produccion',
+    link: 'blog/microfrontends-angular-native-federation-lecciones-produccion.html',
     linkText: 'Leer el artículo',
     stack: ['Native Federation', 'Keycloak/OIDC', 'Design System']
   },

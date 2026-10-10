@@ -4,6 +4,9 @@
 //   #blog-grid   → los 3 últimos en la portada (la sección #blog solo aparece si hay)
 //   #blog-lista  → todos, en blog/index.html, agrupados por categoría (?c=<slug> filtra una)
 //   #articulo    → uno, en blog/articulo.html?p=<slug>, con su categoría y los relacionados
+//
+// Los artículos que ya tienen página propia (blog/<slug>.html, la genera generar-blog.js) se
+// enlazan a esa página: es la que se ve bien al compartirla. La lista llega en blog/estaticos.js.
 
 (function () {
   var API = 'https://centralweb.studioxperto.com/api/public/blog/'
@@ -11,6 +14,7 @@
   // Raíz del sitio (/portafolio/), según desde dónde se cargó este archivo.
   var RAIZ = ((document.currentScript && document.currentScript.src) || '/').replace(/blog\.js.*$/, '')
   var SIN_CATEGORIA = { slug: 'otros', name: 'Otros temas' }
+  var ESTATICOS = window.ARTICULOS_ESTATICOS || []
 
   function pedir (ruta, params) {
     var q = new URLSearchParams(Object.assign({ organization: ORG }, params || {}))
@@ -41,7 +45,10 @@
     return (p.featuredImage && p.featuredImage.url) || (p.gallery && p.gallery[0] && p.gallery[0].url) || ''
   }
   function categoria (p) { return (p.category && p.category.slug) ? p.category : SIN_CATEGORIA }
-  function enlace (p) { return RAIZ + 'blog/articulo.html?p=' + encodeURIComponent(p.slug) }
+  function tienePagina (slug) { return ESTATICOS.indexOf(slug) !== -1 }
+  function enlace (p) {
+    return tienePagina(p.slug) ? RAIZ + 'blog/' + p.slug + '.html' : RAIZ + 'blog/articulo.html?p=' + encodeURIComponent(p.slug)
+  }
   function enlaceCategoria (c) { return RAIZ + 'blog/?c=' + encodeURIComponent(c.slug) }
 
   // Tarjeta de un artículo. Sin foto de portada, muestra un fondo con el nombre de la categoría.
@@ -130,7 +137,9 @@
   // ------------------------------------------------------------ un artículo
   var art = document.getElementById('articulo')
   if (art) {
-    var slug = new URLSearchParams(location.search).get('p')
+    // En una página propia el slug viene en el HTML y el texto ya está cargado.
+    var prearmado = art.getAttribute('data-slug')
+    var slug = prearmado || new URLSearchParams(location.search).get('p')
     var cuerpo = document.getElementById('articulo-cuerpo')
     if (!slug) { location.replace(RAIZ + 'blog/'); return }
 
@@ -140,7 +149,8 @@
       var meta = document.querySelector('meta[name="description"]')
       if (meta) meta.setAttribute('content', resumen(p))
       var canon = document.querySelector('link[rel="canonical"]')
-      if (canon) canon.setAttribute('href', 'https://cm7chael.github.io/portafolio/blog/articulo.html?p=' + encodeURIComponent(p.slug))
+      if (canon) canon.setAttribute('href', 'https://cm7chael.github.io/portafolio/blog/' +
+        (tienePagina(p.slug) ? p.slug + '.html' : 'articulo.html?p=' + encodeURIComponent(p.slug)))
 
       var cat = categoria(p)
       var chip = document.getElementById('articulo-categoria')
@@ -183,6 +193,7 @@
         } catch (e) { /* no debe romper la página */ }
       }
     }).catch(function (e) {
+      if (prearmado) return // la página propia ya trae el artículo; solo faltan los relacionados
       document.getElementById('articulo-titulo').textContent =
         e.status === 404 ? 'No encontré ese artículo' : 'No se pudo cargar el artículo'
       cuerpo.innerHTML = '<p><a href="' + RAIZ + 'blog/">Ver todos los artículos</a></p>'

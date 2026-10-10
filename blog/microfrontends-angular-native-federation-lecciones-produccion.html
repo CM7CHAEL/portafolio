@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../assets/image/logo.png" sizes="64x64">
+  <title>Microfrontends con Angular y Native Federation en producción | Michael Cervera</title>
+  <meta name="description" content="Lecciones reales de llevar más de 15 microfrontends a producción con Angular y Native Federation: rutas, CORS, caché, ambientes y Design System.">
+  <link rel="canonical" href="https://cm7chael.github.io/portafolio/blog/microfrontends-angular-native-federation-lecciones-produccion.html">
+  <meta property="og:title" content="Microfrontends con Angular y Native Federation: lo que aprendí llevando más de 15 módulos a producción">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-10-10T20:33:08.172Z">
+  <meta property="og:description" content="Lecciones reales de llevar más de 15 microfrontends a producción con Angular y Native Federation: rutas, CORS, caché, ambientes y Design System.">
+  <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/blog/microfrontends.jpg">
+  <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/microfrontends-angular-native-federation-lecciones-produccion.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Microfrontends con Angular y Native Federation: lo que aprendí llevando más de 15 módulos a producción","description":"Lecciones reales de llevar más de 15 microfrontends a producción con Angular y Native Federation: rutas, CORS, caché, ambientes y Design System.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/microfrontends.jpg","datePublished":"2026-10-10T20:33:08.172Z","dateModified":"2026-10-10T21:51:39.327Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/microfrontends-angular-native-federation-lecciones-produccion.html","keywords":"microfrontends, Angular, Native Federation, arquitectura de software, Design System, CI/CD"}</script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark nav-glass fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="../">Michael Cervera Cobeñas</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="../#experiencia">Trayectoria</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#proyectos">Casos</a></li>
+          <li class="nav-item"><a class="nav-link" href="../blog/">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container pagina">
+    <article class="articulo" id="articulo" data-slug="microfrontends-angular-native-federation-lecciones-produccion">
+      <p class="articulo__ruta"><a href="./">&larr; Blog</a> <a class="blog-chip blog-chip--chico" id="articulo-categoria" href="./?c=arquitectura">Arquitectura</a></p>
+      <h1 id="articulo-titulo">Microfrontends con Angular y Native Federation: lo que aprendí llevando más de 15 módulos a producción</h1>
+      <p class="post-card__fecha" id="articulo-fecha">10 de octubre de 2026 · 6 min de lectura</p>
+      <img class="articulo__portada" id="articulo-portada" alt="" src="https://cm7chael.github.io/portafolio/assets/image/blog/microfrontends.jpg">
+      <!-- Generado por generar-blog.js desde CentralWeb. No editar: se sobrescribe. -->
+      <div class="articulo__cuerpo" id="articulo-cuerpo">
+<p>Hace unos meses me tocó llevar una plataforma corporativa a una arquitectura de microfrontends: un portal que carga más de 15 módulos, cada uno con su propio repositorio, su propio equipo y su propio despliegue. Hoy esos módulos salen a producción por separado, sin coordinar ventanas de despliegue entre equipos.</p>
+
+<p>No voy a explicar qué es un microfrontend, de eso ya hay bastante escrito. Quiero contar lo que no sale en los tutoriales, lo que solo aparece cuando el segundo, el quinto y el décimo módulo ya están en producción.</p>
+
+<h2>Primero: cuándo NO usar microfrontends</h2>
+
+<p>Empiezo por aquí porque es la pregunta que más me hacen y la respuesta honesta es "casi nunca al inicio".</p>
+
+<table>
+  <thead>
+    <tr><th>Te conviene</th><th>No te conviene</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Varios equipos que necesitan desplegar sin esperarse</td><td>Un solo equipo trabajando en un solo producto</td></tr>
+    <tr><td>Dominios de negocio claramente separados (ventas, calidad, RRHH)</td><td>Pantallas que comparten casi todo el estado</td></tr>
+    <tr><td>Módulos que crecen a ritmos distintos</td><td>Un producto que todavía está buscando su forma</td></tr>
+    <tr><td>Una plataforma que va a vivir años</td><td>Un MVP que tiene que salir en semanas</td></tr>
+  </tbody>
+</table>
+
+<p>Si estás en la columna de la derecha, un monolito bien modularizado te da el 80 % del beneficio con el 20 % del costo. Los microfrontends son, sobre todo, una decisión de organización. Pagan cuando el cuello de botella es la coordinación entre equipos, no la calidad del código.</p>
+
+<h2>La arquitectura, en una imagen</h2>
+
+<pre><code>                    ┌──────────────────────────────┐
+   usuario  ───────▶│  HOST (portal)               │
+                    │  · login único (OIDC)        │
+                    │  · menú según permisos       │
+                    │  · lee el manifiesto         │
+                    └──────────────┬───────────────┘
+                                   │ carga en tiempo de ejecución
+            ┌──────────────────────┼──────────────────────┐
+            ▼                      ▼                      ▼
+     remoteEntry.json       remoteEntry.json       remoteEntry.json
+     ┌──────────────┐       ┌──────────────┐       ┌──────────────┐
+     │  Ventas      │       │  Calidad     │       │  RRHH        │
+     │  repo propio │       │  repo propio │       │  repo propio │
+     │  deploy      │       │  deploy      │       │  deploy      │
+     │  propio      │       │  propio      │       │  propio      │
+     └──────────────┘       └──────────────┘       └──────────────┘</code></pre>
+
+<p>El stack es Angular con <strong>Native Federation</strong> (<code>@angular-architects/native-federation</code>). Es el sucesor de Module Federation para el builder moderno de Angular basado en esbuild: en lugar de depender de webpack, usa los estándares del navegador (módulos ES e import maps).</p>
+
+<p>El host no conoce a los módulos en tiempo de compilación. Los descubre al arrancar, desde un manifiesto:</p>
+
+<pre><code>// federation.manifest.json (uno por ambiente)
+{
+  "ventas":  "https://ventas.ejemplo.com/remoteEntry.json",
+  "calidad": "https://calidad.ejemplo.com/remoteEntry.json"
+}
+
+// main.ts del host
+initFederation('federation.manifest.json')
+  .then(() =&gt; import('./bootstrap'));
+
+// rutas del host
+{
+  path: 'ventas',
+  loadChildren: () =&gt;
+    loadRemoteModule({ remoteName: 'ventas', exposedModule: './Routes' })
+      .then(m =&gt; m.routes)
+}</code></pre>
+
+<p>Hasta aquí es lo que trae cualquier tutorial. Lo que sigue lo aprendí en producción.</p>
+
+<h2>Lo que rompe en producción (y cómo lo resolví)</h2>
+
+<h3>1. Las rutas absolutas dentro de un módulo</h3>
+
+<p>Un módulo se desarrolla solo, en su propio puerto, donde <code>/detalle/42</code> funciona perfecto. Embebido en el portal, ese módulo vive bajo <code>/ventas</code>, y <code>/detalle/42</code> manda al usuario a una ruta que no existe.</p>
+
+<p><strong>La regla:</strong> dentro de un módulo, toda navegación es relativa. <code>routerLink="detalle/42"</code> y <code>router.navigate(['detalle', id], { relativeTo: route })</code>. Es una línea en la guía del equipo y una revisión en cada pull request, pero ahorra el bug más repetido de toda la plataforma.</p>
+
+<h3>2. El CORS de <code>remoteEntry.json</code></h3>
+
+<p>El host pide el <code>remoteEntry.json</code> y los chunks de cada módulo desde otro dominio. Si el servidor del módulo no responde con <code>Access-Control-Allow-Origin</code>, el navegador bloquea la carga y el usuario ve una pantalla en blanco sin ningún error útil en la interfaz.</p>
+
+<p><strong>La regla:</strong> el CORS de los archivos estáticos del módulo es parte de la plantilla del proyecto, no algo que cada equipo descubre por su cuenta. Todo módulo nuevo nace con la configuración de su servidor web ya resuelta.</p>
+
+<h3>3. La caché que esconde la versión nueva</h3>
+
+<p>Despliegas, todo sale en verde, y el usuario sigue viendo la versión anterior. El culpable casi siempre es <code>remoteEntry.json</code>: es el único archivo cuyo nombre no cambia entre versiones, así que si el navegador o un CDN lo guarda, apunta a chunks viejos.</p>
+
+<p><strong>La regla:</strong> <code>remoteEntry.json</code> se sirve sin caché; los chunks, que llevan un hash en el nombre, se pueden cachear para siempre. Así cada despliegue llega al usuario en la siguiente carga, sin pedirle a nadie que borre su caché.</p>
+
+<h3>4. Un manifiesto por ambiente… y la vez que se mezclaron</h3>
+
+<p>Cada ambiente (pruebas y producción) tiene su propio manifiesto con las URLs de sus módulos. Una vez, una construcción manual horneó los valores por defecto y el portal de producción terminó cargando módulos de pruebas. El síntoma fue un error de CORS; la causa, un ambiente mezclado.</p>
+
+<p><strong>La regla:</strong> el pipeline valida, antes de construir, que todas las URLs correspondan al ambiente destino, y aborta si no. Desde entonces ese error ya no puede repetirse, porque el pipeline no lo deja pasar.</p>
+
+<h3>5. Una sola versión del Design System en todos los módulos</h3>
+
+<p>Los módulos comparten librerías: Angular, el router y el Design System propio que usan 17 aplicaciones. Native Federation las comparte como <em>singleton</em>, pero si un módulo trae otra versión del Design System, el portal muestra dos estilos distintos en la misma pantalla o, peor, componentes que se rompen al navegar entre módulos.</p>
+
+<p><strong>La regla:</strong> cada cambio en el Design System se publica como paquete versionado y se actualiza en <em>todos</em> los módulos a la vez, no solo en el que lo necesitaba. Y no basta con subir el rango en el <code>package.json</code>: si la imagen se construye con <code>npm ci</code>, manda el <em>lockfile</em>, así que hay que reinstalar y versionar el lock también.</p>
+
+<h3>6. Un módulo en el menú que todavía no existe</h3>
+
+<p>El portal arma su menú desde un catálogo de módulos. Registrar un módulo antes de que esté desplegado en todos los ambientes hace que el portal intente cargar un <code>remoteEntry.json</code> que no existe, y esa ruta queda rota.</p>
+
+<p><strong>La regla:</strong> cada entrada del catálogo tiene un indicador de disponibilidad. El módulo aparece en el menú con una página de "próximamente" hasta que su servicio existe donde corre el portal.</p>
+
+<h2>El login: uno solo, en el host</h2>
+
+<p>La decisión que más simplificó todo: <strong>solo el host autentica</strong>. El portal maneja el inicio de sesión con OIDC (Keycloak) y los módulos reciben el token ya resuelto. Ningún módulo define su propia autorización ni su propio login.</p>
+
+<p>Eso tiene dos efectos. Para el usuario, un solo inicio de sesión para toda la plataforma. Para los equipos, un módulo nuevo no empieza escribiendo pantallas de login, sino pantallas de negocio. Los permisos viajan en el token y el menú se arma según ellos.</p>
+
+<blockquote>Si cada módulo resuelve la seguridad a su manera, tienes tantos modelos de seguridad como módulos. Centralizarla es la única forma de poder auditarla.</blockquote>
+
+<h2>Qué haría distinto si empezara hoy</h2>
+
+<ul>
+  <li><strong>El Design System antes que el segundo módulo.</strong> Cada componente que un equipo construye "mientras tanto" es un componente que después hay que migrar.</li>
+  <li><strong>Las barreras del pipeline desde el día uno.</strong> La validación de ambientes la agregué después de un incidente. Pudo estar desde el inicio.</li>
+  <li><strong>Automatizar la actualización del Design System.</strong> Actualizar una librería en más de 15 repositorios a mano no escala: es exactamente el tipo de tarea que debe hacer un script, no una persona.</li>
+  <li><strong>Una plantilla de módulo.</strong> CORS, rutas relativas, configuración de federación y pipeline listos al crear el repositorio. Cada regla de este artículo debería ser un archivo de la plantilla, no un párrafo de la guía.</li>
+</ul>
+
+<h2>Para cerrar</h2>
+
+<p>Los microfrontends funcionan cuando resuelven un problema de organización: equipos que necesitan avanzar sin esperarse. La parte técnica —federación, manifiestos, rutas— se resuelve en una semana. Lo difícil es todo lo demás: que cada regla quede escrita, que las que importan se conviertan en barreras automáticas y que cualquier persona del equipo pueda sostener la plataforma con lo que está documentado.</p>
+
+<p>Si estás evaluando microfrontends para tu equipo o ya estás peleando con alguno de estos problemas, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber cómo lo están resolviendo otros.</p>
+
+      </div>
+      <div class="stack articulo__tags" id="articulo-tags"><span class="stack__item">microfrontends</span><span class="stack__item">Angular</span><span class="stack__item">Native Federation</span><span class="stack__item">arquitectura de software</span><span class="stack__item">Design System</span><span class="stack__item">CI/CD</span></div>
+      <aside class="articulo__cierre" id="articulo-cierre" hidden>
+        <img src="../assets/image/yo.jpg" alt="" width="64" height="64" loading="lazy">
+        <div>
+          <strong>Michael Cervera Cobeñas</strong>, Lead Full Stack Developer.
+          Si quieres comentar el artículo, <a href="../#contacto">escríbeme</a>.
+        </div>
+      </aside>
+    </article>
+    <section class="relacionados" id="articulo-relacionados" hidden>
+      <h2 id="relacionados-titulo">Más artículos</h2>
+      <div class="row" id="relacionados-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <strong>Michael Cervera Cobeñas</strong>
+        <p class="mb-0 text-muted">Lead Full Stack Developer</p>
+      </div>
+      <div class="footer__links">
+        <a href="https://github.com/cm7chael" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/cm7chael/" target="_blank">LinkedIn</a>
+        <a href="../blog/">Blog</a>
+        <a href="../privacidad.html">Privacidad</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="estaticos.js"></script>
+  <script src="../blog.js"></script>
+  <script src="../medicion.js"></script>
+</body>
+</html>
