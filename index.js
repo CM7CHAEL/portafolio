@@ -171,7 +171,7 @@ const experienceTemplate = (item) => `
   <div class="col-12">
     <div class="track">
       <div class="track__head">
-        <h5 class="track__org">${item.title}</h5>
+        <h3 class="track__org h5">${item.title}</h3>
         <span class="track__rol">${item.rol}</span>
         <span class="track__anios">${item.anios}</span>
       </div>
@@ -185,7 +185,7 @@ const projectTemplate = (project) => `
   <div class="col-12 col-md-6 col-lg-4 mb-4">
     <div class="card card--project h-100">
       <div class="card-body d-flex flex-column">
-        <h5>${project.title}</h5>
+        <h3 class="h5">${project.title}</h3>
         <p class="card-text flex-grow-1">${project.description}</p>
         <div class="stack">
           ${project.stack.map(tag => `<span class="stack__item">${tag}</span>`).join('')}

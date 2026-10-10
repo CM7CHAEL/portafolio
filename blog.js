@@ -52,11 +52,12 @@
   function enlaceCategoria (c) { return RAIZ + 'blog/?c=' + encodeURIComponent(c.slug) }
 
   // Tarjeta de un artículo. Sin foto de portada, muestra un fondo con el nombre de la categoría.
-  function tarjeta (p) {
+  // La primera de cada lista no espera al lazy loading: suele ser lo más grande en pantalla.
+  function tarjeta (p, primera) {
     var img = portada(p)
     var cat = categoria(p)
     var cabecera = img
-      ? '<img class="blog-card__img" src="' + esc(img) + '" alt="" loading="lazy">'
+      ? '<img class="blog-card__img" src="' + esc(img) + '" alt="" width="1200" height="627"' + (primera ? ' fetchpriority="high"' : ' loading="lazy"') + '>'
       : '<div class="blog-card__img blog-card__img--vacia"><span>' + esc(cat.name) + '</span></div>'
     var tags = (p.tags || []).slice(0, 3).map(function (t) { return '<span class="stack__item">' + esc(t) + '</span>' }).join('')
     return '<a class="blog-card" href="' + enlace(p) + '">' + cabecera +
@@ -67,7 +68,7 @@
       (tags ? '<div class="stack">' + tags + '</div>' : '') +
       '</div></a>'
   }
-  function columna (p) { return '<div class="col-12 col-md-6 col-lg-4 mb-4">' + tarjeta(p) + '</div>' }
+  function columna (p, i) { return '<div class="col-12 col-md-6 col-lg-4 mb-4">' + tarjeta(p, i === 0) + '</div>' }
 
   // Agrupa por categoría. Los artículos llegan del más nuevo al más viejo, así que las
   // categorías quedan ordenadas por su último artículo. "Otros temas" siempre al final.
@@ -223,7 +224,7 @@
     }).then(function (r) {
       if (!r || !r.posts.length) return
       document.getElementById('relacionados-titulo').textContent = r.titulo
-      document.getElementById('relacionados-grid').innerHTML = r.posts.slice(0, 3).map(columna).join('')
+      document.getElementById('relacionados-grid').innerHTML = r.posts.slice(0, 3).map(function (p) { return columna(p, 1) }).join('')
       caja.hidden = false
     }).catch(function () { /* sin relacionados el artículo se lee igual */ })
   }

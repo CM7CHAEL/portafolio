@@ -87,8 +87,8 @@ function pagina (plantilla, p) {
     cat ? `<a class="blog-chip blog-chip--chico" id="articulo-categoria" href="./?c=${esc(cat.slug)}">${esc(cat.name)}</a>` : '<a class="blog-chip blog-chip--chico" id="articulo-categoria" hidden></a>')
   h = cambiar(h, '<h1 id="articulo-titulo">Cargando…</h1>', `<h1 id="articulo-titulo">${esc(p.title)}</h1>`)
   h = cambiar(h, '<p class="post-card__fecha" id="articulo-fecha"></p>', `<p class="post-card__fecha" id="articulo-fecha">${esc(fecha(p))} · ${minutos(p)} min de lectura</p>`)
-  h = cambiar(h, '<img class="articulo__portada" id="articulo-portada" alt="" hidden>',
-    portada(p) ? `<img class="articulo__portada" id="articulo-portada" alt="" src="${esc(portada(p))}">` : '<img class="articulo__portada" id="articulo-portada" alt="" hidden>')
+  h = cambiar(h, '<img class="articulo__portada" id="articulo-portada" alt="" width="1200" height="627" hidden>',
+    portada(p) ? `<img class="articulo__portada" id="articulo-portada" alt="" width="1200" height="627" src="${esc(portada(p))}">` : '<img class="articulo__portada" id="articulo-portada" alt="" width="1200" height="627" hidden>')
   h = cambiar(h, '<!-- El contenido llega de CentralWeb, lo pinta blog.js. -->', '<!-- Generado por generar-blog.js desde CentralWeb. No editar: se sobrescribe. -->')
   h = cambiar(h, '<div class="articulo__cuerpo" id="articulo-cuerpo"></div>', `<div class="articulo__cuerpo" id="articulo-cuerpo">\n${p.content || ''}\n      </div>`)
   if (p.tags && p.tags.length) {
