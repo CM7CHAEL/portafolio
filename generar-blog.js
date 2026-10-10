@@ -161,7 +161,7 @@ function feed (articulos) {
     '// Generado por generar-blog.js: artículos que ya tienen su página en blog/<slug>.html.\n' +
     'window.ARTICULOS_ESTATICOS = ' + JSON.stringify(slugs.map(s => s.slug)) + '\n')
 
-  const fijasSitemap = ['', 'blog/', 'cv.html', 'apps-moviles.html']
+  const fijasSitemap = ['', 'en/', 'blog/', 'cv.html', 'cv-en.html', 'apps-moviles.html']
   const urls = fijasSitemap.map(u => `  <url><loc>${SITIO}${u}</loc></url>`)
     .concat(slugs.map(s => `  <url><loc>${SITIO}blog/${s.slug}.html</loc>${s.fecha ? `<lastmod>${s.fecha}</lastmod>` : ''}</url>`))
   fs.writeFileSync(path.join(RAIZ, 'sitemap.xml'),

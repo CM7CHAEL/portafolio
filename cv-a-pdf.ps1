@@ -4,24 +4,28 @@
 #   powershell -ExecutionPolicy Bypass -File cv-a-pdf.ps1 -Telefono "+51 999 999 999"
 #     → "..\Michael Cervera Cobeñas - CV.pdf", con teléfono, para mandarlo directo a un reclutador.
 #       Queda fuera del repo: el número no se publica.
-param([string]$Telefono = '')
+#   Con -Idioma en, lo mismo pero desde cv-en.html: cv-en.pdf, o "..\Michael Cervera Cobeñas - CV (EN).pdf"
+#   si además va -Telefono.
+param([string]$Telefono = '', [ValidateSet('es', 'en')][string]$Idioma = 'es')
 $ErrorActionPreference = 'Stop'
 $base = Split-Path -Parent $MyInvocation.MyCommand.Path
-$html = Join-Path $base 'cv.html'
-$pdf  = Join-Path $base 'cv.pdf'
+$nombre = if ($Idioma -eq 'en') { 'cv-en' } else { 'cv' }
+$html = Join-Path $base "$nombre.html"
+$pdf  = Join-Path $base "$nombre.pdf"
 $temporal = $null
 
 if ($Telefono) {
   # Copia temporal junto a cv.html, para que la foto y las rutas relativas sigan funcionando.
   $correo = '<p><a href="mailto:cm7chael@gmail.com">cm7chael@gmail.com</a></p>'
   $texto = [System.IO.File]::ReadAllText($html, [System.Text.Encoding]::UTF8)
-  if (-not $texto.Contains($correo)) { throw 'No encontré la línea del correo en cv.html para poner el teléfono debajo.' }
+  if (-not $texto.Contains($correo)) { throw "No encontré la línea del correo en $nombre.html para poner el teléfono debajo." }
   $digitos = $Telefono -replace '[^\d+]', ''
   $texto = $texto.Replace($correo, $correo + "`n        <p><a href=`"tel:$digitos`">$Telefono</a></p>")
   $temporal = Join-Path $base 'cv-con-telefono.tmp.html'
   [System.IO.File]::WriteAllText($temporal, $texto, (New-Object System.Text.UTF8Encoding($false)))
   $html = $temporal
-  $pdf = Join-Path (Split-Path -Parent $base) 'Michael Cervera Cobeñas - CV.pdf'
+  $sufijo = if ($Idioma -eq 'en') { ' (EN)' } else { '' }
+  $pdf = Join-Path (Split-Path -Parent $base) "Michael Cervera Cobeñas - CV$sufijo.pdf"
 }
 
 $edge = @(

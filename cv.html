@@ -6,10 +6,13 @@
   <title>CV — Michael Cervera Cobeñas, Lead Full Stack Developer</title>
   <meta name="description" content="CV de Michael Cervera Cobeñas, Lead Full Stack Developer en Lima: arquitectura modular, Google Cloud, integraciones con SAP e IA aplicada.">
   <link rel="canonical" href="https://cm7chael.github.io/portafolio/cv.html">
+  <link rel="alternate" hreflang="es" href="https://cm7chael.github.io/portafolio/cv.html">
+  <link rel="alternate" hreflang="en" href="https://cm7chael.github.io/portafolio/cv-en.html">
   <link rel="icon" type="image/png" href="assets/image/logo.png" sizes="64x64">
   <!--
     El CV se edita solo aquí; el PDF sale de esta misma página:
       powershell -File cv-a-pdf.ps1      → genera cv.pdf (el del botón "Descargar CV")
+    La versión en inglés es cv-en.html: si cambias algo aquí, cámbialo también allá.
     Tamaño A4, pensado para 2 páginas. Si un punto queda partido entre páginas, hay que acortarlo.
   -->
   <style>
@@ -37,6 +40,7 @@
     .hoja { width: 210mm; margin: 24px auto; background: #fff; box-shadow: 0 8px 30px rgba(20, 43, 69, .15); padding: 11mm 14mm; }
     .barra { width: 210mm; margin: 24px auto 0; display: flex; justify-content: space-between; align-items: center; font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px; }
     .barra a { color: var(--acento); }
+    .barra .der { display: flex; gap: 16px; align-items: center; }
     .barra .pdf { background: var(--navy); color: #fff; padding: 8px 14px; border-radius: 6px; }
 
     /* Encabezado */
@@ -98,7 +102,7 @@
 <body>
   <div class="barra">
     <a href="./">&larr; Volver al portafolio</a>
-    <a class="pdf cv-link" href="cv.pdf" download>Descargar PDF</a>
+    <span class="der"><a href="cv-en.html" hreflang="en" lang="en">English version</a><a class="pdf cv-link" href="cv.pdf" download>Descargar PDF</a></span>
   </div>
 
   <main class="hoja">

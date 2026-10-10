@@ -147,11 +147,15 @@
     var aviso = document.createElement('div')
     aviso.className = 'aviso-cookies'
     aviso.setAttribute('role', 'region')
-    aviso.setAttribute('aria-label', 'Aviso de cookies')
-    aviso.innerHTML = '<p>Uso Google Analytics para saber qué artículos se leen. Sin publicidad ni remarketing. ' +
-      '<a href="' + RAIZ + 'privacidad.html">Más detalle</a></p>' +
-      '<div><button type="button" class="btn btn-sm btn-outline-secondary" data-r="rejected">Rechazar</button>' +
-      '<button type="button" class="btn btn-sm btn-primary ml-2" data-r="accepted">Entendido</button></div>'
+    // La versión en inglés (en/) muestra el aviso en inglés; la política de privacidad es una sola.
+    var t = document.documentElement.lang === 'en'
+      ? { etiqueta: 'Cookie notice', texto: 'I use Google Analytics to see which articles get read. No ads, no remarketing.', mas: 'Details (in Spanish)', no: 'Decline', si: 'Got it' }
+      : { etiqueta: 'Aviso de cookies', texto: 'Uso Google Analytics para saber qué artículos se leen. Sin publicidad ni remarketing.', mas: 'Más detalle', no: 'Rechazar', si: 'Entendido' }
+    aviso.setAttribute('aria-label', t.etiqueta)
+    aviso.innerHTML = '<p>' + t.texto + ' ' +
+      '<a href="' + RAIZ + 'privacidad.html">' + t.mas + '</a></p>' +
+      '<div><button type="button" class="btn btn-sm btn-outline-secondary" data-r="rejected">' + t.no + '</button>' +
+      '<button type="button" class="btn btn-sm btn-primary ml-2" data-r="accepted">' + t.si + '</button></div>'
     aviso.addEventListener('click', function (e) {
       var r = e.target.getAttribute && e.target.getAttribute('data-r')
       if (!r) return

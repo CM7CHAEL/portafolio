@@ -1,4 +1,10 @@
-const experiences = [
+// Los textos van en los dos idiomas; cada página elige según su <html lang>. La versión en
+// inglés vive en en/index.html y carga este mismo archivo.
+const IDIOMA = document.documentElement.lang === 'en' ? 'en' : 'es'
+// Raíz del sitio (/portafolio/), para que los enlaces internos funcionen también desde en/.
+const RAIZ = ((document.currentScript && document.currentScript.src) || '/').replace(/index\.js.*$/, '')
+
+const experienciasEs = [
   {
     title: 'CELSA',
     rol: 'Lead Full Stack Developer',
@@ -50,7 +56,7 @@ const experiences = [
   }
 ]
 
-const projects = [
+const proyectosEs = [
   {
     title: 'Una suite modular con un solo login',
     description: 'Más de 15 módulos sobre una arquitectura federada: cada equipo despliega el suyo sin bloquear a los demás. Inicio de sesión centralizado con Keycloak/OIDC, despliegues automatizados sin llaves de servicio y un Design System propio que usan 17 aplicaciones.',
@@ -72,6 +78,88 @@ const projects = [
   }
 ]
 
+const experienciasEn = [
+  {
+    title: 'CELSA',
+    rol: 'Lead Full Stack Developer',
+    anios: '2026 — present',
+    description: 'Modular architecture with microfrontends, corporate SSO with Keycloak, keyless automated deployments and an in-house Design System.',
+    quedo: 'A Design System used by 17 applications across the platform.'
+  },
+  {
+    title: 'StudioXperto',
+    rol: 'Analyst Developer',
+    anios: '2026',
+    description: 'Projects for Ferreyros, Universidad Corporativa Intercorp and UGEL Padre Abad: monitoring on Google Cloud, a Lumen to Laravel migration on Cloud Run, and an education platform with an offline app.',
+    quedo: 'Aprendix on Cloud Run, with one service per module.'
+  },
+  {
+    title: 'Intelica Consulting',
+    rol: 'Analyst Developer',
+    anios: '2024 — 2025',
+    description: 'Coordinating QA, development and business teams. Planning, follow-up and technical mentoring.',
+    quedo: 'KPI dashboards that area leaders use to make decisions.'
+  },
+  {
+    title: 'BSF Almacenes del Perú',
+    rol: 'Systems Analyst',
+    anios: '2023 — 2024',
+    description: 'Corporate systems in Chile and Peru. Development in .NET Core and Python, mobile MVPs and batch processes.',
+    quedo: 'The SAP integrations that move data between platforms.'
+  },
+  {
+    title: 'inLearning / IDAT',
+    rol: 'Full Stack Developer',
+    anios: '2022 — 2023',
+    description: 'Evolving the EVA learning portal with Vue 3, .NET Core and SQL Server.',
+    quedo: "The portal's technical manuals: database, frontend and backend."
+  },
+  {
+    title: 'Freelance → StudioXperto',
+    rol: 'Full Stack Developer',
+    anios: '2019 — 2022',
+    description: 'Custom projects for clients across industries, under StudioXperto since 2021. Analysis, development and coordination of a small team.',
+    quedo: 'Client sites and systems that are still in production.'
+  },
+  {
+    title: 'Sursa Gas',
+    rol: 'Intern → Junior Programmer Analyst',
+    anios: '2016 — 2018',
+    description: 'Custom sales and production systems. Response times for calculations, searches and printing improved by 70%.',
+    quedo: 'The company website, still online today: sursagas.com'
+  }
+]
+
+const proyectosEn = [
+  {
+    title: 'A modular suite with a single login',
+    description: 'More than 15 modules on a federated architecture: each team deploys its own without blocking the others. Centralized sign-in with Keycloak/OIDC, keyless automated deployments and an in-house Design System used by 17 applications.',
+    link: 'blog/microfrontends-angular-native-federation-lecciones-produccion.html',
+    linkText: 'Read the article (in Spanish)',
+    stack: ['Native Federation', 'Keycloak/OIDC', 'Design System']
+  },
+  {
+    title: 'Aprendix · Universidad Corporativa Intercorp',
+    description: 'Modernizing the academic platform: from Lumen to Laravel, split into services for the academic, administrative and reporting modules, and deployed on Cloud Run with Cloud SQL.',
+    link: '',
+    stack: ['Laravel', 'Cloud Run', 'Microservices']
+  },
+  {
+    title: 'Teaching records · UGEL Padre Abad',
+    description: 'A registration and monitoring platform for the Regional Education Office of Ucayali, with an offline app for field supervision and automatic teaching feedback.',
+    link: 'apps-moviles.html',
+    linkText: 'See the mobile apps (in Spanish)',
+    stack: ['Ionic offline', 'Nuxt', 'Azure AI']
+  }
+]
+
+const TEXTOS = {
+  es: { experiences: experienciasEs, projects: proyectosEs, quedo: 'Lo que dejé:', visitar: 'Visitar proyecto' },
+  en: { experiences: experienciasEn, projects: proyectosEn, quedo: 'What I left:', visitar: 'Visit project' }
+}[IDIOMA]
+
+// Los enlaces internos se arman desde la raíz; los externos se abren en otra pestaña.
+const enlace = (link) => /^https?:/.test(link) ? link : RAIZ + link
 
 function renderCards(list, containerId, templateFn) {
   const container = document.getElementById(containerId)
@@ -88,7 +176,7 @@ const experienceTemplate = (item) => `
         <span class="track__anios">${item.anios}</span>
       </div>
       <p class="track__desc">${item.description}</p>
-      <p class="track__quedo"><span>Lo que dejé:</span> ${item.quedo}</p>
+      <p class="track__quedo"><span>${TEXTOS.quedo}</span> ${item.quedo}</p>
     </div>
   </div>
 `
@@ -102,7 +190,7 @@ const projectTemplate = (project) => `
         <div class="stack">
           ${project.stack.map(tag => `<span class="stack__item">${tag}</span>`).join('')}
         </div>
-        ${project.link ? `<a class="card-link mt-2" href="${project.link}"${/^https?:/.test(project.link) ? ' target="_blank" rel="noopener"' : ''}>${project.linkText || 'Visitar proyecto'}</a>` : ''}
+        ${project.link ? `<a class="card-link mt-2" href="${enlace(project.link)}"${/^https?:/.test(project.link) ? ' target="_blank" rel="noopener"' : ''}>${project.linkText || TEXTOS.visitar}</a>` : ''}
       </div>
     </div>
   </div>
@@ -110,8 +198,8 @@ const projectTemplate = (project) => `
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderCards(experiences, 'experience-grid', experienceTemplate)
-  renderCards(projects, 'projects-grid', projectTemplate)
+  renderCards(TEXTOS.experiences, 'experience-grid', experienceTemplate)
+  renderCards(TEXTOS.projects, 'projects-grid', projectTemplate)
 
   const navLinks = document.querySelectorAll('a.nav-link[href^="#"]')
   navLinks.forEach(link => {
