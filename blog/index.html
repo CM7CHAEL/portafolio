@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="../style.css">
   <link rel="icon" type="image/png" href="../assets/image/logo.png" sizes="64x64">
   <title>Blog | Michael Cervera Cobeñas</title>
-  <meta name="description" content="Decisiones reales de arquitectura, plataformas y equipos tecnicos: que se decidio, por que y que salio mal. Escribe Michael Cervera, Lead Full Stack Developer en Lima.">
+  <meta name="description" content="Artículos sobre arquitectura, plataformas empresariales y trabajo en equipo. Escribe Michael Cervera, Lead Full Stack Developer en Lima.">
   <link rel="canonical" href="https://cm7chael.github.io/portafolio/blog/">
   <meta property="og:title" content="Blog | Michael Cervera Cobeñas">
-  <meta property="og:description" content="Decisiones reales de arquitectura, plataformas y equipos tecnicos: que se decidio, por que y que salio mal. Escribe Michael Cervera, Lead Full Stack Developer en Lima.">
+  <meta property="og:description" content="Artículos sobre arquitectura, plataformas empresariales y trabajo en equipo. Escribe Michael Cervera, Lead Full Stack Developer en Lima.">
   <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/yo.jpg">
   <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/">
   <meta name="twitter:card" content="summary_large_image">
@@ -38,13 +38,18 @@
     </div>
   </nav>
 
-  <main class="container pagina">
-    <p class="eyebrow">Blog</p>
-    <h1>Lo que aprendi construyendo plataformas</h1>
-    <p class="section__description">Decisiones reales de arquitectura y de equipo. Cada articulo sale de algo que paso en produccion.</p>
-    <ul class="list-unstyled post-lista" id="blog-lista">
-      <li class="text-muted">Cargando articulos…</li>
-    </ul>
+  <main class="pagina blog">
+    <header class="blog__cabecera">
+      <div class="container">
+        <p class="eyebrow">Blog</p>
+        <h1>Lo que aprendí construyendo plataformas</h1>
+        <p class="section__description">Arquitectura y trabajo en equipo. Cada artículo sale de algo que me tocó resolver en producción.</p>
+        <nav class="blog__categorias" id="blog-categorias" aria-label="Categorías" hidden></nav>
+      </div>
+    </header>
+    <div class="container" id="blog-lista">
+      <p class="text-muted">Cargando artículos…</p>
+    </div>
   </main>
 
   <footer class="footer">
@@ -54,7 +59,7 @@
         <p class="mb-0 text-muted">Lead Full Stack Developer</p>
       </div>
       <div class="footer__links">
-        <a href="https://github.com/cm7chael" target="_blank">Github</a>
+        <a href="https://github.com/cm7chael" target="_blank">GitHub</a>
         <a href="https://www.linkedin.com/in/cm7chael/" target="_blank">LinkedIn</a>
         <a href="../blog/">Blog</a>
         <a href="../privacidad.html">Privacidad</a>

@@ -8,9 +8,9 @@
   <link rel="canonical" href="https://cm7chael.github.io/portafolio/cv.html">
   <link rel="icon" type="image/png" href="assets/image/logo.png" sizes="64x64">
   <!--
-    FUENTE UNICA DEL CV. Se edita aca y el PDF sale de esta misma pagina:
-      powershell -File cv-a-pdf.ps1      → genera cv.pdf (lo que baja el boton "Descargar CV")
-    Tamano A4, pensado para 2 paginas. Si un punto queda partido entre paginas, acortarlo.
+    El CV se edita solo aquí; el PDF sale de esta misma página:
+      powershell -File cv-a-pdf.ps1      → genera cv.pdf (el del botón "Descargar CV")
+    Tamaño A4, pensado para 2 páginas. Si un punto queda partido entre páginas, hay que acortarlo.
   -->
   <style>
     :root {
@@ -82,10 +82,10 @@
       html, body { background: #fff; }
       .barra, .aviso-cookies { display: none !important; }
       .hoja { width: auto; margin: 0; box-shadow: none; padding: 0 14mm; background: transparent; }
-      /* La columna azul es una celda de la grilla: se estira hasta el final del contenido, tambien en la pagina 2. */
+      /* La columna azul es una celda de la grilla, así llega hasta el final también en la página 2. */
       body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
-    /* Solo pantalla: una hoja A4 impresa mide ~794px y caeria aca. */
+    /* Solo pantalla: una hoja A4 impresa mide ~794px y entraría en este rango. */
     @media screen and (max-width: 820px) {
       .barra, .hoja { width: auto; margin: 12px; }
       .hoja { padding: 16px; }

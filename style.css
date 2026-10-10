@@ -386,14 +386,14 @@ h5 {
 .card--live:hover{border-color:rgba(255,255,255,.35);transform:translateY(-2px);text-decoration:none;color:inherit}
 .card--live .text-muted{font-size:.85rem}
 
-/* Sin JS la pagina se ve igual; con JS aparece animada. Y si el usuario
-   pidio menos movimiento, no se anima nada. */
+/* Sin JS la página se ve igual; con JS aparece animada. Y si el usuario
+   pidió menos movimiento, no se anima nada. */
 @media (prefers-reduced-motion: reduce) {
   .js .reveal { opacity: 1; transform: none; transition: none; }
   .card--live { transition: none; }
 }
 
-/* --- Trayectoria: linea de tiempo, no galeria --- */
+/* --- Trayectoria en línea de tiempo --- */
 .track {
   position: relative;
   padding: 0 0 1.75rem 1.75rem;
@@ -430,18 +430,43 @@ h5 {
 .cv-link{font-size:.95rem;opacity:.7;text-decoration:underline}
 .cv-link:hover{opacity:1}
 
-/* --- Paginas internas y blog --- */
+/* --- Páginas internas y blog --- */
 html { scroll-behavior: smooth; }
 section[id] { scroll-margin-top: 72px; }
 .pagina { padding-top: 110px; padding-bottom: 60px; min-height: 70vh; }
-.post-card { color: inherit; }
-.post-card:hover { text-decoration: none; color: inherit; }
 .post-card__fecha { font-size: .85rem; opacity: .6; margin-bottom: .4rem; }
-.post-lista { margin-top: 2rem; max-width: 760px; }
-.post-lista li { border-top: 1px solid #e7ecf5; padding: 1.25rem 0; }
-.post-lista a { color: inherit; display: block; }
-.post-lista a:hover { text-decoration: none; }
-.post-lista a:hover h2 { color: #2463eb; }
+
+/* Blog: cabecera, filtro por categoría y tarjetas. Sin foto, la tarjeta usa un fondo con la categoría. */
+.pagina.blog { padding-top: 0; }
+.blog__cabecera { background: linear-gradient(180deg, #ffffff 0%, #eef3fc 100%); border-bottom: 1px solid #e7ecf5; padding: 120px 0 28px; margin-bottom: 2.5rem; }
+.blog__cabecera h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: .5rem; }
+.blog__categorias { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+.blog-chip { display: inline-flex; align-items: center; gap: .4rem; border: 1px solid #d6deec; background: #fff; color: #1d2433; border-radius: 999px; padding: .35rem .9rem; font: inherit; font-size: .9rem; cursor: pointer; transition: .15s; }
+.blog-chip span { font-size: .75rem; background: #eef3fc; border-radius: 999px; padding: 0 .45rem; color: #5b6475; }
+.blog-chip:hover { border-color: #2463eb; color: #2463eb; text-decoration: none; }
+.blog-chip.activo { background: #2463eb; border-color: #2463eb; color: #fff; }
+.blog-chip.activo span { background: rgba(255,255,255,.2); color: #fff; }
+.blog-chip--chico { padding: .15rem .7rem; font-size: .8rem; margin-left: .75rem; }
+.blog-grupo { margin-bottom: 2.5rem; }
+.blog-grupo__cabecera { display: flex; align-items: baseline; gap: .75rem; border-bottom: 2px solid #1d2433; padding-bottom: .5rem; margin-bottom: 1.5rem; }
+.blog-grupo__cabecera h2 { font-size: 1.4rem; margin: 0; }
+.blog-grupo__cabecera span { color: #5b6475; font-size: .9rem; }
+.blog-card { display: flex; flex-direction: column; height: 100%; background: #fff; border: 1px solid #e7ecf5; border-radius: 14px; overflow: hidden; color: inherit; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.blog-card:hover { text-decoration: none; color: inherit; transform: translateY(-4px); border-color: rgba(36,99,235,.3); box-shadow: 0 14px 36px rgba(15,23,42,.12); }
+.blog-card:hover h3 { color: #2463eb; }
+.blog-card__img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: #e7ecf5; }
+.blog-card__img--vacia { display: flex; align-items: flex-end; padding: 1rem 1.2rem; background: radial-gradient(circle at 85% 15%, rgba(255,255,255,.2), transparent 45%), linear-gradient(135deg, #1e3a8a, #2463eb 60%, #0ea5e9); }
+.blog-card__img--vacia span { color: #fff; font-weight: 600; font-size: 1.05rem; }
+.blog-card__cuerpo { padding: 1.1rem 1.2rem 1.3rem; display: flex; flex-direction: column; flex: 1; }
+.blog-card__meta { font-size: .8rem; color: #5b6475; margin-bottom: .5rem; }
+.blog-card h3 { font-size: 1.15rem; line-height: 1.35; margin-bottom: .5rem; transition: color .15s; }
+.blog-card__resumen { font-size: .95rem; color: #3b4558; flex: 1; }
+.articulo__ruta { display: flex; align-items: center; font-size: .9rem; margin-bottom: 1rem; }
+.articulo__tags { margin-top: 2rem; }
+.relacionados { max-width: 1110px; margin: 4rem auto 0; }
+.relacionados h2 { font-size: 1.4rem; margin-bottom: 1.5rem; }
+@media (max-width: 575px) { .blog__cabecera h1 { font-size: 1.9rem; } }
+@media (prefers-reduced-motion: reduce) { .blog-card, .blog-chip { transition: none; } .blog-card:hover { transform: none; } }
 .app-img { height: 200px; object-fit: contain; background: #fff; padding: 1rem; }
 
 .articulo { max-width: 720px; margin: 0 auto; }

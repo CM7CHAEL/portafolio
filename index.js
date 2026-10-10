@@ -4,68 +4,69 @@ const experiences = [
     rol: 'Lead Full Stack Developer',
     anios: '2026 — hoy',
     description: 'Arquitectura modular con microfrontends, SSO corporativo con Keycloak, despliegues automatizados sin llaves y un Design System propio.',
-    quedo: 'El Design System lo consumen mas de quince aplicaciones de la suite sin pedir permiso a nadie.'
+    quedo: 'Un Design System que usan 17 aplicaciones de la plataforma.'
   },
   {
     title: 'StudioXperto',
     rol: 'Analista Desarrollador',
     anios: '2026',
-    description: 'Proyectos para Ferreyros, la Universidad Corporativa Intercorp y la UGEL Padre Abad: monitoreo en Google Cloud, migracion de Lumen a Laravel en Cloud Run y una plataforma educativa con app sin conexion.',
-    quedo: 'Aprendix en Cloud Run, con un servicio por modulo.'
+    description: 'Proyectos para Ferreyros, la Universidad Corporativa Intercorp y la UGEL Padre Abad: monitoreo en Google Cloud, migración de Lumen a Laravel en Cloud Run y una plataforma educativa con app sin conexión.',
+    quedo: 'Aprendix en Cloud Run, con un servicio por módulo.'
   },
   {
     title: 'Intelica Consulting',
     rol: 'Analyst Developer',
     anios: '2024 — 2025',
-    description: 'Coordinacion de equipos de QA, desarrollo y negocio. Planificacion, seguimiento y mentoria tecnica.',
-    quedo: 'Tableros de KPIs que los lideres de area siguen usando para decidir.'
+    description: 'Coordinación de equipos de QA, desarrollo y negocio. Planificación, seguimiento y mentoría técnica.',
+    quedo: 'Tableros de KPIs con los que los líderes de área toman decisiones.'
   },
   {
-    title: 'BSF Almacenes del Peru',
+    title: 'BSF Almacenes del Perú',
     rol: 'Analista de sistemas',
     anios: '2023 — 2024',
-    description: 'Sistemas corporativos en Chile y Peru. Desarrollo en .NET Core y Python, MVPs moviles y procesos batch.',
+    description: 'Sistemas corporativos en Chile y Perú. Desarrollo en .NET Core y Python, MVPs móviles y procesos batch.',
     quedo: 'Las integraciones con SAP que mueven los datos entre plataformas.'
   },
   {
     title: 'inLearning / IDAT',
     rol: 'Desarrollador full stack',
     anios: '2022 — 2023',
-    description: 'Evolucion del portal educativo EVA con Vue 3, .NET Core y SQL Server.',
-    quedo: 'La documentacion tecnica que permitio mantenerlo sin mi.'
+    description: 'Evolución del portal educativo EVA con Vue 3, .NET Core y SQL Server.',
+    quedo: 'Los manuales técnicos del portal: base de datos, frontend y backend.'
   },
   {
     title: 'Independiente → StudioXperto',
     rol: 'Desarrollador full stack',
     anios: '2019 — 2022',
-    description: 'Proyectos a medida para clientes de distintos sectores; desde 2021, bajo StudioXperto. Analisis, desarrollo y coordinacion de un equipo pequeno.',
-    quedo: 'Sitios y sistemas de clientes que siguen en produccion.'
+    description: 'Proyectos a medida para clientes de distintos sectores; desde 2021, bajo StudioXperto. Análisis, desarrollo y coordinación de un equipo pequeño.',
+    quedo: 'Sitios y sistemas de clientes que siguen en producción.'
   },
   {
     title: 'Sursa Gas',
     rol: 'Practicante → Analista Programador Jr.',
     anios: '2016 — 2018',
-    description: 'Sistemas a medida de ventas y produccion. Mejora del 70% en tiempos de respuesta de calculos, busquedas e impresiones.',
-    quedo: 'El sitio que hice sigue en linea diez anos despues: sursagas.com'
+    description: 'Sistemas a medida de ventas y producción. Mejora del 70 % en tiempos de respuesta de cálculos, búsquedas e impresiones.',
+    quedo: 'El sitio web de la empresa, que sigue en línea hasta hoy: sursagas.com'
   }
 ]
 
 const projects = [
   {
     title: 'Una suite modular con un solo login',
-    description: 'Mas de diez modulos sobre una arquitectura federada: cada equipo despliega el suyo sin bloquear a los demas. Autenticacion centralizada con Keycloak/OIDC, despliegues automatizados sin llaves de servicio en los repositorios, y un Design System propio que consumen mas de quince aplicaciones.',
-    link: '',
-    stack: ['Module Federation', 'Keycloak/OIDC', 'Design System']
+    description: 'Más de 15 módulos sobre una arquitectura federada: cada equipo despliega el suyo sin bloquear a los demás. Inicio de sesión centralizado con Keycloak/OIDC, despliegues automatizados sin llaves de servicio y un Design System propio que usan 17 aplicaciones.',
+    link: 'blog/articulo.html?p=microfrontends-angular-native-federation-lecciones-produccion',
+    linkText: 'Leer el artículo',
+    stack: ['Native Federation', 'Keycloak/OIDC', 'Design System']
   },
   {
-    title: 'Aprendix — Universidad Corporativa Intercorp',
-    description: 'Modernizacion de la plataforma academica: de Lumen a Laravel, separada en servicios independientes para el modulo academico, administrativo y de reportes, y desplegada en Cloud Run con Cloud SQL.',
+    title: 'Aprendix · Universidad Corporativa Intercorp',
+    description: 'Modernización de la plataforma académica: de Lumen a Laravel, separada en servicios para los módulos académico, administrativo y de reportes, y desplegada en Cloud Run con Cloud SQL.',
     link: '',
     stack: ['Laravel', 'Cloud Run', 'Microservicios']
   },
   {
-    title: 'Fichas pedagogicas — UGEL Padre Abad',
-    description: 'Plataforma de registro y monitoreo para la Direccion Regional de Educacion de Ucayali, con una app que funciona sin conexion para la supervision en campo y comentarios pedagogicos automatizados.',
+    title: 'Fichas pedagógicas · UGEL Padre Abad',
+    description: 'Plataforma de registro y monitoreo para la Dirección Regional de Educación de Ucayali, con una app que funciona sin conexión para la supervisión en campo y comentarios pedagógicos automáticos.',
     link: 'apps-moviles.html',
     stack: ['Ionic offline', 'Nuxt', 'Azure AI']
   }
@@ -87,7 +88,7 @@ const experienceTemplate = (item) => `
         <span class="track__anios">${item.anios}</span>
       </div>
       <p class="track__desc">${item.description}</p>
-      <p class="track__quedo"><span>Quedo funcionando:</span> ${item.quedo}</p>
+      <p class="track__quedo"><span>Lo que dejé:</span> ${item.quedo}</p>
     </div>
   </div>
 `
@@ -101,7 +102,7 @@ const projectTemplate = (project) => `
         <div class="stack">
           ${project.stack.map(tag => `<span class="stack__item">${tag}</span>`).join('')}
         </div>
-        ${project.link ? `<a class="card-link mt-2" href="${project.link}" target="_blank" rel="noopener">Visitar proyecto</a>` : ''}
+        ${project.link ? `<a class="card-link mt-2" href="${project.link}"${/^https?:/.test(project.link) ? ' target="_blank" rel="noopener"' : ''}>${project.linkText || 'Visitar proyecto'}</a>` : ''}
       </div>
     </div>
   </div>

@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="../style.css">
   <link rel="icon" type="image/png" href="../assets/image/logo.png" sizes="64x64">
   <title>Blog | Michael Cervera Cobeñas</title>
-  <meta name="description" content="Articulo del blog de Michael Cervera, Lead Full Stack Developer en Lima.">
+  <meta name="description" content="Artículo del blog de Michael Cervera, Lead Full Stack Developer en Lima.">
   <link rel="canonical" href="https://cm7chael.github.io/portafolio/blog/articulo.html">
   <meta property="og:title" content="Blog | Michael Cervera Cobeñas">
-  <meta property="og:description" content="Articulo del blog de Michael Cervera, Lead Full Stack Developer en Lima.">
+  <meta property="og:description" content="Artículo del blog de Michael Cervera, Lead Full Stack Developer en Lima.">
   <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/yo.jpg">
   <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/articulo.html">
   <meta name="twitter:card" content="summary_large_image">
@@ -40,20 +40,25 @@
 
   <main class="container pagina">
     <article class="articulo" id="articulo">
-      <p class="eyebrow"><a href="./">&larr; Blog</a></p>
+      <p class="articulo__ruta"><a href="./">&larr; Blog</a> <a class="blog-chip blog-chip--chico" id="articulo-categoria" hidden></a></p>
       <h1 id="articulo-titulo">Cargando…</h1>
       <p class="post-card__fecha" id="articulo-fecha"></p>
       <img class="articulo__portada" id="articulo-portada" alt="" hidden>
-      <!-- El contenido llega de CentralWeb (blog.js). -->
+      <!-- El contenido llega de CentralWeb, lo pinta blog.js. -->
       <div class="articulo__cuerpo" id="articulo-cuerpo"></div>
+      <div class="stack articulo__tags" id="articulo-tags" hidden></div>
       <aside class="articulo__cierre" id="articulo-cierre" hidden>
         <img src="../assets/image/yo.jpg" alt="" width="64" height="64" loading="lazy">
         <div>
-          <strong>Michael Cervera Cobeñas</strong> — Lead Full Stack Developer.
-          Si tu sistema crecio mas rapido que su arquitectura, <a href="../#contacto">conversemos</a>.
+          <strong>Michael Cervera Cobeñas</strong>, Lead Full Stack Developer.
+          Si quieres comentar el artículo, <a href="../#contacto">escríbeme</a>.
         </div>
       </aside>
     </article>
+    <section class="relacionados" id="articulo-relacionados" hidden>
+      <h2 id="relacionados-titulo">Más artículos</h2>
+      <div class="row" id="relacionados-grid"></div>
+    </section>
   </main>
 
   <footer class="footer">
@@ -63,7 +68,7 @@
         <p class="mb-0 text-muted">Lead Full Stack Developer</p>
       </div>
       <div class="footer__links">
-        <a href="https://github.com/cm7chael" target="_blank">Github</a>
+        <a href="https://github.com/cm7chael" target="_blank">GitHub</a>
         <a href="https://www.linkedin.com/in/cm7chael/" target="_blank">LinkedIn</a>
         <a href="../blog/">Blog</a>
         <a href="../privacidad.html">Privacidad</a>
