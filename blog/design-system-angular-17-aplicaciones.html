@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../assets/image/logo.png" sizes="64x64">
+  <title>Un Design System en Angular para 17 aplicaciones | Michael Cervera</title>
+  <meta name="description" content="Cómo armé un Design System en Angular con Nx que usan 17 aplicaciones: librerías, tokens, Material encapsulado y lo que me tocó corregir.">
+  <link rel="canonical" href="https://cm7chael.github.io/portafolio/blog/design-system-angular-17-aplicaciones.html">
+  <meta property="og:title" content="Un Design System para 17 aplicaciones: cómo lo armé en Angular y lo que me tocó corregir">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-10-10T22:22:47.260Z">
+  <meta property="og:description" content="Cómo armé un Design System en Angular con Nx que usan 17 aplicaciones: librerías, tokens, Material encapsulado y lo que me tocó corregir.">
+  <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/blog/design-system.jpg">
+  <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/design-system-angular-17-aplicaciones.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Un Design System para 17 aplicaciones: cómo lo armé en Angular y lo que me tocó corregir","description":"Cómo armé un Design System en Angular con Nx que usan 17 aplicaciones: librerías, tokens, Material encapsulado y lo que me tocó corregir.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/design-system.jpg","datePublished":"2026-10-10T22:22:47.260Z","dateModified":"2026-10-10T22:22:47.267Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/design-system-angular-17-aplicaciones.html","keywords":"Design System, Angular, Nx, Angular Material, Frontend, Microfrontends"}</script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark nav-glass fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="../">Michael Cervera Cobeñas</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="../#experiencia">Trayectoria</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#proyectos">Casos</a></li>
+          <li class="nav-item"><a class="nav-link" href="../blog/">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container pagina">
+    <article class="articulo" id="articulo" data-slug="design-system-angular-17-aplicaciones">
+      <p class="articulo__ruta"><a href="./">&larr; Blog</a> <a class="blog-chip blog-chip--chico" id="articulo-categoria" href="./?c=arquitectura">Arquitectura</a></p>
+      <h1 id="articulo-titulo">Un Design System para 17 aplicaciones: cómo lo armé en Angular y lo que me tocó corregir</h1>
+      <p class="post-card__fecha" id="articulo-fecha">10 de octubre de 2026 · 6 min de lectura</p>
+      <img class="articulo__portada" id="articulo-portada" alt="" src="https://cm7chael.github.io/portafolio/assets/image/blog/design-system.jpg">
+      <!-- Generado por generar-blog.js desde CentralWeb. No editar: se sobrescribe. -->
+      <div class="articulo__cuerpo" id="articulo-cuerpo">
+<p>Cuando una empresa tiene dos o tres aplicaciones internas, cada una con sus propios botones y sus propias tablas, nadie lo nota. Cuando llega a quince, el usuario sí lo nota: cada pantalla filtra distinto, cada tabla exporta distinto y el modo oscuro funciona en unas y en otras no.</p>
+
+<p>Hoy mantengo un Design System en Angular que usan 17 aplicaciones de una misma plataforma. Cuento cómo está armado, qué decisiones tomé al inicio y cuáles me tocó corregir en el camino.</p>
+
+<h2>Cómo está armado</h2>
+
+<p>Es un monorepo con <strong>Nx</strong> y ocho librerías, cada una con una responsabilidad:</p>
+
+<pre><code> theme        tokens de diseño y temas claro/oscuro
+ shared       tipos, utilidades y pipes (sin dependencias de UI)
+ icons        un solo componente de íconos
+ core         servicios base: notificaciones, diálogos, carga, errores HTTP
+ ui           componentes presentacionales: botón, tarjeta, chip, alerta…
+ forms        controles de formulario
+ data-table   la tabla, con paginación, búsqueda, acciones y exportación
+ charts       gráficos</code></pre>
+
+<p>Se publican como paquetes privados en GitHub Packages, y cada aplicación los instala como cualquier otra dependencia. Separarlas así hace que una aplicación que solo necesita formularios no cargue los gráficos, y que Nx sepa exactamente qué reconstruir cuando algo cambia.</p>
+
+<h2>Las aplicaciones nunca ven Angular Material</h2>
+
+<p>Los componentes están construidos sobre Angular Material, pero ninguna aplicación lo importa. Solo ven componentes propios, con un prefijo de la casa (aquí los muestro como <code>ds-button</code>, <code>ds-data-table</code>) y servicios propios que envuelven a los de Material: el de notificaciones envuelve al <code>MatSnackBar</code>, el de diálogos al <code>MatDialog</code>.</p>
+
+<p>Lo decidí así por dos motivos. El primero es poder actualizar Material, o cambiarlo, sin tocar diecisiete aplicaciones. El segundo es que, si una aplicación puede usar Material directamente, tarde o temprano alguien arma su propio botón "porque era más rápido" y ahí empieza otra vez el desorden.</p>
+
+<p>Esta regla no depende de que la gente se acuerde. La hace cumplir el linter, con la regla de límites de módulos de Nx:</p>
+
+<pre><code>'@nx/enforce-module-boundaries': ['error', {
+  depConstraints: [
+    {
+      sourceTag: 'material:forbidden',
+      bannedExternalImports: ['@angular/material', '@angular/material/*']
+    }
+  ]
+}]</code></pre>
+
+<p>Si una librería que no debe importar Material lo importa, el lint falla y el paquete no se publica.</p>
+
+<h2>Tokens en dos niveles</h2>
+
+<p>Los colores viven en dos capas. Los <strong>primitivos</strong> son los valores de la marca (el rojo, los grises). Los <strong>semánticos</strong> son variables CSS con nombre de uso: <code>--ds-color-surface</code>, <code>--ds-color-text</code>, <code>--ds-color-border</code>. Los componentes solo usan los semánticos, nunca un hexadecimal.</p>
+
+<p>Con eso, el modo oscuro es cambiar el juego de valores de esas variables. No se recompila nada y el cambio es inmediato:</p>
+
+<pre><code>:root {
+  --ds-color-surface: #ffffff;
+  --ds-color-text: #1f2937;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.ds-light) {
+    --ds-color-surface: #1e1e24;
+    --ds-color-text: #e5e7eb;
+  }
+}</code></pre>
+
+<p>Aprendí por las malas por qué la regla de "solo tokens" también aplica a las aplicaciones, no solo a las librerías. Un formulario público, de los que se abren desde el celular, tenía la tarjeta y los textos con colores fijos. Los controles del Design System sí seguían el modo oscuro del teléfono, la tarjeta no. Resultado: texto gris claro sobre fondo blanco, ilegible. En la laptop de desarrollo, en modo claro, se veía perfecto. Desde entonces toda página pública se revisa con el sistema en modo oscuro antes de darla por buena.</p>
+
+<h2>Una tabla igual en todas las aplicaciones</h2>
+
+<p>El componente que más valor dio fue la tabla. <code>ds-data-table</code> trae paginación, orden, búsqueda, selección, acciones por fila, exportación a Excel y los estados de carga y de lista vacía. Cada aplicación le pasa los datos y las columnas, y nada más.</p>
+
+<p>Pero tener el componente no alcanzó. Al principio cada módulo armaba su página de listado a su manera: uno con el botón "Nuevo" arriba a la derecha, otro con los filtros en una barra lateral, otro con un buscador que pedía elegir el campo. Así que escribí el estándar de cómo es una página de listado: la tabla siempre es <code>ds-data-table</code>; crear y filtrar van en el mismo menú, a la derecha del título; y hay un solo buscador sobre la tabla, que busca en todos los campos a la vez. Y dejé un módulo como referencia para copiar.</p>
+
+<p>Desde que eso quedó escrito, una pantalla nueva sale igual a las demás aunque la haga otra persona del equipo.</p>
+
+<h2>Lo que me tocó corregir</h2>
+
+<h3>Un servicio global dentro de un microfrontend</h3>
+
+<p>Las 17 aplicaciones se montan dentro de un portal con microfrontends (lo conté en <a href="https://cm7chael.github.io/portafolio/blog/microfrontends-angular-native-federation-lecciones-produccion.html">este artículo</a>). El servicio de diálogos del Design System se registra en la raíz (<code>providedIn: 'root'</code>) y abre los diálogos sin un inyector propio. Dentro del portal, la raíz es la del portal, no la del módulo.</p>
+
+<p>Así que un diálogo que hacía una llamada HTTP usaba el cliente HTTP del portal, sin el interceptor del módulo que agrega el token. El backend respondía 401 y el usuario veía "Sesión expirada" con la sesión perfectamente activa. Corriendo el módulo solo, en su propio puerto, funcionaba bien, porque ahí la raíz sí es la del módulo.</p>
+
+<p>La solución inmediata fue abrir esos diálogos con <code>MatDialog</code> y el <code>viewContainerRef</code> del componente, y volver a proveer su servicio en las rutas del módulo. La lección más general: en un Design System que se va a usar dentro de microfrontends, cualquier servicio en la raíz tiene que pensarse para correr en un inyector que no es el tuyo.</p>
+
+<h3>Publicar sin romper</h3>
+
+<p>Al principio las ocho librerías subían de versión juntas, aunque solo cambiara una. Era simple, pero cada corrección en la tabla obligaba a publicar las ocho y a actualizar las ocho en cada aplicación. Hoy cada librería lleva su propia versión. El cuidado está en las dependencias internas: si <code>ui</code> pide <code>core ^0.5.0</code> y <code>core</code> pasa a <code>0.6.0</code>, ese rango ya no la acepta, así que hay que subirlas juntas.</p>
+
+<p>La otra trampa fue el <em>lockfile</em>. El repositorio se desarrollaba en Windows y el pipeline de publicación corre en Linux, y npm resuelve distinto algunas dependencias opcionales de Storybook según la plataforma. Un <code>package-lock.json</code> generado en Windows hacía fallar el <code>npm ci</code> del pipeline. Lo resolví usando <code>npm install</code> en ese paso y dejándolo escrito en la guía de publicación, con el motivo, para que nadie lo "arregle" volviendo a <code>npm ci</code>.</p>
+
+<h3>Lo que se construye "mientras tanto"</h3>
+
+<p>Más de una vez alguien necesitó un componente, no lo encontró en la versión instalada y lo armó dentro de su módulo. A veces el componente ya existía en el código del Design System, solo que todavía no estaba publicado. La regla quedó así: antes de crear un componente se revisa el repositorio del Design System, no solo lo que está instalado. Y si de verdad falta, se agrega al Design System, no al módulo.</p>
+
+<h2>Qué haría distinto si empezara hoy</h2>
+
+<ul>
+  <li><strong>Pruebas desde la primera librería.</strong> Las librerías base arrancaron sin pruebas unitarias, y el pipeline tiene que dejar pasar ese caso. Agregar pruebas después, con 17 aplicaciones encima, cuesta mucho más.</li>
+  <li><strong>Automatizar la actualización en las aplicaciones.</strong> Publicar es un comando. Lo caro es subir la versión y reinstalar en cada aplicación, y eso debería hacerlo un script o un bot que abra los cambios en cada repositorio.</li>
+  <li><strong>El mismo Node en desarrollo y en el pipeline.</strong> La mitad de los problemas con el lockfile venían de desarrollar con una versión de Node y publicar con otra.</li>
+  <li><strong>El catálogo publicado desde el día uno.</strong> El Storybook ayuda mucho más cuando cualquiera lo puede abrir en el navegador sin clonar nada. Es el primer lugar donde alguien debería buscar antes de construir.</li>
+</ul>
+
+<h2>Si estás por armar uno</h2>
+
+<p>Empieza con pocas piezas: los tokens, el botón, los controles de formulario y la tabla. Con eso se cubre la mayor parte de las pantallas de una aplicación empresarial. Y escribe desde el principio las reglas de cómo se usa, porque el componente solo no alcanza para que todas las pantallas se parezcan.</p>
+
+<p>Si mantienes un Design System para varios equipos, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber cómo resuelven la actualización en todas las aplicaciones.</p>
+
+      </div>
+      <div class="stack articulo__tags" id="articulo-tags"><span class="stack__item">Design System</span><span class="stack__item">Angular</span><span class="stack__item">Nx</span><span class="stack__item">Angular Material</span><span class="stack__item">Frontend</span><span class="stack__item">Microfrontends</span></div>
+      <aside class="articulo__cierre" id="articulo-cierre" hidden>
+        <img src="../assets/image/yo.jpg" alt="" width="64" height="64" loading="lazy">
+        <div>
+          <strong>Michael Cervera Cobeñas</strong>, Lead Full Stack Developer.
+          Si quieres comentar el artículo, <a href="../#contacto">escríbeme</a>.
+        </div>
+      </aside>
+    </article>
+    <section class="relacionados" id="articulo-relacionados" hidden>
+      <h2 id="relacionados-titulo">Más artículos</h2>
+      <div class="row" id="relacionados-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <strong>Michael Cervera Cobeñas</strong>
+        <p class="mb-0 text-muted">Lead Full Stack Developer</p>
+      </div>
+      <div class="footer__links">
+        <a href="https://github.com/cm7chael" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/cm7chael/" target="_blank">LinkedIn</a>
+        <a href="../blog/">Blog</a>
+        <a href="../privacidad.html">Privacidad</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="estaticos.js"></script>
+  <script src="../blog.js"></script>
+  <script src="../medicion.js"></script>
+</body>
+</html>

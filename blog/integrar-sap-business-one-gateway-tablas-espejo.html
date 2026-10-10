@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../assets/image/logo.png" sizes="64x64">
+  <title>SAP Business One con una sola puerta: gateway y tablas espejo | Michael Cervera</title>
+  <meta name="description" content="Cómo 17 aplicaciones usan SAP Business One sin conectarse a él: un gateway único, tablas espejo para los maestros y lo aprendido con el Service Layer.">
+  <link rel="canonical" href="https://cm7chael.github.io/portafolio/blog/integrar-sap-business-one-gateway-tablas-espejo.html">
+  <meta property="og:title" content="SAP Business One con una sola puerta: cómo lo integré en 17 aplicaciones sin que ninguna le hable directo">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-10-10T22:23:48.079Z">
+  <meta property="og:description" content="Cómo 17 aplicaciones usan SAP Business One sin conectarse a él: un gateway único, tablas espejo para los maestros y lo aprendido con el Service Layer.">
+  <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/blog/sap-una-sola-puerta.jpg">
+  <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/integrar-sap-business-one-gateway-tablas-espejo.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"SAP Business One con una sola puerta: cómo lo integré en 17 aplicaciones sin que ninguna le hable directo","description":"Cómo 17 aplicaciones usan SAP Business One sin conectarse a él: un gateway único, tablas espejo para los maestros y lo aprendido con el Service Layer.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/sap-una-sola-puerta.jpg","datePublished":"2026-10-10T22:23:48.079Z","dateModified":"2026-10-10T22:22:48.107Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/integrar-sap-business-one-gateway-tablas-espejo.html","keywords":"SAP Business One, Service Layer, HANA, Integración, Arquitectura, .NET"}</script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark nav-glass fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="../">Michael Cervera Cobeñas</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="../#experiencia">Trayectoria</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#proyectos">Casos</a></li>
+          <li class="nav-item"><a class="nav-link" href="../blog/">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container pagina">
+    <article class="articulo" id="articulo" data-slug="integrar-sap-business-one-gateway-tablas-espejo">
+      <p class="articulo__ruta"><a href="./">&larr; Blog</a> <a class="blog-chip blog-chip--chico" id="articulo-categoria" href="./?c=arquitectura">Arquitectura</a></p>
+      <h1 id="articulo-titulo">SAP Business One con una sola puerta: cómo lo integré en 17 aplicaciones sin que ninguna le hable directo</h1>
+      <p class="post-card__fecha" id="articulo-fecha">10 de octubre de 2026 · 6 min de lectura</p>
+      <img class="articulo__portada" id="articulo-portada" alt="" src="https://cm7chael.github.io/portafolio/assets/image/blog/sap-una-sola-puerta.jpg">
+      <!-- Generado por generar-blog.js desde CentralWeb. No editar: se sobrescribe. -->
+      <div class="articulo__cuerpo" id="articulo-cuerpo">
+<p>Cuando una empresa usa SAP Business One y empieza a construir sus propias aplicaciones, lo primero que pasa es que cada una se conecta a SAP por su cuenta. La de ventas consulta clientes, la de compras consulta proveedores, la de recursos humanos consulta empleados. Cada una con sus credenciales, sus consultas y su forma de manejar los errores.</p>
+
+<p>Con dos aplicaciones se puede vivir así. Con diecisiete, no. En la plataforma que lidero ninguna aplicación habla con SAP directamente, y cuento cómo está armado y qué fui aprendiendo al integrarlo.</p>
+
+<h2>Una sola puerta hacia SAP</h2>
+
+<p>Toda la comunicación con SAP pasa por un <strong>gateway</strong>: un servicio en .NET que es el único que tiene las credenciales de SAP. Por dentro usa dos caminos:</p>
+
+<ul>
+  <li><strong>El Service Layer</strong>, la API oficial de SAP Business One, para crear documentos y para las lecturas estándar.</li>
+  <li><strong>Lectura directa a HANA</strong>, con procedimientos almacenados, para las consultas pesadas que por Service Layer tomarían muchas llamadas.</li>
+</ul>
+
+<p>Y tampoco las aplicaciones llaman al gateway. Solo lo llama el backend del portal, y cada módulo le pide los datos al portal:</p>
+
+<pre><code> módulo (ventas, compras, rrhh…)
+        │  token del usuario
+        ▼
+ backend del portal ──── tablas espejo (maestros)
+        │  mismo token
+        ▼
+ gateway SAP  (único con credenciales)
+        │
+        ▼
+ SAP Business One  (Service Layer + HANA)</code></pre>
+
+<p>El token del usuario viaja en cada salto. Así el gateway sabe quién pidió cada cosa, y ningún módulo necesita una cuenta de servicio de SAP.</p>
+
+<h2>Los maestros se copian, no se consultan</h2>
+
+<p>La decisión que más ordenó todo fue esta: los <strong>maestros</strong> de SAP (clientes, empleados, artículos, proveedores, cuentas contables, departamentos) se sincronizan en la base de datos del portal como <strong>tablas espejo</strong>. Los módulos leen esas tablas a través de la API del portal. Nunca consultan SAP en vivo para un maestro.</p>
+
+<p>La sincronización tiene un solo punto de entrada por maestro, un <code>POST /sync</code> que es lo único que llama al gateway. Se dispara de dos formas:</p>
+
+<ul>
+  <li>Con un botón "Sincronizar con SAP" en la configuración del portal, solo para administradores.</li>
+  <li>Con una tarea programada todas las madrugadas, que corre todos los maestros en secuencia. Si uno falla, los demás siguen.</li>
+</ul>
+
+<p>Por dentro es un <em>upsert</em> por lotes, y lo que desaparece de SAP se marca como inactivo en vez de borrarse, porque puede haber registros en el portal que todavía apuntan a él. La corrida completa, unos 35 mil registros, toma menos de un minuto.</p>
+
+<p>¿Por qué copiar en lugar de consultar?</p>
+
+<ul>
+  <li><strong>Velocidad.</strong> Un buscador de clientes no puede esperar a SAP en cada tecla.</li>
+  <li><strong>Disponibilidad.</strong> Si SAP está en mantenimiento, el portal sigue funcionando con los datos de la noche anterior.</li>
+  <li><strong>Un solo lugar para corregir.</strong> Si cambia cómo se lee un maestro, se cambia en la sincronización y todos los módulos lo reciben igual.</li>
+</ul>
+
+<p>En vivo solo va lo que tiene que estar al segundo: el stock, el costo de un artículo, el tipo de cambio y la creación de documentos.</p>
+
+<p>Para que esto se mantenga, quedó escrito como regla, con el patrón paso a paso para agregar un maestro nuevo: el endpoint en el gateway, la tabla espejo y su sincronización en el portal, la pantalla con el botón, y el módulo leyendo del portal. Cualquiera del equipo puede agregar uno siguiendo esos pasos.</p>
+
+<h2>Lo que aprendí integrando</h2>
+
+<h3>El Service Layer corta en 20 sin avisar</h3>
+
+<p>Una consulta pedía 100 órdenes y llegaban 20. El Service Layer pagina de a 20 por defecto y deja el resto detrás de un <code>@odata.nextLink</code>. No da error ni advertencia, y el <code>count</code> de la respuesta sí trae el total real. Lo descubrimos porque un usuario decía que sus órdenes no estaban en SAP, cuando en realidad estaban en la página dos.</p>
+
+<p>Hay que pedir el tamaño de página explícitamente (la cabecera <code>Prefer: odata.maxpagesize</code>) o seguir el <code>nextLink</code>. Y del lado de quien pagina, la condición de corte tiene que ser el <code>count</code>, no "el lote vino más chico de lo que pedí", porque con este comportamiento eso corta en la primera vuelta.</p>
+
+<h3><code>DocTotal</code> no está en la moneda del documento</h3>
+
+<p>En los documentos de SAP Business One, <code>DocTotal</code> es el total en <strong>moneda local</strong>. <code>DocCurrency</code> dice en qué moneda se emitió. Mostrar <code>DocTotal</code> con el símbolo de <code>DocCurrency</code> hacía que una orden en dólares apareciera con el monto en soles, o sea más del triple.</p>
+
+<p>El importe en la moneda del documento es <code>DocTotalFc</code>, pero cuando el documento está en moneda local SAP lo deja en 0, y un 0 se puede leer como "cero dólares". Por eso el gateway lo publica como <code>null</code> en ese caso, y quien lo consume usa <code>DocTotal</code> cuando no hay otro. Lo llamamos "moneda extranjera" y no "dólares", porque una parte de las compras están en euros.</p>
+
+<p>Hubo un segundo tropiezo con esto mismo: el Service Layer solo devuelve los campos que pides en el <code>$select</code>. Agregamos <code>DocTotalFc</code> al modelo pero no a la lista de campos de la consulta, así que llegaba vacío siempre. Eso no lo detecta el compilador, solo se ve llamando a SAP.</p>
+
+<h3>Un error de validación disfrazado de caída</h3>
+
+<p>Una alerta de errores 5xx sonó un día por varios 502 seguidos. No era SAP caído: alguien había pedido un costeo sin elegir cliente, el gateway respondió 400 diciendo que faltaba el cliente, y la función que hacía las lecturas convertía cualquier respuesta no exitosa en 502. Las escrituras sí propagaban bien el 400, las lecturas no.</p>
+
+<p>Ese error tenía dos costos: el usuario veía "SAP no responde" cuando el problema era un campo vacío, y la métrica que dispara las alertas se llenaba de falsos 5xx. Ahora las lecturas propagan los 400, 409 y 422 tal cual, con el mensaje del backend.</p>
+
+<h3>El SQL de SAP también es código</h3>
+
+<p>Los procedimientos almacenados que lee el gateway se crearon directamente en HANA y no estaban en ningún repositorio. Y el mapeo de sus resultados es tolerante a propósito: busca las columnas por nombre, y si una columna cambia de nombre, el campo llega <code>null</code> o <code>0</code> sin ningún error.</p>
+
+<p>O sea, alguien podía cambiar un procedimiento y una pantalla empezaba a mostrar ceros sin que nada fallara. La regla que acordamos: el SQL vive con el código que se rompe si cambia. Cada procedimiento que llama el gateway se versiona en su repositorio, en el mismo cambio que el código que lo lee.</p>
+
+<h2>Qué haría distinto si empezara hoy</h2>
+
+<ul>
+  <li><strong>Versionar el SQL de SAP desde el primer procedimiento.</strong> Recuperarlo después, cuando ya hay decenas en uso, es arqueología.</li>
+  <li><strong>Pruebas contra una copia de la compañía.</strong> Los dos tropiezos del <code>DocTotal</code> se ven recién llamando a SAP. Una prueba que corra contra una base de respaldo los habría atrapado antes de producción.</li>
+  <li><strong>Una sola función de paginación en el gateway.</strong> El corte en 20 apareció en varias consultas a la vez porque cada una paginaba a su manera.</li>
+  <li><strong>La moneda explícita en cada monto.</strong> Ningún campo de dinero sin su moneda al lado, aunque parezca obvio.</li>
+</ul>
+
+<h2>Si estás por integrar con SAP Business One</h2>
+
+<p>Antes de escribir la primera consulta, decide quién es el único que habla con SAP. Si cada aplicación se conecta por su cuenta, después cuesta mucho juntar todo en un solo lugar. Y separa desde el inicio lo que se copia (los maestros) de lo que va en vivo: esa decisión define cuánto depende tu plataforma de que SAP esté disponible.</p>
+
+<p>Si estás integrando con SAP Business One, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber cómo lo resolvieron otros equipos, sobre todo con el Service Layer.</p>
+
+      </div>
+      <div class="stack articulo__tags" id="articulo-tags"><span class="stack__item">SAP Business One</span><span class="stack__item">Service Layer</span><span class="stack__item">HANA</span><span class="stack__item">Integración</span><span class="stack__item">Arquitectura</span><span class="stack__item">.NET</span></div>
+      <aside class="articulo__cierre" id="articulo-cierre" hidden>
+        <img src="../assets/image/yo.jpg" alt="" width="64" height="64" loading="lazy">
+        <div>
+          <strong>Michael Cervera Cobeñas</strong>, Lead Full Stack Developer.
+          Si quieres comentar el artículo, <a href="../#contacto">escríbeme</a>.
+        </div>
+      </aside>
+    </article>
+    <section class="relacionados" id="articulo-relacionados" hidden>
+      <h2 id="relacionados-titulo">Más artículos</h2>
+      <div class="row" id="relacionados-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <strong>Michael Cervera Cobeñas</strong>
+        <p class="mb-0 text-muted">Lead Full Stack Developer</p>
+      </div>
+      <div class="footer__links">
+        <a href="https://github.com/cm7chael" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/cm7chael/" target="_blank">LinkedIn</a>
+        <a href="../blog/">Blog</a>
+        <a href="../privacidad.html">Privacidad</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="estaticos.js"></script>
+  <script src="../blog.js"></script>
+  <script src="../medicion.js"></script>
+</body>
+</html>
