@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../assets/image/logo.png" sizes="64x64">
+  <title>CI/CD sin llaves con Workload Identity Federation y Cloud Run | Michael Cervera</title>
+  <meta name="description" content="Cómo desplegar a Cloud Run desde GitHub Actions sin llaves de servicio, con Workload Identity Federation: paso a paso y lo aprendido con más de 20 repos.">
+  <link rel="canonical" href="https://cm7chael.github.io/portafolio/blog/cicd-sin-llaves-workload-identity-federation-cloud-run.html">
+  <meta property="og:title" content="CI/CD sin llaves: cómo despliego más de 20 repositorios a Cloud Run con Workload Identity Federation">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-10-10T22:05:45.986Z">
+  <meta property="og:description" content="Cómo desplegar a Cloud Run desde GitHub Actions sin llaves de servicio, con Workload Identity Federation: paso a paso y lo aprendido con más de 20 repos.">
+  <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/blog/cicd-sin-llaves.jpg">
+  <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/cicd-sin-llaves-workload-identity-federation-cloud-run.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"CI/CD sin llaves: cómo despliego más de 20 repositorios a Cloud Run con Workload Identity Federation","description":"Cómo desplegar a Cloud Run desde GitHub Actions sin llaves de servicio, con Workload Identity Federation: paso a paso y lo aprendido con más de 20 repos.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/cicd-sin-llaves.jpg","datePublished":"2026-10-10T22:05:45.986Z","dateModified":"2026-10-10T22:05:45.992Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/cicd-sin-llaves-workload-identity-federation-cloud-run.html","keywords":"CI/CD, GitHub Actions, Google Cloud, Cloud Run, Workload Identity Federation, Seguridad"}</script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark nav-glass fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="../">Michael Cervera Cobeñas</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="../#experiencia">Trayectoria</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#proyectos">Casos</a></li>
+          <li class="nav-item"><a class="nav-link" href="../blog/">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container pagina">
+    <article class="articulo" id="articulo" data-slug="cicd-sin-llaves-workload-identity-federation-cloud-run">
+      <p class="articulo__ruta"><a href="./">&larr; Blog</a> <a class="blog-chip blog-chip--chico" id="articulo-categoria" href="./?c=cloud-y-devops">Cloud y DevOps</a></p>
+      <h1 id="articulo-titulo">CI/CD sin llaves: cómo despliego más de 20 repositorios a Cloud Run con Workload Identity Federation</h1>
+      <p class="post-card__fecha" id="articulo-fecha">10 de octubre de 2026 · 6 min de lectura</p>
+      <img class="articulo__portada" id="articulo-portada" alt="" src="https://cm7chael.github.io/portafolio/assets/image/blog/cicd-sin-llaves.jpg">
+      <!-- Generado por generar-blog.js desde CentralWeb. No editar: se sobrescribe. -->
+      <div class="articulo__cuerpo" id="articulo-cuerpo">
+<p>Durante años, desplegar a Google Cloud desde GitHub significó lo mismo en casi todos los equipos: crear una cuenta de servicio, descargar su llave en JSON y pegarla en los secretos del repositorio. Funciona, pero esa llave no vence, da acceso a la nube a quien la tenga y termina copiada en más lugares de los que uno recuerda.</p>
+
+<p>Hoy despliego más de 20 repositorios a Cloud Run sin una sola llave guardada. Cuento cómo lo armé con Workload Identity Federation y lo que fui aprendiendo en el camino.</p>
+
+<h2>El problema con la llave en JSON</h2>
+
+<p>Una llave de cuenta de servicio es una contraseña que no expira. Si se filtra (un log que la imprime, un fork, un backup, una persona que se va del equipo con una copia), quien la tenga puede actuar como esa cuenta hasta que alguien se dé cuenta y la revoque.</p>
+
+<p>Y con muchos repositorios el riesgo se multiplica: veinte repos con su propia llave son veinte copias que rotar, vigilar y recordar. En la práctica, nadie las rota.</p>
+
+<h2>Cómo funciona Workload Identity Federation</h2>
+
+<p>La idea es simple: en lugar de guardar una credencial, GitHub le demuestra a Google quién es en el momento del despliegue.</p>
+
+<pre><code> GitHub Actions                 Google Cloud
+ ┌────────────────┐   token     ┌──────────────────────────┐
+ │ workflow del   │ ──OIDC────▶ │ Workload Identity Pool   │
+ │ repositorio    │  (firmado   │ ¿es de mi organización?  │
+ └────────────────┘  por GitHub)│ ¿es este repositorio?    │
+                                └────────────┬─────────────┘
+                                             │ credencial temporal
+                                             ▼
+                                ┌──────────────────────────┐
+                                │ cuenta de servicio       │
+                                │ (permisos mínimos)       │
+                                └────────────┬─────────────┘
+                                             ▼
+                                         Cloud Run</code></pre>
+
+<p>Cada ejecución del workflow recibe de GitHub un token firmado que dice qué repositorio lo pidió, en qué rama y en qué workflow. Google valida esa firma, revisa las condiciones que le configuraste y entrega una credencial que dura una hora. No hay nada que guardar ni nada que rotar.</p>
+
+<h2>El paso a paso</h2>
+
+<h3>1. El pool y el proveedor</h3>
+
+<p>El pool agrupa las identidades externas en las que confías. El proveedor le dice a Google cómo validar los tokens de GitHub y qué datos tomar de ellos:</p>
+
+<pre><code>gcloud iam workload-identity-pools create github \
+  --location=global --display-name="GitHub"
+
+gcloud iam workload-identity-pools providers create-oidc github-actions \
+  --location=global --workload-identity-pool=github \
+  --issuer-uri="https://token.actions.githubusercontent.com" \
+  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.repository_owner=assertion.repository_owner" \
+  --attribute-condition="assertion.repository_owner == 'mi-organizacion'"</code></pre>
+
+<p>La condición es la línea más importante. Sin ella, cualquier repositorio de GitHub podría intentar presentarse ante tu pool. Con ella, solo entran los de tu organización.</p>
+
+<h3>2. Quién puede usar la cuenta de servicio</h3>
+
+<p>La cuenta de servicio es la que tiene los permisos para desplegar. Lo que se configura es qué repositorio puede actuar como ella:</p>
+
+<pre><code>gcloud iam service-accounts add-iam-policy-binding \
+  deployer@mi-proyecto.iam.gserviceaccount.com \
+  --role=roles/iam.workloadIdentityUser \
+  --member="principalSet://iam.googleapis.com/projects/NUMERO_DEL_PROYECTO/locations/global/workloadIdentityPools/github/attribute.repository/mi-organizacion/mi-repo"</code></pre>
+
+<p>A esa cuenta le doy solo lo que necesita para desplegar: lanzar el build, publicar en Cloud Run, leer la imagen y los secretos, y actuar como la cuenta con la que corre el servicio. Nada de roles de propietario o editor del proyecto. Uso una cuenta de servicio por repositorio, así cada módulo despliega solo lo suyo.</p>
+
+<h3>3. El workflow</h3>
+
+<pre><code>name: deploy
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write   # sin esto GitHub no entrega el token
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: produccion
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/NUMERO_DEL_PROYECTO/locations/global/workloadIdentityPools/github/providers/github-actions
+          service_account: deployer@mi-proyecto.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v2
+      - run: gcloud run deploy mi-servicio --source . --region us-central1</code></pre>
+
+<p>Fíjate en lo que no aparece: ningún <code>secrets.GCP_KEY</code>. Los dos valores del paso de autenticación no son secretos, son identificadores. Si alguien los ve, no puede hacer nada con ellos desde fuera de tu organización.</p>
+
+<h2>Lo que aprendí con más de 20 repositorios</h2>
+
+<h3>Un repositorio nuevo nace sin permiso</h3>
+
+<p>El permiso de usar la cuenta de servicio se da por repositorio. Así que el primer despliegue de un módulo nuevo falla con un 403 que dice algo como <em>"Permission 'iam.serviceAccounts.getAccessToken' denied"</em>. No es un error del workflow: falta agregar ese repositorio a la lista.</p>
+
+<p>Por eso el alta de cada módulo nuevo tiene tres pasos fijos: su cuenta de servicio, el permiso sobre el pool y el workflow. La alternativa es autorizar a toda la organización con <code>attribute.repository_owner</code>; es más cómodo, pero cualquier repositorio nuevo podría desplegar, y prefiero que eso sea una decisión explícita.</p>
+
+<p>El otro 403 clásico llega en el primer despliegue: el workflow se autentica bien, pero un paso falla con <em>PERMISSION_DENIED</em> porque a la cuenta le falta un permiso concreto. A mí me faltó el de leer la imagen del registro de artefactos. El mensaje dice exactamente qué permiso falta, así que se resuelve rápido, pero conviene tener la lista completa de roles antes de replicar el esquema en veinte repositorios.</p>
+
+<h3>Un despliegue en verde no significa que el servicio funcione</h3>
+
+<p>Este me costó caro. <code>gcloud run deploy</code> intenta dejar el servicio público y, si la cuenta no tiene permiso para cambiar su política de acceso, lo reporta como una <em>advertencia</em> y termina en éxito igual. El build sale en verde, el workflow sale en verde, y el servicio responde 403 a todo el mundo. Un módulo que todavía nadie usaba pasó semanas así, con cuatro despliegues en verde, hasta que alguien intentó entrar.</p>
+
+<p>Desde entonces, después de cada despliegue verifico que el servicio responda, no solo que el workflow haya terminado bien.</p>
+
+<h3>Nada a producción sin una aprobación</h3>
+
+<p>Los despliegues son manuales (<code>workflow_dispatch</code>), también los de pruebas. El de producción usa un <em>environment</em> de GitHub con revisores obligatorios y despliega una versión que ya pasó por pruebas, no lo último que haya en la rama. Alguien tiene que aprobarlo, y queda registrado quién lo hizo y cuándo. Además, cada ambiente es un proyecto de Google Cloud distinto con sus propias cuentas de servicio: la de pruebas no puede tocar producción aunque alguien se equivoque de workflow.</p>
+
+<h3>El pipeline tiene que ser la única puerta</h3>
+
+<p>Si alguien puede desplegar desde su computadora o desde la consola web, todo lo anterior se puede saltar. Los logs de auditoría de Google Cloud registran quién desplegó cada revisión y desde dónde, así que armé una alerta sobre esos logs: cuando alguien despliega por fuera del pipeline, el equipo recibe un aviso con quién fue, qué cambió y desde qué herramienta. La consola queda solo para emergencias, y cuando se usa, se sabe.</p>
+
+<h2>Qué haría distinto si empezara hoy</h2>
+
+<ul>
+  <li><strong>Prohibir las llaves desde el primer día.</strong> La política de organización <code>iam.disableServiceAccountKeyCreation</code> impide crear llaves nuevas. Con eso, nadie vuelve a la llave en JSON "solo por esta vez".</li>
+  <li><strong>Una plantilla de workflow compartida.</strong> Con más de 20 repositorios, cada mejora al pipeline se repetía veinte veces. Un workflow reutilizable lo resuelve en un solo lugar.</li>
+  <li><strong>Verificar que el servicio responda, como paso del propio workflow.</strong> Que el pipeline falle si el servicio no contesta, en lugar de depender de que alguien lo revise.</li>
+  <li><strong>Escribir el despliegue para Linux desde el principio.</strong> Para arrancar rápido reutilicé los scripts de despliegue que ya existían, y eso me ató a runners de Windows. Moverlo después cuesta más que hacerlo bien al inicio.</li>
+</ul>
+
+<h2>Si estás por empezar</h2>
+
+<p>Si hoy tienes una llave en JSON en los secretos de tu repositorio, migrar a Workload Identity Federation toma una tarde: crear el pool, el proveedor, el permiso y cambiar un paso del workflow. Después borras la llave, y esa es la mejor parte.</p>
+
+<p>Si ya lo hiciste o te trabaste en algún paso, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber cómo lo resolvieron otros equipos.</p>
+
+      </div>
+      <div class="stack articulo__tags" id="articulo-tags"><span class="stack__item">CI/CD</span><span class="stack__item">GitHub Actions</span><span class="stack__item">Google Cloud</span><span class="stack__item">Cloud Run</span><span class="stack__item">Workload Identity Federation</span><span class="stack__item">Seguridad</span></div>
+      <aside class="articulo__cierre" id="articulo-cierre" hidden>
+        <img src="../assets/image/yo.jpg" alt="" width="64" height="64" loading="lazy">
+        <div>
+          <strong>Michael Cervera Cobeñas</strong>, Lead Full Stack Developer.
+          Si quieres comentar el artículo, <a href="../#contacto">escríbeme</a>.
+        </div>
+      </aside>
+    </article>
+    <section class="relacionados" id="articulo-relacionados" hidden>
+      <h2 id="relacionados-titulo">Más artículos</h2>
+      <div class="row" id="relacionados-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <strong>Michael Cervera Cobeñas</strong>
+        <p class="mb-0 text-muted">Lead Full Stack Developer</p>
+      </div>
+      <div class="footer__links">
+        <a href="https://github.com/cm7chael" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/cm7chael/" target="_blank">LinkedIn</a>
+        <a href="../blog/">Blog</a>
+        <a href="../privacidad.html">Privacidad</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="estaticos.js"></script>
+  <script src="../blog.js"></script>
+  <script src="../medicion.js"></script>
+</body>
+</html>
