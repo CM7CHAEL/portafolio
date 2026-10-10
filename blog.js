@@ -142,6 +142,14 @@
     var slug = prearmado || new URLSearchParams(location.search).get('p')
     var cuerpo = document.getElementById('articulo-cuerpo')
     if (!slug) { location.replace(RAIZ + 'blog/'); return }
+    // La dirección vieja (articulo.html?p=) lleva a la página propia si ya existe, sin perder ?ref=.
+    if (!prearmado && tienePagina(slug)) {
+      var resto = new URLSearchParams(location.search)
+      resto.delete('p')
+      var q = resto.toString()
+      location.replace(RAIZ + 'blog/' + slug + '.html' + (q ? '?' + q : '') + location.hash)
+      return
+    }
 
     pedir('post/slug/' + encodeURIComponent(slug)).then(function (p) {
       var titulo = (p.seo && p.seo.metaTitle) || p.title
