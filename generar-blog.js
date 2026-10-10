@@ -8,7 +8,8 @@
 // la portada y el texto en el HTML. Conviene correrlo cada vez que se publica un artículo.
 //
 // También escribe blog/estaticos.js (los slugs que ya tienen página, para que blog.js enlace a
-// ellas) y regenera sitemap.xml.
+// ellas), regenera sitemap.xml y feed.xml. El feed lleva el artículo completo: dev.to lo lee
+// para importar cada artículo con el enlace original apuntando a este sitio.
 
 const fs = require('fs')
 const path = require('path')
@@ -97,13 +98,50 @@ function pagina (plantilla, p) {
   return h
 }
 
+// RSS 2.0 con el texto completo. Al final de cada artículo va de dónde salió, para quien lo lea
+// en otra plataforma.
+function feed (articulos) {
+  const cdata = s => '<![CDATA[' + String(s).replace(/]]>/g, ']]]]><![CDATA[>') + ']]>'
+  const items = articulos.map(p => {
+    const url = SITIO + 'blog/' + p.slug + '.html'
+    const img = portada(p)
+    const cuerpo = (img ? `<p><img src="${esc(img)}" alt=""></p>\n` : '') + (p.content || '') +
+      `\n<p><em>Publicado originalmente en <a href="${url}">mi blog</a>.</em></p>`
+    return [
+      '    <item>',
+      `      <title>${esc(p.title)}</title>`,
+      `      <link>${url}</link>`,
+      `      <guid isPermaLink="true">${url}</guid>`,
+      `      <pubDate>${new Date(p.publishedAt).toUTCString()}</pubDate>`,
+      '      <dc:creator>Michael Cervera Cobeñas</dc:creator>',
+      ...(p.tags || []).map(t => `      <category>${esc(t)}</category>`),
+      `      <description>${esc(resumen(p))}</description>`,
+      `      <content:encoded>${cdata(cuerpo)}</content:encoded>`,
+      '    </item>'
+    ].join('\n')
+  })
+  return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">\n' +
+    '  <channel>\n' +
+    '    <title>Blog de Michael Cervera</title>\n' +
+    `    <link>${SITIO}blog/</link>\n` +
+    `    <atom:link href="${SITIO}feed.xml" rel="self" type="application/rss+xml"/>\n` +
+    '    <description>Arquitectura, Cloud, IA aplicada y lo que voy aprendiendo construyendo plataformas empresariales.</description>\n' +
+    '    <language>es</language>\n' +
+    (articulos[0] ? `    <lastBuildDate>${new Date(articulos[0].publishedAt).toUTCString()}</lastBuildDate>\n` : '') +
+    items.join('\n') + '\n' +
+    '  </channel>\n</rss>\n'
+}
+
 ;(async () => {
   const plantilla = fs.readFileSync(path.join(BLOG, 'articulo.html'), 'utf8')
   const posts = await pedir('posts', { limit: 100, skip: 0 })
   const slugs = []
+  const completos = []
 
   for (const resumenPost of posts) {
     const p = await pedir('post/slug/' + encodeURIComponent(resumenPost.slug))
+    completos.push(p)
     fs.writeFileSync(path.join(BLOG, p.slug + '.html'), pagina(plantilla, p))
     slugs.push({ slug: p.slug, fecha: (p.updatedAt || p.publishedAt || '').slice(0, 10) })
     console.log('página:', 'blog/' + p.slug + '.html')
@@ -129,5 +167,7 @@ function pagina (plantilla, p) {
   fs.writeFileSync(path.join(RAIZ, 'sitemap.xml'),
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.join('\n') + '\n</urlset>\n')
 
-  console.log(`listo: ${slugs.length} artículo(s), estaticos.js y sitemap.xml`)
+  fs.writeFileSync(path.join(RAIZ, 'feed.xml'), feed(completos))
+
+  console.log(`listo: ${slugs.length} artículo(s), estaticos.js, sitemap.xml y feed.xml`)
 })().catch(e => { console.error('FALLA:', e.message); process.exit(1) })

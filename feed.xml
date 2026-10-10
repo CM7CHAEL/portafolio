@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog de Michael Cervera</title>
+    <link>https://cm7chael.github.io/portafolio/blog/</link>
+    <atom:link href="https://cm7chael.github.io/portafolio/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Arquitectura, Cloud, IA aplicada y lo que voy aprendiendo construyendo plataformas empresariales.</description>
+    <language>es</language>
+    <lastBuildDate>Sat, 10 Oct 2026 22:23:48 GMT</lastBuildDate>
+    <item>
+      <title>SAP Business One con una sola puerta: cómo lo integré en 17 aplicaciones sin que ninguna le hable directo</title>
+      <link>https://cm7chael.github.io/portafolio/blog/integrar-sap-business-one-gateway-tablas-espejo.html</link>
+      <guid isPermaLink="true">https://cm7chael.github.io/portafolio/blog/integrar-sap-business-one-gateway-tablas-espejo.html</guid>
+      <pubDate>Sat, 10 Oct 2026 22:23:48 GMT</pubDate>
+      <dc:creator>Michael Cervera Cobeñas</dc:creator>
+      <category>SAP Business One</category>
+      <category>Service Layer</category>
+      <category>HANA</category>
+      <category>Integración</category>
+      <category>Arquitectura</category>
+      <category>.NET</category>
+      <description>Cómo 17 aplicaciones usan SAP Business One sin conectarse a él: un gateway único, tablas espejo para los maestros y lo aprendido con el Service Layer.</description>
+      <content:encoded><![CDATA[<p><img src="https://cm7chael.github.io/portafolio/assets/image/blog/sap-una-sola-puerta.jpg" alt=""></p>
+<p>Cuando una empresa usa SAP Business One y empieza a construir sus propias aplicaciones, lo primero que pasa es que cada una se conecta a SAP por su cuenta. La de ventas consulta clientes, la de compras consulta proveedores, la de recursos humanos consulta empleados. Cada una con sus credenciales, sus consultas y su forma de manejar los errores.</p>
+
+<p>Con dos aplicaciones se puede vivir así. Con diecisiete, no. En la plataforma que lidero ninguna aplicación habla con SAP directamente, y cuento cómo está armado y qué fui aprendiendo al integrarlo.</p>
+
+<h2>Una sola puerta hacia SAP</h2>
+
+<p>Toda la comunicación con SAP pasa por un <strong>gateway</strong>: un servicio en .NET que es el único que tiene las credenciales de SAP. Por dentro usa dos caminos:</p>
+
+<ul>
+  <li><strong>El Service Layer</strong>, la API oficial de SAP Business One, para crear documentos y para las lecturas estándar.</li>
+  <li><strong>Lectura directa a HANA</strong>, con procedimientos almacenados, para las consultas pesadas que por Service Layer tomarían muchas llamadas.</li>
+</ul>
+
+<p>Y tampoco las aplicaciones llaman al gateway. Solo lo llama el backend del portal, y cada módulo le pide los datos al portal:</p>
+
+<pre><code> módulo (ventas, compras, rrhh…)
+        │  token del usuario
+        ▼
+ backend del portal ──── tablas espejo (maestros)
+        │  mismo token
+        ▼
+ gateway SAP  (único con credenciales)
+        │
+        ▼
+ SAP Business One  (Service Layer + HANA)</code></pre>
+
+<p>El token del usuario viaja en cada salto. Así el gateway sabe quién pidió cada cosa, y ningún módulo necesita una cuenta de servicio de SAP.</p>
+
+<h2>Los maestros se copian, no se consultan</h2>
+
+<p>La decisión que más ordenó todo fue esta: los <strong>maestros</strong> de SAP (clientes, empleados, artículos, proveedores, cuentas contables, departamentos) se sincronizan en la base de datos del portal como <strong>tablas espejo</strong>. Los módulos leen esas tablas a través de la API del portal. Nunca consultan SAP en vivo para un maestro.</p>
+
+<p>La sincronización tiene un solo punto de entrada por maestro, un <code>POST /sync</code> que es lo único que llama al gateway. Se dispara de dos formas:</p>
+
+<ul>
+  <li>Con un botón "Sincronizar con SAP" en la configuración del portal, solo para administradores.</li>
+  <li>Con una tarea programada todas las madrugadas, que corre todos los maestros en secuencia. Si uno falla, los demás siguen.</li>
+</ul>
+
+<p>Por dentro es un <em>upsert</em> por lotes, y lo que desaparece de SAP se marca como inactivo en vez de borrarse, porque puede haber registros en el portal que todavía apuntan a él. La corrida completa, unos 35 mil registros, toma menos de un minuto.</p>
+
+<p>¿Por qué copiar en lugar de consultar?</p>
+
+<ul>
+  <li><strong>Velocidad.</strong> Un buscador de clientes no puede esperar a SAP en cada tecla.</li>
+  <li><strong>Disponibilidad.</strong> Si SAP está en mantenimiento, el portal sigue funcionando con los datos de la noche anterior.</li>
+  <li><strong>Un solo lugar para corregir.</strong> Si cambia cómo se lee un maestro, se cambia en la sincronización y todos los módulos lo reciben igual.</li>
+</ul>
+
+<p>En vivo solo va lo que tiene que estar al segundo: el stock, el costo de un artículo, el tipo de cambio y la creación de documentos.</p>
+
+<p>Para que esto se mantenga, quedó escrito como regla, con el patrón paso a paso para agregar un maestro nuevo: el endpoint en el gateway, la tabla espejo y su sincronización en el portal, la pantalla con el botón, y el módulo leyendo del portal. Cualquiera del equipo puede agregar uno siguiendo esos pasos.</p>
+
+<h2>Lo que aprendí integrando</h2>
+
+<h3>El Service Layer corta en 20 sin avisar</h3>
+
+<p>Una consulta pedía 100 órdenes y llegaban 20. El Service Layer pagina de a 20 por defecto y deja el resto detrás de un <code>@odata.nextLink</code>. No da error ni advertencia, y el <code>count</code> de la respuesta sí trae el total real. Lo descubrimos porque un usuario decía que sus órdenes no estaban en SAP, cuando en realidad estaban en la página dos.</p>
+
+<p>Hay que pedir el tamaño de página explícitamente (la cabecera <code>Prefer: odata.maxpagesize</code>) o seguir el <code>nextLink</code>. Y del lado de quien pagina, la condición de corte tiene que ser el <code>count</code>, no "el lote vino más chico de lo que pedí", porque con este comportamiento eso corta en la primera vuelta.</p>
+
+<h3><code>DocTotal</code> no está en la moneda del documento</h3>
+
+<p>En los documentos de SAP Business One, <code>DocTotal</code> es el total en <strong>moneda local</strong>. <code>DocCurrency</code> dice en qué moneda se emitió. Mostrar <code>DocTotal</code> con el símbolo de <code>DocCurrency</code> hacía que una orden en dólares apareciera con el monto en soles, o sea más del triple.</p>
+
+<p>El importe en la moneda del documento es <code>DocTotalFc</code>, pero cuando el documento está en moneda local SAP lo deja en 0, y un 0 se puede leer como "cero dólares". Por eso el gateway lo publica como <code>null</code> en ese caso, y quien lo consume usa <code>DocTotal</code> cuando no hay otro. Lo llamamos "moneda extranjera" y no "dólares", porque una parte de las compras están en euros.</p>
+
+<p>Hubo un segundo tropiezo con esto mismo: el Service Layer solo devuelve los campos que pides en el <code>$select</code>. Agregamos <code>DocTotalFc</code> al modelo pero no a la lista de campos de la consulta, así que llegaba vacío siempre. Eso no lo detecta el compilador, solo se ve llamando a SAP.</p>
+
+<h3>Un error de validación disfrazado de caída</h3>
+
+<p>Una alerta de errores 5xx sonó un día por varios 502 seguidos. No era SAP caído: alguien había pedido un costeo sin elegir cliente, el gateway respondió 400 diciendo que faltaba el cliente, y la función que hacía las lecturas convertía cualquier respuesta no exitosa en 502. Las escrituras sí propagaban bien el 400, las lecturas no.</p>
+
+<p>Ese error tenía dos costos: el usuario veía "SAP no responde" cuando el problema era un campo vacío, y la métrica que dispara las alertas se llenaba de falsos 5xx. Ahora las lecturas propagan los 400, 409 y 422 tal cual, con el mensaje del backend.</p>
+
+<h3>El SQL de SAP también es código</h3>
+
+<p>Los procedimientos almacenados que lee el gateway se crearon directamente en HANA y no estaban en ningún repositorio. Y el mapeo de sus resultados es tolerante a propósito: busca las columnas por nombre, y si una columna cambia de nombre, el campo llega <code>null</code> o <code>0</code> sin ningún error.</p>
+
+<p>O sea, alguien podía cambiar un procedimiento y una pantalla empezaba a mostrar ceros sin que nada fallara. La regla que acordamos: el SQL vive con el código que se rompe si cambia. Cada procedimiento que llama el gateway se versiona en su repositorio, en el mismo cambio que el código que lo lee.</p>
+
+<h2>Qué haría distinto si empezara hoy</h2>
+
+<ul>
+  <li><strong>Versionar el SQL de SAP desde el primer procedimiento.</strong> Recuperarlo después, cuando ya hay decenas en uso, es arqueología.</li>
+  <li><strong>Pruebas contra una copia de la compañía.</strong> Los dos tropiezos del <code>DocTotal</code> se ven recién llamando a SAP. Una prueba que corra contra una base de respaldo los habría atrapado antes de producción.</li>
+  <li><strong>Una sola función de paginación en el gateway.</strong> El corte en 20 apareció en varias consultas a la vez porque cada una paginaba a su manera.</li>
+  <li><strong>La moneda explícita en cada monto.</strong> Ningún campo de dinero sin su moneda al lado, aunque parezca obvio.</li>
+</ul>
+
+<h2>Si estás por integrar con SAP Business One</h2>
+
+<p>Antes de escribir la primera consulta, decide quién es el único que habla con SAP. Si cada aplicación se conecta por su cuenta, después cuesta mucho juntar todo en un solo lugar. Y separa desde el inicio lo que se copia (los maestros) de lo que va en vivo: esa decisión define cuánto depende tu plataforma de que SAP esté disponible.</p>
+
+<p>Si estás integrando con SAP Business One, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber cómo lo resolvieron otros equipos, sobre todo con el Service Layer.</p>
+
+<p><em>Publicado originalmente en <a href="https://cm7chael.github.io/portafolio/blog/integrar-sap-business-one-gateway-tablas-espejo.html">mi blog</a>.</em></p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Un Design System para 17 aplicaciones: cómo lo armé en Angular y lo que me tocó corregir</title>
+      <link>https://cm7chael.github.io/portafolio/blog/design-system-angular-17-aplicaciones.html</link>
+      <guid isPermaLink="true">https://cm7chael.github.io/portafolio/blog/design-system-angular-17-aplicaciones.html</guid>
+      <pubDate>Sat, 10 Oct 2026 22:22:47 GMT</pubDate>
+      <dc:creator>Michael Cervera Cobeñas</dc:creator>
+      <category>Design System</category>
+      <category>Angular</category>
+      <category>Nx</category>
+      <category>Angular Material</category>
+      <category>Frontend</category>
+      <category>Microfrontends</category>
+      <description>Cómo armé un Design System en Angular con Nx que usan 17 aplicaciones: librerías, tokens, Material encapsulado y lo que me tocó corregir.</description>
+      <content:encoded><![CDATA[<p><img src="https://cm7chael.github.io/portafolio/assets/image/blog/design-system.jpg" alt=""></p>
+<p>Cuando una empresa tiene dos o tres aplicaciones internas, cada una con sus propios botones y sus propias tablas, nadie lo nota. Cuando llega a quince, el usuario sí lo nota: cada pantalla filtra distinto, cada tabla exporta distinto y el modo oscuro funciona en unas y en otras no.</p>
+
+<p>Hoy mantengo un Design System en Angular que usan 17 aplicaciones de una misma plataforma. Cuento cómo está armado, qué decisiones tomé al inicio y cuáles me tocó corregir en el camino.</p>
+
+<h2>Cómo está armado</h2>
+
+<p>Es un monorepo con <strong>Nx</strong> y ocho librerías, cada una con una responsabilidad:</p>
+
+<pre><code> theme        tokens de diseño y temas claro/oscuro
+ shared       tipos, utilidades y pipes (sin dependencias de UI)
+ icons        un solo componente de íconos
+ core         servicios base: notificaciones, diálogos, carga, errores HTTP
+ ui           componentes presentacionales: botón, tarjeta, chip, alerta…
+ forms        controles de formulario
+ data-table   la tabla, con paginación, búsqueda, acciones y exportación
+ charts       gráficos</code></pre>
+
+<p>Se publican como paquetes privados en GitHub Packages, y cada aplicación los instala como cualquier otra dependencia. Separarlas así hace que una aplicación que solo necesita formularios no cargue los gráficos, y que Nx sepa exactamente qué reconstruir cuando algo cambia.</p>
+
+<h2>Las aplicaciones nunca ven Angular Material</h2>
+
+<p>Los componentes están construidos sobre Angular Material, pero ninguna aplicación lo importa. Solo ven componentes propios, con un prefijo de la casa (aquí los muestro como <code>ds-button</code>, <code>ds-data-table</code>) y servicios propios que envuelven a los de Material: el de notificaciones envuelve al <code>MatSnackBar</code>, el de diálogos al <code>MatDialog</code>.</p>
+
+<p>Lo decidí así por dos motivos. El primero es poder actualizar Material, o cambiarlo, sin tocar diecisiete aplicaciones. El segundo es que, si una aplicación puede usar Material directamente, tarde o temprano alguien arma su propio botón "porque era más rápido" y ahí empieza otra vez el desorden.</p>
+
+<p>Esta regla no depende de que la gente se acuerde. La hace cumplir el linter, con la regla de límites de módulos de Nx:</p>
+
+<pre><code>'@nx/enforce-module-boundaries': ['error', {
+  depConstraints: [
+    {
+      sourceTag: 'material:forbidden',
+      bannedExternalImports: ['@angular/material', '@angular/material/*']
+    }
+  ]
+}]</code></pre>
+
+<p>Si una librería que no debe importar Material lo importa, el lint falla y el paquete no se publica.</p>
+
+<h2>Tokens en dos niveles</h2>
+
+<p>Los colores viven en dos capas. Los <strong>primitivos</strong> son los valores de la marca (el rojo, los grises). Los <strong>semánticos</strong> son variables CSS con nombre de uso: <code>--ds-color-surface</code>, <code>--ds-color-text</code>, <code>--ds-color-border</code>. Los componentes solo usan los semánticos, nunca un hexadecimal.</p>
+
+<p>Con eso, el modo oscuro es cambiar el juego de valores de esas variables. No se recompila nada y el cambio es inmediato:</p>
+
+<pre><code>:root {
+  --ds-color-surface: #ffffff;
+  --ds-color-text: #1f2937;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.ds-light) {
+    --ds-color-surface: #1e1e24;
+    --ds-color-text: #e5e7eb;
+  }
+}</code></pre>
+
+<p>Aprendí por las malas por qué la regla de "solo tokens" también aplica a las aplicaciones, no solo a las librerías. Un formulario público, de los que se abren desde el celular, tenía la tarjeta y los textos con colores fijos. Los controles del Design System sí seguían el modo oscuro del teléfono, la tarjeta no. Resultado: texto gris claro sobre fondo blanco, ilegible. En la laptop de desarrollo, en modo claro, se veía perfecto. Desde entonces toda página pública se revisa con el sistema en modo oscuro antes de darla por buena.</p>
+
+<h2>Una tabla igual en todas las aplicaciones</h2>
+
+<p>El componente que más valor dio fue la tabla. <code>ds-data-table</code> trae paginación, orden, búsqueda, selección, acciones por fila, exportación a Excel y los estados de carga y de lista vacía. Cada aplicación le pasa los datos y las columnas, y nada más.</p>
+
+<p>Pero tener el componente no alcanzó. Al principio cada módulo armaba su página de listado a su manera: uno con el botón "Nuevo" arriba a la derecha, otro con los filtros en una barra lateral, otro con un buscador que pedía elegir el campo. Así que escribí el estándar de cómo es una página de listado: la tabla siempre es <code>ds-data-table</code>; crear y filtrar van en el mismo menú, a la derecha del título; y hay un solo buscador sobre la tabla, que busca en todos los campos a la vez. Y dejé un módulo como referencia para copiar.</p>
+
+<p>Desde que eso quedó escrito, una pantalla nueva sale igual a las demás aunque la haga otra persona del equipo.</p>
+
+<h2>Lo que me tocó corregir</h2>
+
+<h3>Un servicio global dentro de un microfrontend</h3>
+
+<p>Las 17 aplicaciones se montan dentro de un portal con microfrontends (lo conté en <a href="https://cm7chael.github.io/portafolio/blog/microfrontends-angular-native-federation-lecciones-produccion.html">este artículo</a>). El servicio de diálogos del Design System se registra en la raíz (<code>providedIn: 'root'</code>) y abre los diálogos sin un inyector propio. Dentro del portal, la raíz es la del portal, no la del módulo.</p>
+
+<p>Así que un diálogo que hacía una llamada HTTP usaba el cliente HTTP del portal, sin el interceptor del módulo que agrega el token. El backend respondía 401 y el usuario veía "Sesión expirada" con la sesión perfectamente activa. Corriendo el módulo solo, en su propio puerto, funcionaba bien, porque ahí la raíz sí es la del módulo.</p>
+
+<p>La solución inmediata fue abrir esos diálogos con <code>MatDialog</code> y el <code>viewContainerRef</code> del componente, y volver a proveer su servicio en las rutas del módulo. La lección más general: en un Design System que se va a usar dentro de microfrontends, cualquier servicio en la raíz tiene que pensarse para correr en un inyector que no es el tuyo.</p>
+
+<h3>Publicar sin romper</h3>
+
+<p>Al principio las ocho librerías subían de versión juntas, aunque solo cambiara una. Era simple, pero cada corrección en la tabla obligaba a publicar las ocho y a actualizar las ocho en cada aplicación. Hoy cada librería lleva su propia versión. El cuidado está en las dependencias internas: si <code>ui</code> pide <code>core ^0.5.0</code> y <code>core</code> pasa a <code>0.6.0</code>, ese rango ya no la acepta, así que hay que subirlas juntas.</p>
+
+<p>La otra trampa fue el <em>lockfile</em>. El repositorio se desarrollaba en Windows y el pipeline de publicación corre en Linux, y npm resuelve distinto algunas dependencias opcionales de Storybook según la plataforma. Un <code>package-lock.json</code> generado en Windows hacía fallar el <code>npm ci</code> del pipeline. Lo resolví usando <code>npm install</code> en ese paso y dejándolo escrito en la guía de publicación, con el motivo, para que nadie lo "arregle" volviendo a <code>npm ci</code>.</p>
+
+<h3>Lo que se construye "mientras tanto"</h3>
+
+<p>Más de una vez alguien necesitó un componente, no lo encontró en la versión instalada y lo armó dentro de su módulo. A veces el componente ya existía en el código del Design System, solo que todavía no estaba publicado. La regla quedó así: antes de crear un componente se revisa el repositorio del Design System, no solo lo que está instalado. Y si de verdad falta, se agrega al Design System, no al módulo.</p>
+
+<h2>Qué haría distinto si empezara hoy</h2>
+
+<ul>
+  <li><strong>Pruebas desde la primera librería.</strong> Las librerías base arrancaron sin pruebas unitarias, y el pipeline tiene que dejar pasar ese caso. Agregar pruebas después, con 17 aplicaciones encima, cuesta mucho más.</li>
+  <li><strong>Automatizar la actualización en las aplicaciones.</strong> Publicar es un comando. Lo caro es subir la versión y reinstalar en cada aplicación, y eso debería hacerlo un script o un bot que abra los cambios en cada repositorio.</li>
+  <li><strong>El mismo Node en desarrollo y en el pipeline.</strong> La mitad de los problemas con el lockfile venían de desarrollar con una versión de Node y publicar con otra.</li>
+  <li><strong>El catálogo publicado desde el día uno.</strong> El Storybook ayuda mucho más cuando cualquiera lo puede abrir en el navegador sin clonar nada. Es el primer lugar donde alguien debería buscar antes de construir.</li>
+</ul>
+
+<h2>Si estás por armar uno</h2>
+
+<p>Empieza con pocas piezas: los tokens, el botón, los controles de formulario y la tabla. Con eso se cubre la mayor parte de las pantallas de una aplicación empresarial. Y escribe desde el principio las reglas de cómo se usa, porque el componente solo no alcanza para que todas las pantallas se parezcan.</p>
+
+<p>Si mantienes un Design System para varios equipos, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber cómo resuelven la actualización en todas las aplicaciones.</p>
+
+<p><em>Publicado originalmente en <a href="https://cm7chael.github.io/portafolio/blog/design-system-angular-17-aplicaciones.html">mi blog</a>.</em></p>]]></content:encoded>
+    </item>
+    <item>
+      <title>CI/CD sin llaves: cómo despliego más de 20 repositorios a Cloud Run con Workload Identity Federation</title>
+      <link>https://cm7chael.github.io/portafolio/blog/cicd-sin-llaves-workload-identity-federation-cloud-run.html</link>
+      <guid isPermaLink="true">https://cm7chael.github.io/portafolio/blog/cicd-sin-llaves-workload-identity-federation-cloud-run.html</guid>
+      <pubDate>Sat, 10 Oct 2026 22:05:45 GMT</pubDate>
+      <dc:creator>Michael Cervera Cobeñas</dc:creator>
+      <category>CI/CD</category>
+      <category>GitHub Actions</category>
+      <category>Google Cloud</category>
+      <category>Cloud Run</category>
+      <category>Workload Identity Federation</category>
+      <category>Seguridad</category>
+      <description>Cómo desplegar a Cloud Run desde GitHub Actions sin llaves de servicio, con Workload Identity Federation: paso a paso y lo aprendido con más de 20 repos.</description>
+      <content:encoded><![CDATA[<p><img src="https://cm7chael.github.io/portafolio/assets/image/blog/cicd-sin-llaves.jpg" alt=""></p>
+<p>Durante años, desplegar a Google Cloud desde GitHub significó lo mismo en casi todos los equipos: crear una cuenta de servicio, descargar su llave en JSON y pegarla en los secretos del repositorio. Funciona, pero esa llave no vence, da acceso a la nube a quien la tenga y termina copiada en más lugares de los que uno recuerda.</p>
+
+<p>Hoy despliego más de 20 repositorios a Cloud Run sin una sola llave guardada. Cuento cómo lo armé con Workload Identity Federation y lo que fui aprendiendo en el camino.</p>
+
+<h2>El problema con la llave en JSON</h2>
+
+<p>Una llave de cuenta de servicio es una contraseña que no expira. Si se filtra (un log que la imprime, un fork, un backup, una persona que se va del equipo con una copia), quien la tenga puede actuar como esa cuenta hasta que alguien se dé cuenta y la revoque.</p>
+
+<p>Y con muchos repositorios el riesgo se multiplica: veinte repos con su propia llave son veinte copias que rotar, vigilar y recordar. En la práctica, nadie las rota.</p>
+
+<h2>Cómo funciona Workload Identity Federation</h2>
+
+<p>La idea es simple: en lugar de guardar una credencial, GitHub le demuestra a Google quién es en el momento del despliegue.</p>
+
+<pre><code> GitHub Actions                 Google Cloud
+ ┌────────────────┐   token     ┌──────────────────────────┐
+ │ workflow del   │ ──OIDC────▶ │ Workload Identity Pool   │
+ │ repositorio    │  (firmado   │ ¿es de mi organización?  │
+ └────────────────┘  por GitHub)│ ¿es este repositorio?    │
+                                └────────────┬─────────────┘
+                                             │ credencial temporal
+                                             ▼
+                                ┌──────────────────────────┐
+                                │ cuenta de servicio       │
+                                │ (permisos mínimos)       │
+                                └────────────┬─────────────┘
+                                             ▼
+                                         Cloud Run</code></pre>
+
+<p>Cada ejecución del workflow recibe de GitHub un token firmado que dice qué repositorio lo pidió, en qué rama y en qué workflow. Google valida esa firma, revisa las condiciones que le configuraste y entrega una credencial que dura una hora. No hay nada que guardar ni nada que rotar.</p>
+
+<h2>El paso a paso</h2>
+
+<h3>1. El pool y el proveedor</h3>
+
+<p>El pool agrupa las identidades externas en las que confías. El proveedor le dice a Google cómo validar los tokens de GitHub y qué datos tomar de ellos:</p>
+
+<pre><code>gcloud iam workload-identity-pools create github \
+  --location=global --display-name="GitHub"
+
+gcloud iam workload-identity-pools providers create-oidc github-actions \
+  --location=global --workload-identity-pool=github \
+  --issuer-uri="https://token.actions.githubusercontent.com" \
+  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.repository_owner=assertion.repository_owner" \
+  --attribute-condition="assertion.repository_owner == 'mi-organizacion'"</code></pre>
+
+<p>La condición es la línea más importante. Sin ella, cualquier repositorio de GitHub podría intentar presentarse ante tu pool. Con ella, solo entran los de tu organización.</p>
+
+<h3>2. Quién puede usar la cuenta de servicio</h3>
+
+<p>La cuenta de servicio es la que tiene los permisos para desplegar. Lo que se configura es qué repositorio puede actuar como ella:</p>
+
+<pre><code>gcloud iam service-accounts add-iam-policy-binding \
+  deployer@mi-proyecto.iam.gserviceaccount.com \
+  --role=roles/iam.workloadIdentityUser \
+  --member="principalSet://iam.googleapis.com/projects/NUMERO_DEL_PROYECTO/locations/global/workloadIdentityPools/github/attribute.repository/mi-organizacion/mi-repo"</code></pre>
+
+<p>A esa cuenta le doy solo lo que necesita para desplegar: lanzar el build, publicar en Cloud Run, leer la imagen y los secretos, y actuar como la cuenta con la que corre el servicio. Nada de roles de propietario o editor del proyecto. Uso una cuenta de servicio por repositorio, así cada módulo despliega solo lo suyo.</p>
+
+<h3>3. El workflow</h3>
+
+<pre><code>name: deploy
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write   # sin esto GitHub no entrega el token
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: produccion
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/NUMERO_DEL_PROYECTO/locations/global/workloadIdentityPools/github/providers/github-actions
+          service_account: deployer@mi-proyecto.iam.gserviceaccount.com
+      - uses: google-github-actions/setup-gcloud@v2
+      - run: gcloud run deploy mi-servicio --source . --region us-central1</code></pre>
+
+<p>Fíjate en lo que no aparece: ningún <code>secrets.GCP_KEY</code>. Los dos valores del paso de autenticación no son secretos, son identificadores. Si alguien los ve, no puede hacer nada con ellos desde fuera de tu organización.</p>
+
+<h2>Lo que aprendí con más de 20 repositorios</h2>
+
+<h3>Un repositorio nuevo nace sin permiso</h3>
+
+<p>El permiso de usar la cuenta de servicio se da por repositorio. Así que el primer despliegue de un módulo nuevo falla con un 403 que dice algo como <em>"Permission 'iam.serviceAccounts.getAccessToken' denied"</em>. No es un error del workflow: falta agregar ese repositorio a la lista.</p>
+
+<p>Por eso el alta de cada módulo nuevo tiene tres pasos fijos: su cuenta de servicio, el permiso sobre el pool y el workflow. La alternativa es autorizar a toda la organización con <code>attribute.repository_owner</code>; es más cómodo, pero cualquier repositorio nuevo podría desplegar, y prefiero que eso sea una decisión explícita.</p>
+
+<p>El otro 403 clásico llega en el primer despliegue: el workflow se autentica bien, pero un paso falla con <em>PERMISSION_DENIED</em> porque a la cuenta le falta un permiso concreto. A mí me faltó el de leer la imagen del registro de artefactos. El mensaje dice exactamente qué permiso falta, así que se resuelve rápido, pero conviene tener la lista completa de roles antes de replicar el esquema en veinte repositorios.</p>
+
+<h3>Un despliegue en verde no significa que el servicio funcione</h3>
+
+<p>Este me costó caro. <code>gcloud run deploy</code> intenta dejar el servicio público y, si la cuenta no tiene permiso para cambiar su política de acceso, lo reporta como una <em>advertencia</em> y termina en éxito igual. El build sale en verde, el workflow sale en verde, y el servicio responde 403 a todo el mundo. Un módulo que todavía nadie usaba pasó semanas así, con cuatro despliegues en verde, hasta que alguien intentó entrar.</p>
+
+<p>Desde entonces, después de cada despliegue verifico que el servicio responda, no solo que el workflow haya terminado bien.</p>
+
+<h3>Nada a producción sin una aprobación</h3>
+
+<p>Los despliegues son manuales (<code>workflow_dispatch</code>), también los de pruebas. El de producción usa un <em>environment</em> de GitHub con revisores obligatorios y despliega una versión que ya pasó por pruebas, no lo último que haya en la rama. Alguien tiene que aprobarlo, y queda registrado quién lo hizo y cuándo. Además, cada ambiente es un proyecto de Google Cloud distinto con sus propias cuentas de servicio: la de pruebas no puede tocar producción aunque alguien se equivoque de workflow.</p>
+
+<h3>El pipeline tiene que ser la única puerta</h3>
+
+<p>Si alguien puede desplegar desde su computadora o desde la consola web, todo lo anterior se puede saltar. Los logs de auditoría de Google Cloud registran quién desplegó cada revisión y desde dónde, así que armé una alerta sobre esos logs: cuando alguien despliega por fuera del pipeline, el equipo recibe un aviso con quién fue, qué cambió y desde qué herramienta. La consola queda solo para emergencias, y cuando se usa, se sabe.</p>
+
+<h2>Qué haría distinto si empezara hoy</h2>
+
+<ul>
+  <li><strong>Prohibir las llaves desde el primer día.</strong> La política de organización <code>iam.disableServiceAccountKeyCreation</code> impide crear llaves nuevas. Con eso, nadie vuelve a la llave en JSON "solo por esta vez".</li>
+  <li><strong>Una plantilla de workflow compartida.</strong> Con más de 20 repositorios, cada mejora al pipeline se repetía veinte veces. Un workflow reutilizable lo resuelve en un solo lugar.</li>
+  <li><strong>Verificar que el servicio responda, como paso del propio workflow.</strong> Que el pipeline falle si el servicio no contesta, en lugar de depender de que alguien lo revise.</li>
+  <li><strong>Escribir el despliegue para Linux desde el principio.</strong> Para arrancar rápido reutilicé los scripts de despliegue que ya existían, y eso me ató a runners de Windows. Moverlo después cuesta más que hacerlo bien al inicio.</li>
+</ul>
+
+<h2>Si estás por empezar</h2>
+
+<p>Si hoy tienes una llave en JSON en los secretos de tu repositorio, migrar a Workload Identity Federation toma una tarde: crear el pool, el proveedor, el permiso y cambiar un paso del workflow. Después borras la llave, y esa es la mejor parte.</p>
+
+<p>Si ya lo hiciste o te trabaste en algún paso, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber cómo lo resolvieron otros equipos.</p>
+
+<p><em>Publicado originalmente en <a href="https://cm7chael.github.io/portafolio/blog/cicd-sin-llaves-workload-identity-federation-cloud-run.html">mi blog</a>.</em></p>]]></content:encoded>
+    </item>
+    <item>
+      <title>Microfrontends con Angular y Native Federation: lo que aprendí llevando más de 15 módulos a producción</title>
+      <link>https://cm7chael.github.io/portafolio/blog/microfrontends-angular-native-federation-lecciones-produccion.html</link>
+      <guid isPermaLink="true">https://cm7chael.github.io/portafolio/blog/microfrontends-angular-native-federation-lecciones-produccion.html</guid>
+      <pubDate>Sat, 10 Oct 2026 20:33:08 GMT</pubDate>
+      <dc:creator>Michael Cervera Cobeñas</dc:creator>
+      <category>microfrontends</category>
+      <category>Angular</category>
+      <category>Native Federation</category>
+      <category>arquitectura de software</category>
+      <category>Design System</category>
+      <category>CI/CD</category>
+      <description>Lecciones reales de llevar más de 15 microfrontends a producción con Angular y Native Federation: rutas, CORS, caché, ambientes y Design System.</description>
+      <content:encoded><![CDATA[<p><img src="https://cm7chael.github.io/portafolio/assets/image/blog/microfrontends.jpg" alt=""></p>
+<p>Hace unos meses me tocó llevar una plataforma corporativa a una arquitectura de microfrontends: un portal que carga más de 15 módulos, cada uno con su propio repositorio, su propio equipo y su propio despliegue. Hoy esos módulos salen a producción por separado, sin coordinar ventanas de despliegue entre equipos.</p>
+
+<p>No voy a explicar qué es un microfrontend, de eso ya hay bastante escrito. Quiero contar lo que no sale en los tutoriales, lo que solo aparece cuando el segundo, el quinto y el décimo módulo ya están en producción.</p>
+
+<h2>Primero: cuándo NO usar microfrontends</h2>
+
+<p>Empiezo por aquí porque es la pregunta que más me hacen y la respuesta honesta es "casi nunca al inicio".</p>
+
+<table>
+  <thead>
+    <tr><th>Te conviene</th><th>No te conviene</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Varios equipos que necesitan desplegar sin esperarse</td><td>Un solo equipo trabajando en un solo producto</td></tr>
+    <tr><td>Dominios de negocio claramente separados (ventas, calidad, RRHH)</td><td>Pantallas que comparten casi todo el estado</td></tr>
+    <tr><td>Módulos que crecen a ritmos distintos</td><td>Un producto que todavía está buscando su forma</td></tr>
+    <tr><td>Una plataforma que va a vivir años</td><td>Un MVP que tiene que salir en semanas</td></tr>
+  </tbody>
+</table>
+
+<p>Si estás en la columna de la derecha, un monolito bien modularizado te da el 80 % del beneficio con el 20 % del costo. Los microfrontends son, sobre todo, una decisión de organización. Pagan cuando el cuello de botella es la coordinación entre equipos, no la calidad del código.</p>
+
+<h2>La arquitectura, en una imagen</h2>
+
+<pre><code>                    ┌──────────────────────────────┐
+   usuario  ───────▶│  HOST (portal)               │
+                    │  · login único (OIDC)        │
+                    │  · menú según permisos       │
+                    │  · lee el manifiesto         │
+                    └──────────────┬───────────────┘
+                                   │ carga en tiempo de ejecución
+            ┌──────────────────────┼──────────────────────┐
+            ▼                      ▼                      ▼
+     remoteEntry.json       remoteEntry.json       remoteEntry.json
+     ┌──────────────┐       ┌──────────────┐       ┌──────────────┐
+     │  Ventas      │       │  Calidad     │       │  RRHH        │
+     │  repo propio │       │  repo propio │       │  repo propio │
+     │  deploy      │       │  deploy      │       │  deploy      │
+     │  propio      │       │  propio      │       │  propio      │
+     └──────────────┘       └──────────────┘       └──────────────┘</code></pre>
+
+<p>El stack es Angular con <strong>Native Federation</strong> (<code>@angular-architects/native-federation</code>). Es el sucesor de Module Federation para el builder moderno de Angular basado en esbuild: en lugar de depender de webpack, usa los estándares del navegador (módulos ES e import maps).</p>
+
+<p>El host no conoce a los módulos en tiempo de compilación. Los descubre al arrancar, desde un manifiesto:</p>
+
+<pre><code>// federation.manifest.json (uno por ambiente)
+{
+  "ventas":  "https://ventas.ejemplo.com/remoteEntry.json",
+  "calidad": "https://calidad.ejemplo.com/remoteEntry.json"
+}
+
+// main.ts del host
+initFederation('federation.manifest.json')
+  .then(() =&gt; import('./bootstrap'));
+
+// rutas del host
+{
+  path: 'ventas',
+  loadChildren: () =&gt;
+    loadRemoteModule({ remoteName: 'ventas', exposedModule: './Routes' })
+      .then(m =&gt; m.routes)
+}</code></pre>
+
+<p>Hasta aquí es lo que trae cualquier tutorial. Lo que sigue lo aprendí en producción.</p>
+
+<h2>Lo que rompe en producción (y cómo lo resolví)</h2>
+
+<h3>1. Las rutas absolutas dentro de un módulo</h3>
+
+<p>Un módulo se desarrolla solo, en su propio puerto, donde <code>/detalle/42</code> funciona perfecto. Embebido en el portal, ese módulo vive bajo <code>/ventas</code>, y <code>/detalle/42</code> manda al usuario a una ruta que no existe.</p>
+
+<p><strong>La regla:</strong> dentro de un módulo, toda navegación es relativa. <code>routerLink="detalle/42"</code> y <code>router.navigate(['detalle', id], { relativeTo: route })</code>. Es una línea en la guía del equipo y una revisión en cada pull request, pero ahorra el bug más repetido de toda la plataforma.</p>
+
+<h3>2. El CORS de <code>remoteEntry.json</code></h3>
+
+<p>El host pide el <code>remoteEntry.json</code> y los chunks de cada módulo desde otro dominio. Si el servidor del módulo no responde con <code>Access-Control-Allow-Origin</code>, el navegador bloquea la carga y el usuario ve una pantalla en blanco sin ningún error útil en la interfaz.</p>
+
+<p><strong>La regla:</strong> el CORS de los archivos estáticos del módulo es parte de la plantilla del proyecto, no algo que cada equipo descubre por su cuenta. Todo módulo nuevo nace con la configuración de su servidor web ya resuelta.</p>
+
+<h3>3. La caché que esconde la versión nueva</h3>
+
+<p>Despliegas, todo sale en verde, y el usuario sigue viendo la versión anterior. El culpable casi siempre es <code>remoteEntry.json</code>: es el único archivo cuyo nombre no cambia entre versiones, así que si el navegador o un CDN lo guarda, apunta a chunks viejos.</p>
+
+<p><strong>La regla:</strong> <code>remoteEntry.json</code> se sirve sin caché; los chunks, que llevan un hash en el nombre, se pueden cachear para siempre. Así cada despliegue llega al usuario en la siguiente carga, sin pedirle a nadie que borre su caché.</p>
+
+<h3>4. Un manifiesto por ambiente… y la vez que se mezclaron</h3>
+
+<p>Cada ambiente (pruebas y producción) tiene su propio manifiesto con las URLs de sus módulos. Una vez, una construcción manual horneó los valores por defecto y el portal de producción terminó cargando módulos de pruebas. El síntoma fue un error de CORS; la causa, un ambiente mezclado.</p>
+
+<p><strong>La regla:</strong> el pipeline valida, antes de construir, que todas las URLs correspondan al ambiente destino, y aborta si no. Desde entonces ese error ya no puede repetirse, porque el pipeline no lo deja pasar.</p>
+
+<h3>5. Una sola versión del Design System en todos los módulos</h3>
+
+<p>Los módulos comparten librerías: Angular, el router y el Design System propio que usan 17 aplicaciones. Native Federation las comparte como <em>singleton</em>, pero si un módulo trae otra versión del Design System, el portal muestra dos estilos distintos en la misma pantalla o, peor, componentes que se rompen al navegar entre módulos.</p>
+
+<p><strong>La regla:</strong> cada cambio en el Design System se publica como paquete versionado y se actualiza en <em>todos</em> los módulos a la vez, no solo en el que lo necesitaba. Y no basta con subir el rango en el <code>package.json</code>: si la imagen se construye con <code>npm ci</code>, manda el <em>lockfile</em>, así que hay que reinstalar y versionar el lock también.</p>
+
+<h3>6. Un módulo en el menú que todavía no existe</h3>
+
+<p>El portal arma su menú desde un catálogo de módulos. Registrar un módulo antes de que esté desplegado en todos los ambientes hace que el portal intente cargar un <code>remoteEntry.json</code> que no existe, y esa ruta queda rota.</p>
+
+<p><strong>La regla:</strong> cada entrada del catálogo tiene un indicador de disponibilidad. El módulo aparece en el menú con una página de "próximamente" hasta que su servicio existe donde corre el portal.</p>
+
+<h2>El login: uno solo, en el host</h2>
+
+<p>La decisión que más simplificó todo: <strong>solo el host autentica</strong>. El portal maneja el inicio de sesión con OIDC (Keycloak) y los módulos reciben el token ya resuelto. Ningún módulo define su propia autorización ni su propio login.</p>
+
+<p>Eso tiene dos efectos. Para el usuario, un solo inicio de sesión para toda la plataforma. Para los equipos, un módulo nuevo no empieza escribiendo pantallas de login, sino pantallas de negocio. Los permisos viajan en el token y el menú se arma según ellos.</p>
+
+<blockquote>Si cada módulo resuelve la seguridad a su manera, tienes tantos modelos de seguridad como módulos. Centralizarla es la única forma de poder auditarla.</blockquote>
+
+<h2>Qué haría distinto si empezara hoy</h2>
+
+<ul>
+  <li><strong>El Design System antes que el segundo módulo.</strong> Cada componente que un equipo construye "mientras tanto" es un componente que después hay que migrar.</li>
+  <li><strong>Las barreras del pipeline desde el día uno.</strong> La validación de ambientes la agregué después de un incidente. Pudo estar desde el inicio.</li>
+  <li><strong>Automatizar la actualización del Design System.</strong> Actualizar una librería en más de 15 repositorios a mano no escala: es exactamente el tipo de tarea que debe hacer un script, no una persona.</li>
+  <li><strong>Una plantilla de módulo.</strong> CORS, rutas relativas, configuración de federación y pipeline listos al crear el repositorio. Cada regla de este artículo debería ser un archivo de la plantilla, no un párrafo de la guía.</li>
+</ul>
+
+<h2>Para cerrar</h2>
+
+<p>Los microfrontends funcionan cuando resuelven un problema de organización: equipos que necesitan avanzar sin esperarse. La parte técnica —federación, manifiestos, rutas— se resuelve en una semana. Lo difícil es todo lo demás: que cada regla quede escrita, que las que importan se conviertan en barreras automáticas y que cualquier persona del equipo pueda sostener la plataforma con lo que está documentado.</p>
+
+<p>Si estás evaluando microfrontends para tu equipo o ya estás peleando con alguno de estos problemas, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber cómo lo están resolviendo otros.</p>
+
+<p><em>Publicado originalmente en <a href="https://cm7chael.github.io/portafolio/blog/microfrontends-angular-native-federation-lecciones-produccion.html">mi blog</a>.</em></p>]]></content:encoded>
+    </item>
+  </channel>
+</rss>
