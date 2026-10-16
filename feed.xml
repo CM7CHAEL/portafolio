@@ -6,7 +6,125 @@
     <atom:link href="https://cm7chael.github.io/portafolio/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Arquitectura, Cloud, IA aplicada y lo que voy aprendiendo construyendo plataformas empresariales.</description>
     <language>es</language>
-    <lastBuildDate>Sat, 10 Oct 2026 22:23:48 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 20:12:37 GMT</lastBuildDate>
+    <item>
+      <title>Decisiones documentadas: cómo uso los ADR para que el equipo avance con su propio criterio</title>
+      <link>https://cm7chael.github.io/portafolio/blog/decisiones-documentadas-adr-equipo.html</link>
+      <guid isPermaLink="true">https://cm7chael.github.io/portafolio/blog/decisiones-documentadas-adr-equipo.html</guid>
+      <pubDate>Fri, 16 Oct 2026 20:12:37 GMT</pubDate>
+      <dc:creator>Michael Cervera Cobeñas</dc:creator>
+      <category>ADR</category>
+      <category>Arquitectura</category>
+      <category>Documentación</category>
+      <category>Liderazgo técnico</category>
+      <category>Equipos</category>
+      <description>Qué es un ADR, la plantilla que uso, cuándo escribir uno y qué cambió en el equipo después de documentar 14 decisiones técnicas en dos meses.</description>
+      <content:encoded><![CDATA[<p><img src="https://cm7chael.github.io/portafolio/assets/image/blog/decisiones-documentadas.jpg" alt=""></p>
+<p>Hay una pregunta que tarde o temprano aparece en todo equipo técnico: "¿por qué esto está hecho así?". Si la persona que lo decidió está cerca, la respuesta llega. Si no, el equipo hace una de dos cosas: lo deja como está sin entenderlo, o lo cambia y repite un error que alguien ya había visto.</p>
+
+<p>Hace un par de meses empecé a dejar cada decisión técnica importante escrita en un ADR, y ya van 14. Cuento cómo los escribo, qué plantilla uso y qué cambió en el equipo desde entonces.</p>
+
+<h2>Qué es un ADR</h2>
+
+<p>Un ADR (<em>Architecture Decision Record</em>) es una página corta que registra una sola decisión: qué problema había, qué se decidió, qué opciones se descartaron y qué se acepta pagar a cambio. Se escribe una vez y no se edita para cambiar de opinión. Si la decisión cambia, se escribe uno nuevo que reemplaza al anterior.</p>
+
+<p>No es documentación de cómo funciona el sistema. Eso va en las guías y en los estándares. El ADR cuenta el porqué, que es justo lo que el código no muestra.</p>
+
+<h2>La plantilla que uso</h2>
+
+<pre><code># ADR-000N · Título en una línea
+
+Estado:          Aceptada · AAAA-MM-DD
+Vigente desde:   AAAA-MM-DD
+Decide:          quién
+Consultado:      quiénes, o —
+
+## Contexto
+Qué había antes y qué problema obligó a decidir. Hechos, no opiniones.
+
+## Decisión
+Qué se hace, en imperativo y sin ambigüedad.
+
+## Alternativas descartadas
+Una por opción, con el motivo.
+
+## Consecuencias
+Lo que ganamos: …
+Lo que aceptamos pagar: …
+
+## Cómo se verifica
+Qué falla, y dónde, si alguien no cumple esta decisión.</code></pre>
+
+<p>Tres secciones son las que más valor dan, y son las que más se tiende a saltar.</p>
+
+<h3>Alternativas descartadas</h3>
+
+<p>Es la sección más importante. La opción elegida se ve en el código; la que se descartó, y por qué, no queda en ningún lado. Sin ella, dentro de seis meses alguien propone esa misma alternativa con toda la razón del mundo, y el equipo vuelve a discutir lo que ya se había analizado.</p>
+
+<p>Mi regla: si esa sección está vacía, no había una decisión que registrar.</p>
+
+<h3>Lo que aceptamos pagar</h3>
+
+<p>Toda decisión de arquitectura tiene un costo. Un ADR que solo lista ventajas se parece más a una justificación escrita después que a un registro honesto. Poner el costo por escrito sirve para algo concreto: cuando cambian las condiciones, se puede revisar si ese costo sigue valiendo la pena.</p>
+
+<h3>Cómo se verifica</h3>
+
+<p>Esta sección la agregué después de un tiempo, y es la que más me cambió la forma de pensar las decisiones. Pregunta qué falla si alguien no cumple la decisión. Si la respuesta es "nada, depende de que la gente se acuerde", la decisión es débil.</p>
+
+<p>Por ejemplo, una decisión del tipo "los módulos no leen el ERP en vivo" se verifica sola: los módulos no tienen credenciales del ERP, así que no pueden hacerlo aunque quieran. Otra del tipo "el despliegue solo se hace por el pipeline" se verifica con una alerta que avisa cuando alguien despliega por fuera. Cuando una decisión no tiene cómo verificarse, por lo menos queda a la vista que depende de la memoria del equipo.</p>
+
+<h2>Cuándo escribir uno, y cuándo no</h2>
+
+<p>Uso una sola prueba:</p>
+
+<blockquote><p>¿Es cara de revertir, o dentro de un año alguien va a preguntar por qué está así?</p></blockquote>
+
+<p>Si cualquiera de las dos es sí, va un ADR. Si no, va en el estándar o en la guía que corresponda.</p>
+
+<ul>
+  <li><strong>Sí es un ADR:</strong> que todas las aplicaciones hablen con el ERP a través de un solo gateway; que los avisos a personas y los correos masivos salgan por canales distintos; cómo se aplica el esquema de base de datos en cada despliegue.</li>
+  <li><strong>No es un ADR:</strong> cómo se nombra un archivo, cómo se crea un formulario, dónde van los logs. Eso es un estándar o una guía, y se cambia sin ceremonia.</li>
+</ul>
+
+<p>Al principio me costó separarlos y escribí ADRs para cosas que eran simples convenciones. Eso los devalúa: si todo es una decisión de arquitectura, nadie los lee.</p>
+
+<h2>Dónde viven y cómo cambian</h2>
+
+<p>Los ADR están en la wiki del equipo, en una sección propia, numerados de forma correlativa. Cada uno tiene un estado:</p>
+
+<ul>
+  <li><strong>Propuesta:</strong> escrita, todavía sin decidir.</li>
+  <li><strong>Aceptada:</strong> vigente, es la regla.</li>
+  <li><strong>Reemplazada:</strong> ya no aplica, y apunta al ADR que la reemplazó.</li>
+  <li><strong>Revertida:</strong> se probó y se deshizo.</li>
+</ul>
+
+<p>Un ADR nunca se borra, ni siquiera el revertido. Saber qué se intentó y no funcionó vale tanto como saber qué sí. De los 14 que llevo, uno ya fue reemplazado: una decisión sobre cómo compartir la base de datos entre los ambientes de pruebas y producción duró un mes, hasta que las condiciones cambiaron. El ADR viejo sigue publicado, y el nuevo explica qué cambió. Quien llegue después puede leer la historia completa en cinco minutos.</p>
+
+<h2>Qué cambió en el equipo</h2>
+
+<p>Lo primero que noté fue que bajaron las preguntas repetidas. Cuando alguien pregunta por qué algo está hecho de cierta forma, la respuesta es un enlace.</p>
+
+<p>Lo segundo fue en las revisiones de código. Antes, un cambio que iba contra una decisión anterior terminaba en una discusión larga. Ahora el comentario es "esto choca con el ADR-0003", y la conversación pasa a ser si la decisión sigue valiendo, que es la conversación que importa. A veces la respuesta es que no, y entonces se escribe un ADR nuevo.</p>
+
+<p>Y lo tercero, quizá lo más valioso: quien llega nuevo entiende el porqué de la plataforma sin depender de que alguien tenga tiempo de explicárselo. Puede tomar decisiones con su propio criterio, porque conoce el razonamiento detrás de las que ya se tomaron.</p>
+
+<h2>Errores que cometí</h2>
+
+<ul>
+  <li><strong>Escribirlos semanas después.</strong> Para entonces ya no me acordaba bien de las alternativas que había descartado, que era lo más valioso. Ahora el ADR se escribe el mismo día de la decisión, aunque quede como propuesta.</li>
+  <li><strong>Hacerlos largos.</strong> Un ADR de tres páginas no lo lee nadie. Si necesita tanto contexto, probablemente son dos decisiones.</li>
+  <li><strong>No enlazarlos desde donde se aplican.</strong> Un ADR que nadie encuentra es como si no existiera. Ahora lo menciono en el estándar que lo aplica y en la revisión de código cuando corresponde.</li>
+</ul>
+
+<h2>Si quieres empezar</h2>
+
+<p>No hace falta documentar todo lo que ya existe. Empieza con la próxima decisión que tomes y usa la plantilla de arriba. Y si en tu equipo hay una decisión que se discute una y otra vez, esa es la primera que vale la pena escribir.</p>
+
+<p>Si ya usas ADRs, o algo parecido, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber qué plantilla usan y dónde los guardan.</p>
+
+<p><em>Publicado originalmente en <a href="https://cm7chael.github.io/portafolio/blog/decisiones-documentadas-adr-equipo.html">mi blog</a>.</em></p>]]></content:encoded>
+    </item>
     <item>
       <title>SAP Business One con una sola puerta: cómo lo integré en 17 aplicaciones sin que ninguna le hable directo</title>
       <link>https://cm7chael.github.io/portafolio/blog/integrar-sap-business-one-gateway-tablas-espejo.html</link>
