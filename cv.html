@@ -133,7 +133,7 @@
           <dt>Desarrollo</dt>
           <dd>.NET (C#), Python, TypeScript, Angular, Vue, Nuxt, Node.js, NestJS, Ionic, Flutter</dd>
           <dt>Datos</dt>
-          <dd>PostgreSQL, SQL Server, MongoDB, Redis, Power BI</dd>
+          <dd>PostgreSQL, SQL Server, MongoDB, Redis, BigQuery, Dataform, Power BI</dd>
           <dt>IA aplicada</dt>
           <dd>Agentes con herramientas sobre modelos de lenguaje, RAG con embeddings, memoria por usuario, telemetría y control de costo por consulta</dd>
           <dt>Liderazgo</dt>
@@ -167,6 +167,7 @@
           <li>Design System propio publicado como paquete versionado, con actualización coordinada entre los proyectos que lo consumen.</li>
           <li>Despliegues automatizados con identidad federada (Workload Identity Federation): cero llaves de servicio almacenadas en los repositorios.</li>
           <li>Gobierno de costos en la nube: identifiqué un entorno duplicado que concentraba el 84 % de una factura mensual y apliqué políticas de retención sobre 66 GB de artefactos.</li>
+          <li>Data lake en BigQuery: armé el piloto que llevó las transformaciones de Cloud Composer a Dataform, validado fila por fila contra producción sin una sola diferencia. El equipo de datos lo adoptó y se apagó un entorno de orquestación encendido las 24 horas.</li>
           <li>Tras un incidente de producción, incorporé una validación en el pipeline que hace imposible repetir esa clase de error.</li>
           <li>Asistente conversacional en producción sobre la plataforma: responde con herramientas contra la fuente de verdad en vez de un volcado de datos, con memoria por usuario y telemetría de uso para gerencia.</li>
           <li>Tres portales externos (clientes, proveedores y alumnos) con dominio de identidad propio y el backend como frontera: el token de un tercero nunca entra a la red interna.</li>
@@ -181,6 +182,7 @@
             <li>Arquitectura y desarrollo de la suite corporativa: SSO, CI/CD y un Design System compartido por más de diez módulos desplegables por separado.</li>
             <li>Integraciones con SAP Business One mediante un gateway único que centraliza credenciales y evita que cada módulo consulte el ERP directamente.</li>
             <li>Gobierno de la plataforma: costos en la nube, accesos a repositorios con revisión obligatoria, alertas de producción y decisiones documentadas en ADR.</li>
+            <li>Plataforma de datos (capas bronze, silver y gold en BigQuery): auditoría de costos, accesos y dependencias, y detecté a tiempo una carga que, al quitarse, iba a congelar el costeo del cobre sin dar error.</li>
             <li>Gobierno de la IA: lo que cada agente puede hacer y decir se define por lista blanca de herramientas y prompts versionados, no en el código de cada módulo.</li>
           </ul>
         </div>

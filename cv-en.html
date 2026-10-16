@@ -132,7 +132,7 @@
           <dt>Development</dt>
           <dd>.NET (C#), Python, TypeScript, Angular, Vue, Nuxt, Node.js, NestJS, Ionic, Flutter</dd>
           <dt>Data</dt>
-          <dd>PostgreSQL, SQL Server, MongoDB, Redis, Power BI</dd>
+          <dd>PostgreSQL, SQL Server, MongoDB, Redis, BigQuery, Dataform, Power BI</dd>
           <dt>Applied AI</dt>
           <dd>Tool-using agents on language models, RAG with embeddings, per-user memory, telemetry and per-query cost control</dd>
           <dt>Leadership</dt>
@@ -166,6 +166,7 @@
           <li>In-house Design System published as a versioned package, with coordinated upgrades across every project that uses it.</li>
           <li>Automated deployments with federated identity (Workload Identity Federation): zero service account keys stored in repositories.</li>
           <li>Cloud cost governance: found a duplicated environment that made up 84% of a monthly bill, and applied retention policies to 66 GB of artifacts.</li>
+          <li>BigQuery data lake: built the pilot that moved the transformations from Cloud Composer to Dataform, validated row by row against production with zero differences. The data team adopted it and an orchestration environment running 24/7 was shut down.</li>
           <li>After a production incident, added a pipeline check that makes that class of error impossible to repeat.</li>
           <li>Conversational assistant in production on the platform: it answers by calling tools against the source of truth instead of a data dump, with per-user memory and usage telemetry for management.</li>
           <li>Three external portals (customers, suppliers and students), each with its own identity realm and the backend as the boundary: a third party's token never enters the internal network.</li>
@@ -180,6 +181,7 @@
             <li>Architecture and development of the corporate suite: SSO, CI/CD and a Design System shared by more than ten independently deployed modules.</li>
             <li>SAP Business One integrations through a single gateway that centralizes credentials and keeps each module from querying the ERP directly.</li>
             <li>Platform governance: cloud costs, repository access with mandatory review, production alerts and decisions documented as ADRs.</li>
+            <li>Data platform (bronze, silver and gold layers on BigQuery): cost, access and dependency audit, and caught in time a data load whose removal would have silently frozen copper costing.</li>
             <li>AI governance: what each agent can do and say is defined by an allowlist of tools and versioned prompts, not in each module's code.</li>
           </ul>
         </div>
