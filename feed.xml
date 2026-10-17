@@ -121,6 +121,8 @@ Qué falla, y dónde, si alguien no cumple esta decisión.</code></pre>
 
 <p>No hace falta documentar todo lo que ya existe. Empieza con la próxima decisión que tomes y usa la plantilla de arriba. Y si en tu equipo hay una decisión que se discute una y otra vez, esa es la primera que vale la pena escribir.</p>
 
+<p>Si prefieres partir de algo armado, dejé la plantilla en un repositorio: <a href="https://github.com/CM7CHAEL/adr-plantilla" target="_blank" rel="noopener">adr-plantilla</a>. Es un sitio con Docusaurus que muestra el estado de cada decisión, arma el índice solo y se publica en GitHub Pages. Los ADR son archivos Markdown, así que también sirven sin el sitio. Así se ve: <a href="https://cm7chael.github.io/adr-plantilla/" target="_blank" rel="noopener">la demo</a>.</p>
+
 <p>Si ya usas ADRs, o algo parecido, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber qué plantilla usan y dónde los guardan.</p>
 
 <p><em>Publicado originalmente en <a href="https://cm7chael.github.io/portafolio/blog/decisiones-documentadas-adr-equipo.html">mi blog</a>.</em></p>]]></content:encoded>
