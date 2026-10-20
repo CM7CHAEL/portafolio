@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../assets/image/logo.png" sizes="64x64">
+  <link rel="alternate" type="application/rss+xml" title="Blog de Michael Cervera" href="https://cm7chael.github.io/portafolio/feed.xml">
+  <title>El plano de ferias que no supe hacer en 2019 | Michael Cervera</title>
+  <meta name="description" content="En 2019 intenté un plano web para ferias y no me salió. En 2025 lo retomamos y hoy se vende como producto. Qué puso la IA y qué tuvimos que decidir nosotros.">
+  <link rel="canonical" href="https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html">
+  <meta property="og:title" content="El plano de ferias que no supe hacer en 2019">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-10-20T20:22:10.314Z">
+  <meta property="og:description" content="En 2019 intenté un plano web para ferias y no me salió. En 2025 lo retomamos y hoy se vende como producto. Qué puso la IA y qué tuvimos que decidir nosotros.">
+  <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg">
+  <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"El plano de ferias que no supe hacer en 2019","description":"En 2019 intenté un plano web para ferias y no me salió. En 2025 lo retomamos y hoy se vende como producto. Qué puso la IA y qué tuvimos que decidir nosotros.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg","datePublished":"2026-10-20T20:22:10.314Z","dateModified":"2026-10-20T20:22:10.333Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html","keywords":"Canvas, Konva, Three.js, IA, Producto"}</script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark nav-glass fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="../">Michael Cervera Cobeñas</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="../#experiencia">Trayectoria</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#proyectos">Casos</a></li>
+          <li class="nav-item"><a class="nav-link" href="../blog/">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container pagina">
+    <article class="articulo" id="articulo" data-slug="plano-de-ferias-que-no-supe-hacer-2019">
+      <p class="articulo__ruta"><a href="./">&larr; Blog</a> <a class="blog-chip blog-chip--chico" id="articulo-categoria" href="./?c=arquitectura">Arquitectura</a></p>
+      <h1 id="articulo-titulo">El plano de ferias que no supe hacer en 2019</h1>
+      <p class="post-card__fecha" id="articulo-fecha">20 de octubre de 2026 · 4 min de lectura</p>
+      <img class="articulo__portada" id="articulo-portada" alt="" width="1200" height="627" src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg">
+      <!-- Generado por generar-blog.js desde CentralWeb. No editar: se sobrescribe. -->
+      <div class="articulo__cuerpo" id="articulo-cuerpo">
+<p>En 2019 entré a un equipo pequeño que armaba Zappyn, una plataforma para gestionar ferias. Llegamos a firmar con StartUp Perú, y a mí me tocaron la caja, el registro y una pieza que me entusiasmaba más que las otras: el plano web de la feria, donde se ven los stands, cuáles están libres y quién ocupa cada uno.</p>
+
+<p>Hice un primer prototipo con Fabric.js. No quedó bien. La librería no tuvo la culpa: yo no sabía cómo hacerlo. Me faltaba conocimiento para llevar un dibujo en un lienzo a algo que se pudiera guardar, editar y vender.</p>
+
+<p>En 2025 lo retomamos, y hoy la gestión de ferias de Zappyn y su plano se venden como producto. Cuento qué cambió en el camino, qué parte puso la IA y qué parte me tocó decidir a mí.</p>
+
+<h2>Un plano de feria es más difícil de lo que parece</h2>
+
+<p>Visto de lejos, es un rectángulo con rectángulos adentro. Cuando te sientas a hacerlo aparecen las preguntas:</p>
+
+<ul>
+  <li>Cada stand tiene medidas reales, un precio, un tipo y un estado: disponible, en espera, reservado o pagado.</li>
+  <li>Un expositor puede ocupar varios stands, y cuando se le asigna uno libre, ese stand pasa a reservado.</li>
+  <li>Quien vende y quien visita ven el mismo plano, pero necesitan cosas distintas: el que vende quiere una tabla con totales; el visitante quiere encontrar un stand y saber cómo llegar.</li>
+  <li>Y lo que se dibuja tiene que volver a abrirse igual, mañana, en otra computadora.</li>
+</ul>
+
+<figure>
+  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias-stands.jpg" alt="Tabla de stands con tipo, expositor, estado, precio y medidas de cada uno" width="1600" height="1000" loading="lazy">
+  <figcaption>Lo que ve quien vende: los mismos stands del plano, como tabla, con su estado y su precio.</figcaption>
+</figure>
+
+<p>En 2019 yo veía el dibujo. Las preguntas de abajo no las veía, y son las que deciden si el plano sirve.</p>
+
+<h2>Qué cambió: la IA bajó la barrera</h2>
+
+<p>Lo que antes era buscar tutoriales, probar y frustrarme durante semanas, con ChatGPT y después con asistentes de código pasó a ser preguntar, probar y entender en una tarde. Cuando no sabía cómo hacer algo en un lienzo, podía pedir un ejemplo, leerlo, romperlo y preguntar por qué se rompía.</p>
+
+<p>Eso fue lo que me destrabó. En agosto de 2025 retomamos el plano en el equipo, esta vez con Konva, y en cuatro meses teníamos un editor con deshacer y rehacer que guarda solo las figuras que cambiaron en lugar del plano entero, y los primeros prototipos de app móvil para recorrerlo. En 2026 quedó integrado en la gestión de ferias de Zappyn.</p>
+
+<h2>Lo que la IA no decidió</h2>
+
+<p>La IA me ayudó a escribir el código mucho más rápido. Pero las decisiones que hacen que el plano funcione en una feria real las tuvimos que tomar nosotros:</p>
+
+<h3>Todo en metros</h3>
+
+<p>El recinto mide 90 por 60 metros y un stand mide 3 por 3. Si el modelo guarda píxeles, el plano depende de la pantalla en la que se dibujó. Si guarda metros, se puede mostrar en un celular, imprimir o calcular cuánto se camina de un punto a otro.</p>
+
+<figure>
+  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias-2d.jpg" alt="Editor 2D de un plano de feria de 90 por 60 metros con stands, pasillos, escenario y patio de comidas" width="1600" height="1000" loading="lazy">
+  <figcaption>El editor en 2D: el plano mide 90 × 60 m y cada stand, sus metros reales. A la izquierda, la lista con el estado de cada uno.</figcaption>
+</figure>
+
+
+<h3>Un solo modelo, dos vistas</h3>
+
+<p>En la versión en la que estoy trabajando ahora, el plano se edita en 2D y se presenta en 3D, y las dos vistas leen el mismo documento. El 3D es el mismo plano con altura. El modelo vive en un solo lugar y lo validan con las mismas reglas el navegador y el servidor.</p>
+
+<figure>
+  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias-3d.jpg" alt="Vista 3D de un plano de feria de dos pisos con stands de colores según su estado" width="1600" height="1000" loading="lazy">
+  <figcaption>La vista 3D de un plano de ejemplo: el piso activo se ve completo y el de arriba, en transparencia.</figcaption>
+</figure>
+
+<h3>Que dos personas no se pisen</h3>
+
+<p>Un plano de feria lo tocan varias personas a la vez: quien diseña y quien vende. El editor guarda solo, unos instantes después del último cambio, y cada guardado lleva la versión con la que se abrió el plano. Si otra persona guardó antes, el servidor lo rechaza y el editor avisa "Otro usuario guardó antes", con un botón para recargar. Es mejor un aviso claro que perder en silencio el trabajo de alguien.</p>
+
+<h3>"Cómo llegar"</h3>
+
+<p>El visitante busca un stand y el plano le traza la ruta desde donde está. Por debajo es una cuadrícula de medio metro que esquiva stands, muros, baños y escenario. Si el stand está en otro piso, la ruta va hasta la escalera que deja el recorrido total más corto, cambia de nivel y sigue. Y cada stand tiene su enlace, que puede ir en un QR impreso: lo escaneas y el plano se abre centrado en ese stand.</p>
+
+<figure>
+  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias-niveles.jpg" alt="Vista 3D de un recinto con una mezzanine sobre el primer nivel" width="1600" height="1000" loading="lazy">
+  <figcaption>Un recinto con mezzanine: cada nivel a su altura, y el que no estás editando, en transparencia.</figcaption>
+</figure>
+
+
+<h2>Lo que me llevo</h2>
+
+<p>Un proyecto que te salió mal no siempre está muerto. A veces la idea era buena y lo que faltaba era conocimiento, o herramientas, o las dos cosas. El plano de 2019 no sirvió como producto, pero me dejó claras las preguntas, y cuando tuve con qué responderlas, ya sabía cuáles eran.</p>
+
+<p>Y sobre la IA: me sirvió para lo que no sabía hacer. Saber qué hacer siguió siendo trabajo nuestro. Que el plano esté en metros, que dos personas no se pisen y que la ruta cambie de piso por la escalera correcta no lo propuso ningún asistente. Salió de pensar en la feria real, en quien vende y en quien camina buscando un stand.</p>
+
+<p>Si alguna vez dejaste un proyecto a medias porque no sabías cómo hacerlo, cuéntamelo por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber si lo retomaste.</p>
+
+      </div>
+      <div class="stack articulo__tags" id="articulo-tags"><span class="stack__item">Canvas</span><span class="stack__item">Konva</span><span class="stack__item">Three.js</span><span class="stack__item">IA</span><span class="stack__item">Producto</span></div>
+      <aside class="articulo__cierre" id="articulo-cierre" hidden>
+        <img src="../assets/image/yo.jpg" alt="" width="64" height="64" loading="lazy">
+        <div>
+          <strong>Michael Cervera Cobeñas</strong>, Lead Full Stack Developer.
+          Si quieres comentar el artículo, <a href="../#contacto">escríbeme</a>.
+        </div>
+      </aside>
+    </article>
+    <section class="relacionados" id="articulo-relacionados" hidden>
+      <h2 id="relacionados-titulo">Más artículos</h2>
+      <div class="row" id="relacionados-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <strong>Michael Cervera Cobeñas</strong>
+        <p class="mb-0 text-muted">Lead Full Stack Developer</p>
+      </div>
+      <div class="footer__links">
+        <a href="https://github.com/cm7chael" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/cm7chael/" target="_blank">LinkedIn</a>
+        <a href="../blog/">Blog</a>
+        <a href="../privacidad.html">Privacidad</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="estaticos.js"></script>
+  <script src="comun.js"></script>
+  <script src="../blog.js"></script>
+  <script src="../medicion.js"></script>
+</body>
+</html>
