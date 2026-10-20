@@ -21,7 +21,7 @@
   <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg">
   <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html">
   <meta name="twitter:card" content="summary_large_image">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"El plano de ferias que no supe hacer en 2019","description":"En 2019 intenté un plano web para ferias y no me salió. En 2025 lo retomamos y hoy se vende como producto. Qué puso la IA y qué tuvimos que decidir nosotros.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg","datePublished":"2026-10-20T20:22:10.314Z","dateModified":"2026-10-20T20:40:00.379Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html","keywords":"Canvas, Konva, IA, Producto, Ferias"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"El plano de ferias que no supe hacer en 2019","description":"En 2019 intenté un plano web para ferias y no me salió. En 2025 lo retomamos y hoy se vende como producto. Qué puso la IA y qué tuvimos que decidir nosotros.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg","datePublished":"2026-10-20T20:22:10.314Z","dateModified":"2026-10-20T21:20:32.160Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html","keywords":"Canvas, Konva, IA, Producto, Ferias"}</script>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark nav-glass fixed-top">
@@ -46,7 +46,7 @@
     <article class="articulo" id="articulo" data-slug="plano-de-ferias-que-no-supe-hacer-2019">
       <p class="articulo__ruta"><a href="./">&larr; Blog</a> <a class="blog-chip blog-chip--chico" id="articulo-categoria" href="./?c=arquitectura">Arquitectura</a></p>
       <h1 id="articulo-titulo">El plano de ferias que no supe hacer en 2019</h1>
-      <p class="post-card__fecha" id="articulo-fecha">20 de octubre de 2026 · 4 min de lectura</p>
+      <p class="post-card__fecha" id="articulo-fecha">20 de octubre de 2026 · 5 min de lectura</p>
       <img class="articulo__portada" id="articulo-portada" alt="" width="1200" height="627" src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg">
       <!-- Generado por generar-blog.js desde CentralWeb. No editar: se sobrescribe. -->
       <div class="articulo__cuerpo" id="articulo-cuerpo">
@@ -83,13 +83,36 @@
 
 <p>El recinto mide lo que mide y un stand de 3 por 3 es de 3 por 3. Si el plano guarda píxeles, depende de la pantalla en la que se dibujó. Si guarda metros, se puede mostrar en un celular, calcular distancias y decirle al expositor, cuando reserva, cuántos metros cuadrados está comprando.</p>
 
+<figure>
+  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-zappyn-ficha.jpg" alt="Ficha de un stand en espera con su tamaño de 3 por 3 metros y 9 metros cuadrados" width="1600" height="1000" loading="lazy">
+  <figcaption>La ficha de un stand: su estado y su tamaño real, 3 × 3 m, 9 m². Plano de ejemplo con datos inventados.</figcaption>
+</figure>
+
+
 <h3>Cada uno ve lo que necesita</h3>
 
 <p>El organizador tiene el editor: dibuja muros, pasillos, zonas y stands, deshace y rehace, y al guardar solo viajan las figuras que cambiaron. El expositor entra a reservar y solo puede elegir un stand libre; si alguien lo tomó antes, el sistema se lo dice y le pide elegir otro. El visitante ve una versión de solo lectura, con un buscador de stands y expositores.</p>
 
+<figure>
+  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-zappyn-editor.jpg" alt="Editor del plano con la cuadrícula en metros, herramientas de dibujo y stands de colores según su estado" width="1600" height="1000" loading="lazy">
+  <figcaption>El editor del organizador: la cuadrícula en metros, las herramientas de dibujo y cada stand con el color de su estado.</figcaption>
+</figure>
+
+<figure>
+  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-zappyn-visitante.jpg" alt="Vista del visitante con el buscador de expositores a la izquierda y el plano de la feria" width="1600" height="1000" loading="lazy">
+  <figcaption>Lo que ve el visitante: el plano de solo lectura y, a la izquierda, los expositores con sus stands.</figcaption>
+</figure>
+
+
 <h3>"Cómo llegar"</h3>
 
 <p>El visitante elige un stand y el plano le traza el camino. Por debajo, el plano se convierte en una cuadrícula donde los stands y los muros son obstáculos, y el algoritmo A* busca la ruta más corta entre los pasillos. La ruta se dibuja encima del plano como una línea.</p>
+
+<figure>
+  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-zappyn-ruta.jpg" alt="Ruta animada que va desde el módulo de atención por un pasillo hasta un stand" width="1600" height="1000" loading="lazy">
+  <figcaption>"Cómo llegar": la ruta va por el pasillo, esquivando los stands, desde el módulo de atención hasta el stand elegido.</figcaption>
+</figure>
+
 
 <p>Y acá la IA volvió a aparecer, pero del otro lado: el plano tiene un asistente al que el visitante le puede escribir "¿cómo llego al stand 7?". El asistente responde y, además, le pide al plano que dibuje esa ruta. La pregunta se hace en palabras y la respuesta llega en el mapa.</p>
 
