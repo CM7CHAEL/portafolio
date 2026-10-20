@@ -21,7 +21,7 @@
   <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg">
   <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html">
   <meta name="twitter:card" content="summary_large_image">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"El plano de ferias que no supe hacer en 2019","description":"En 2019 intenté un plano web para ferias y no me salió. En 2025 lo retomamos y hoy se vende como producto. Qué puso la IA y qué tuvimos que decidir nosotros.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg","datePublished":"2026-10-20T20:22:10.314Z","dateModified":"2026-10-20T20:22:10.333Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html","keywords":"Canvas, Konva, Three.js, IA, Producto"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"El plano de ferias que no supe hacer en 2019","description":"En 2019 intenté un plano web para ferias y no me salió. En 2025 lo retomamos y hoy se vende como producto. Qué puso la IA y qué tuvimos que decidir nosotros.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias.jpg","datePublished":"2026-10-20T20:22:10.314Z","dateModified":"2026-10-20T20:40:00.379Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html","keywords":"Canvas, Konva, IA, Producto, Ferias"}</script>
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark nav-glass fixed-top">
@@ -54,23 +54,18 @@
 
 <p>Hice un primer prototipo con Fabric.js. No quedó bien. La librería no tuvo la culpa: yo no sabía cómo hacerlo. Me faltaba conocimiento para llevar un dibujo en un lienzo a algo que se pudiera guardar, editar y vender.</p>
 
-<p>En 2025 lo retomamos, y hoy la gestión de ferias de Zappyn y su plano se venden como producto. Cuento qué cambió en el camino, qué parte puso la IA y qué parte me tocó decidir a mí.</p>
+<p>En 2025 lo retomamos, y hoy la gestión de ferias de Zappyn y su plano se venden como producto. Cuento qué cambió en el camino, qué parte puso la IA y qué parte nos tocó decidir a nosotros.</p>
 
 <h2>Un plano de feria es más difícil de lo que parece</h2>
 
 <p>Visto de lejos, es un rectángulo con rectángulos adentro. Cuando te sientas a hacerlo aparecen las preguntas:</p>
 
 <ul>
-  <li>Cada stand tiene medidas reales, un precio, un tipo y un estado: disponible, en espera, reservado o pagado.</li>
-  <li>Un expositor puede ocupar varios stands, y cuando se le asigna uno libre, ese stand pasa a reservado.</li>
-  <li>Quien vende y quien visita ven el mismo plano, pero necesitan cosas distintas: el que vende quiere una tabla con totales; el visitante quiere encontrar un stand y saber cómo llegar.</li>
+  <li>Cada stand tiene medidas reales, un precio y un estado: disponible, en espera, reservado o pagado.</li>
+  <li>Un expositor puede ocupar varios stands, y un stand que ya está en espera, reservado o pagado no se le puede vender a otro.</li>
+  <li>Quien organiza, quien expone y quien visita ven el mismo plano, pero necesitan cosas distintas: el organizador lo dibuja y lo administra, el expositor reserva su stand y el visitante quiere encontrar uno y saber cómo llegar.</li>
   <li>Y lo que se dibuja tiene que volver a abrirse igual, mañana, en otra computadora.</li>
 </ul>
-
-<figure>
-  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias-stands.jpg" alt="Tabla de stands con tipo, expositor, estado, precio y medidas de cada uno" width="1600" height="1000" loading="lazy">
-  <figcaption>Lo que ve quien vende: los mismos stands del plano, como tabla, con su estado y su precio.</figcaption>
-</figure>
 
 <p>En 2019 yo veía el dibujo. Las preguntas de abajo no las veía, y son las que deciden si el plano sirve.</p>
 
@@ -78,55 +73,56 @@
 
 <p>Lo que antes era buscar tutoriales, probar y frustrarme durante semanas, con ChatGPT y después con asistentes de código pasó a ser preguntar, probar y entender en una tarde. Cuando no sabía cómo hacer algo en un lienzo, podía pedir un ejemplo, leerlo, romperlo y preguntar por qué se rompía.</p>
 
-<p>Eso fue lo que me destrabó. En agosto de 2025 retomamos el plano en el equipo, esta vez con Konva, y en cuatro meses teníamos un editor con deshacer y rehacer que guarda solo las figuras que cambiaron en lugar del plano entero, y los primeros prototipos de app móvil para recorrerlo. En 2026 quedó integrado en la gestión de ferias de Zappyn.</p>
+<p>Eso fue lo que me destrabó. En agosto de 2025 retomamos el plano en el equipo, esta vez con Konva, y en cuatro meses teníamos el editor, la vista del visitante, la reserva de stands y los primeros prototipos de app móvil. En 2026 quedó integrado en la gestión de ferias de Zappyn.</p>
 
 <h2>Lo que la IA no decidió</h2>
 
-<p>La IA me ayudó a escribir el código mucho más rápido. Pero las decisiones que hacen que el plano funcione en una feria real las tuvimos que tomar nosotros:</p>
+<p>La IA nos ayudó a escribir el código mucho más rápido. Pero las decisiones que hacen que el plano funcione en una feria real las tuvimos que tomar nosotros:</p>
 
 <h3>Todo en metros</h3>
 
-<p>El recinto mide 90 por 60 metros y un stand mide 3 por 3. Si el modelo guarda píxeles, el plano depende de la pantalla en la que se dibujó. Si guarda metros, se puede mostrar en un celular, imprimir o calcular cuánto se camina de un punto a otro.</p>
+<p>El recinto mide lo que mide y un stand de 3 por 3 es de 3 por 3. Si el plano guarda píxeles, depende de la pantalla en la que se dibujó. Si guarda metros, se puede mostrar en un celular, calcular distancias y decirle al expositor, cuando reserva, cuántos metros cuadrados está comprando.</p>
 
-<figure>
-  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias-2d.jpg" alt="Editor 2D de un plano de feria de 90 por 60 metros con stands, pasillos, escenario y patio de comidas" width="1600" height="1000" loading="lazy">
-  <figcaption>El editor en 2D: el plano mide 90 × 60 m y cada stand, sus metros reales. A la izquierda, la lista con el estado de cada uno.</figcaption>
-</figure>
+<h3>Cada uno ve lo que necesita</h3>
 
-
-<h3>Un solo modelo, dos vistas</h3>
-
-<p>En la versión en la que estoy trabajando ahora, el plano se edita en 2D y se presenta en 3D, y las dos vistas leen el mismo documento. El 3D es el mismo plano con altura. El modelo vive en un solo lugar y lo validan con las mismas reglas el navegador y el servidor.</p>
-
-<figure>
-  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias-3d.jpg" alt="Vista 3D de un plano de feria de dos pisos con stands de colores según su estado" width="1600" height="1000" loading="lazy">
-  <figcaption>La vista 3D de un plano de ejemplo: el piso activo se ve completo y el de arriba, en transparencia.</figcaption>
-</figure>
-
-<h3>Que dos personas no se pisen</h3>
-
-<p>Un plano de feria lo tocan varias personas a la vez: quien diseña y quien vende. El editor guarda solo, unos instantes después del último cambio, y cada guardado lleva la versión con la que se abrió el plano. Si otra persona guardó antes, el servidor lo rechaza y el editor avisa "Otro usuario guardó antes", con un botón para recargar. Es mejor un aviso claro que perder en silencio el trabajo de alguien.</p>
+<p>El organizador tiene el editor: dibuja muros, pasillos, zonas y stands, deshace y rehace, y al guardar solo viajan las figuras que cambiaron. El expositor entra a reservar y solo puede elegir un stand libre; si alguien lo tomó antes, el sistema se lo dice y le pide elegir otro. El visitante ve una versión de solo lectura, con un buscador de stands y expositores.</p>
 
 <h3>"Cómo llegar"</h3>
 
-<p>El visitante busca un stand y el plano le traza la ruta desde donde está. Por debajo es una cuadrícula de medio metro que esquiva stands, muros, baños y escenario. Si el stand está en otro piso, la ruta va hasta la escalera que deja el recorrido total más corto, cambia de nivel y sigue. Y cada stand tiene su enlace, que puede ir en un QR impreso: lo escaneas y el plano se abre centrado en ese stand.</p>
+<p>El visitante elige un stand y el plano le traza el camino. Por debajo, el plano se convierte en una cuadrícula donde los stands y los muros son obstáculos, y el algoritmo A* busca la ruta más corta entre los pasillos. La ruta se dibuja encima del plano como una línea.</p>
+
+<p>Y acá la IA volvió a aparecer, pero del otro lado: el plano tiene un asistente al que el visitante le puede escribir "¿cómo llego al stand 7?". El asistente responde y, además, le pide al plano que dibuje esa ruta. La pregunta se hace en palabras y la respuesta llega en el mapa.</p>
+
+<h3>Un QR para cada vista</h3>
+
+<p>Una feria se recorre con el celular en la mano. Cualquier vista del plano se puede compartir como enlace o como código QR, que va impreso en la entrada o en un stand: lo escaneas y se abre el plano en ese punto.</p>
+
+<h2>La etapa que viene</h2>
+
+<p>Ahora estoy trabajando en la siguiente versión. El plano se edita en 2D y se presenta en 3D, y las dos vistas leen el mismo documento: el 3D es el mismo plano con altura, con varios pisos apilados y la ruta que cambia de nivel por la escalera más conveniente. También guarda solo, y si otra persona guardó antes, avisa "Otro usuario guardó antes" en lugar de pisar su trabajo.</p>
+
+<figure>
+  <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias-3d.jpg" alt="Vista 3D de un plano de feria de dos pisos con stands de colores según su estado" width="1600" height="1000" loading="lazy">
+  <figcaption>La versión en 3D, con un plano de ejemplo: el piso activo se ve completo y el de arriba, en transparencia.</figcaption>
+</figure>
 
 <figure>
   <img src="https://cm7chael.github.io/portafolio/assets/image/blog/plano-ferias-niveles.jpg" alt="Vista 3D de un recinto con una mezzanine sobre el primer nivel" width="1600" height="1000" loading="lazy">
   <figcaption>Un recinto con mezzanine: cada nivel a su altura, y el que no estás editando, en transparencia.</figcaption>
 </figure>
 
+<p>Esa versión todavía no está en producción. Cuando lo esté, lo cuento en otro artículo.</p>
 
 <h2>Lo que me llevo</h2>
 
 <p>Un proyecto que te salió mal no siempre está muerto. A veces la idea era buena y lo que faltaba era conocimiento, o herramientas, o las dos cosas. El plano de 2019 no sirvió como producto, pero me dejó claras las preguntas, y cuando tuve con qué responderlas, ya sabía cuáles eran.</p>
 
-<p>Y sobre la IA: me sirvió para lo que no sabía hacer. Saber qué hacer siguió siendo trabajo nuestro. Que el plano esté en metros, que dos personas no se pisen y que la ruta cambie de piso por la escalera correcta no lo propuso ningún asistente. Salió de pensar en la feria real, en quien vende y en quien camina buscando un stand.</p>
+<p>Y sobre la IA: me sirvió para lo que no sabía hacer. Saber qué hacer siguió siendo trabajo nuestro. Que el plano esté en metros, que un stand no se venda dos veces y que el visitante pueda preguntarle al plano cómo llegar no lo propuso ningún asistente. Salió de pensar en la feria real, en quien vende y en quien camina buscando un stand.</p>
 
 <p>Si alguna vez dejaste un proyecto a medias porque no sabías cómo hacerlo, cuéntamelo por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>. Me interesa saber si lo retomaste.</p>
 
       </div>
-      <div class="stack articulo__tags" id="articulo-tags"><span class="stack__item">Canvas</span><span class="stack__item">Konva</span><span class="stack__item">Three.js</span><span class="stack__item">IA</span><span class="stack__item">Producto</span></div>
+      <div class="stack articulo__tags" id="articulo-tags"><span class="stack__item">Canvas</span><span class="stack__item">Konva</span><span class="stack__item">IA</span><span class="stack__item">Producto</span><span class="stack__item">Ferias</span></div>
       <aside class="articulo__cierre" id="articulo-cierre" hidden>
         <img src="../assets/image/yo.jpg" alt="" width="64" height="64" loading="lazy">
         <div>
