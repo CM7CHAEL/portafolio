@@ -80,6 +80,7 @@
     .puesto .donde i { margin-left: 6pt; }
 
     .proyecto { margin: 0 0 2.5pt; font-size: 9.3pt; }
+    .puesto .stack { margin: 1pt 0 0; font-size: 8.6pt; color: var(--gris); }
 
     @page { size: A4; margin: 11mm 0; }
     @media print {
@@ -124,6 +125,9 @@
         <p><a href="https://github.com/CM7CHAEL">github.com/CM7CHAEL</a></p>
         <p><a href="https://cm7chael.github.io/portafolio/?ref=cv">cm7chael.github.io/portafolio</a></p>
 
+        <h2>Código abierto</h2>
+        <p><a href="https://github.com/CM7CHAEL/adr-plantilla">Plantilla de ADR con Docusaurus</a></p>
+
         <h2>Competencias</h2>
         <dl>
           <dt>Arquitectura</dt>
@@ -163,12 +167,10 @@
 
         <h2>Logros</h2>
         <ul>
-          <li>Arquitectura modular con Module Federation: cada equipo despliega su módulo sin bloquear a los demás.</li>
-          <li>Design System propio publicado como paquete versionado, con actualización coordinada entre los proyectos que lo consumen.</li>
+          <li>Arquitectura modular con Module Federation y un Design System versionado: cada equipo despliega su módulo sin bloquear a los demás.</li>
           <li>Despliegues automatizados con identidad federada (Workload Identity Federation): cero llaves de servicio almacenadas en los repositorios.</li>
           <li>Gobierno de costos en la nube: identifiqué un entorno duplicado que concentraba el 84 % de una factura mensual y apliqué políticas de retención sobre 66 GB de artefactos.</li>
           <li>Data lake en BigQuery: armé el piloto que llevó las transformaciones de Cloud Composer a Dataform, validado fila por fila contra producción sin una sola diferencia. El equipo de datos lo adoptó y se apagó un entorno de orquestación encendido las 24 horas.</li>
-          <li>Tras un incidente de producción, incorporé una validación en el pipeline que hace imposible repetir esa clase de error.</li>
           <li>Asistente conversacional en producción sobre la plataforma: responde con herramientas contra la fuente de verdad en vez de un volcado de datos, con memoria por usuario y telemetría de uso para gerencia.</li>
           <li>Tres portales externos (clientes, proveedores y alumnos) con dominio de identidad propio y el backend como frontera: el token de un tercero nunca entra a la red interna.</li>
         </ul>
@@ -184,16 +186,6 @@
             <li>Gobierno de la plataforma: costos en la nube, accesos a repositorios con revisión obligatoria, alertas de producción y decisiones documentadas en ADR.</li>
             <li>Plataforma de datos (capas bronze, silver y gold en BigQuery): auditoría de costos, accesos y dependencias, y detecté a tiempo una carga que, al quitarse, iba a congelar el costeo del cobre sin dar error.</li>
             <li>Gobierno de la IA: lo que cada agente puede hacer y decir se define por lista blanca de herramientas y prompts versionados, no en el código de cada módulo.</li>
-          </ul>
-        </div>
-
-        <div class="puesto">
-          <h3>Analista Desarrollador</h3>
-          <p class="donde">StudioXperto · Lima · remoto <i>01/2026 – 05/2026</i></p>
-          <ul>
-            <li>Ferreyros: alertas de monitoreo en Google Cloud sobre errores HTTP y bloqueos de conexión, guías técnicas en Docusaurus y scripts de consulta sobre Firestore y PostgreSQL.</li>
-            <li>Aprendix (Universidad Corporativa Intercorp): de Lumen a Laravel, separada en servicios académico, administrativo y de reportes, en Cloud Run con Cloud SQL.</li>
-            <li>UGEL Padre Abad: fichas pedagógicas con app sin conexión para supervisión en campo (Ionic, Nuxt, Node.js, MongoDB) y comentarios automáticos con Azure AI.</li>
           </ul>
         </div>
 
@@ -224,25 +216,43 @@
         </div>
 
         <div class="puesto">
-          <h3>Desarrollador Full Stack independiente</h3>
-          <p class="donde">StudioXperto desde 2021 · Lima <i>01/2019 – 08/2022</i></p>
+          <h3>Socio · Líder técnico y Desarrollador Full Stack</h3>
+          <p class="donde">StudioXperto · Lima · independiente desde 2020, empresa desde 2021 <i>11/2020 – Actualidad</i></p>
           <ul>
-            <li>Proyectos a medida para clientes de distintos sectores: análisis, desarrollo full stack y coordinación técnica de un equipo pequeño, con capacitación y seguimiento.</li>
-            <li>Módulos de gestión para empresas con varias sedes: tareas, recursos humanos e inventario con historial de uso por empleado.</li>
+            <li>Lidero un equipo de cuatro personas con clientes en Perú, Chile, España y EE. UU.: análisis con el cliente, arquitectura, desarrollo, despliegue y soporte.</li>
+            <li>CentralWeb, producto propio: CRM y suite de marketing multiempresa (WhatsApp Business, redes con IA, correo masivo y blog) que usa una decena de empresas.</li>
+            <li>AOA Chile: responsable de TI. Sitio institucional con noticias, revista y TV, escrito en 25 días, y un directorio del sector con mapa y captación de contactos con IA.</li>
+            <li>Universidad Corporativa Intercorp: demo de un asistente de cursos con IA (Semantic Kernel, .NET) que presentamos al cliente, migración de Aprendix de Lumen a Laravel en servicios sobre Cloud Run, y un generador de HTML desde imágenes con Gemini en Vertex AI.</li>
+            <li>Ferreyros (sector industrial): requerimientos levantados en visitas al área técnica y administrativa, alertas de monitoreo en Google Cloud y guías técnicas en Docusaurus.</li>
+            <li>ERP de alquiler de maquinaria con flota y GPS en tiempo real y app Android; asistencia con relojes biométricos y faciales; fichas pedagógicas sin conexión para la UGEL Padre Abad.</li>
+            <li>RealtyPlus (España): sitios y landings en WordPress, servidores y configuración de correo.</li>
+            <li>Intelligent Punks (EE. UU.): flujos en n8n, corrección de errores en sitios WordPress y en sus flujos, y revisión de QA.</li>
+          </ul>
+          <p class="stack">Nuxt · Vue · React · Angular · Ionic — Node.js · .NET 10 · Laravel — MongoDB · MySQL · PostgreSQL · Redis — Google Cloud · DigitalOcean · Vercel · GitLab CI — Keycloak — Vertex AI · Gemini · Claude — n8n · WordPress — WhatsApp y Meta API</p>
+        </div>
+
+        <div class="puesto">
+          <h3>Desarrollador Full Stack · contratos</h3>
+          <p class="donde">Ibrevis, Plustech, Grupo Rojas, Madison Perú y Acceso Corp · Lima <i>01/2019 – 10/2020</i></p>
+          <ul>
+            <li>Ibrevis: módulos de caja y registro de Zappyn, plataforma de gestión de ferias, y el primer prototipo de su plano web en Fabric.js, en el equipo que llegó a firmar con StartUp Perú. Hoy Zappyn vende la gestión de ferias y el plano como producto.</li>
+            <li>Plustech: frontend en Angular y backend en Java, y como proveedor, el frontend de un sistema para EsSalud.</li>
+            <li>Grupo Rojas: módulos de control de RRHH, tareas y proyectos con diagrama de Gantt (Node.js, Vuetify y Cloud Storage).</li>
+            <li>Madison Perú: soporte y frontend para cada área, y TI mientras se cubría el puesto: servidores, Active Directory y respaldos de correo.</li>
+            <li>Acceso Corp (sector automotriz): desarrollo y documentación sobre un framework propio, con la lógica en PostgreSQL.</li>
           </ul>
         </div>
 
         <div class="puesto">
-          <h3>Practicante → Analista Programador Jr.</h3>
-          <p class="donde">Sursa Gas · Chilca <i>08/2016 – 12/2018</i></p>
+          <h3>Practicante → Analista Programador Jr. → Proveedor del ERP</h3>
+          <p class="donde">Sursa Gas · Chilca <i>08/2016 – 12/2024</i></p>
           <ul>
-            <li>Como practicante diseñé e implementé dos sistemas integrados de Ventas y Producción; como analista, logré una mejora del 70 % en tiempos de respuesta de cálculos, búsquedas e impresiones.</li>
-            <li>El sitio web que desarrollé sigue en línea hasta hoy: sursagas.com</li>
+            <li>Entré para mejorar los Excel con los que trabajaba la empresa y, por iniciativa propia, empecé su sistema de ventas en Access VBA con MySQL.</li>
+            <li>El proyecto fue creciendo hasta ser su ERP. Al terminar mi contrato, en 2018, seguí a cargo como proveedor hasta 2024, con un equipo pequeño, en los módulos de ventas, caja y producción.</li>
+            <li>Como analista, logré una mejora del 70 % en tiempos de respuesta de cálculos, búsquedas e impresiones. El ERP estuvo en uso hasta el cierre de la empresa, en 2025.</li>
           </ul>
         </div>
 
-        <h2>Proyectos destacados</h2>
-        <p class="proyecto"><b>Plataforma de contenido y directorio para un medio sectorial.</b> Nuxt 4 y MongoDB con panel de administración, saneado de HTML en servidor y sincronización automática con un canal de YouTube. Escrita íntegra en 25 días.</p>
       </section>
     </div>
   </main>

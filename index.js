@@ -13,13 +13,6 @@ const experienciasEs = [
     quedo: 'Un Design System que usan 17 aplicaciones de la plataforma.'
   },
   {
-    title: 'StudioXperto',
-    rol: 'Analista Desarrollador',
-    anios: '2026',
-    description: 'Proyectos para Ferreyros, la Universidad Corporativa Intercorp y la UGEL Padre Abad: monitoreo en Google Cloud, migración de Lumen a Laravel en Cloud Run y una plataforma educativa con app sin conexión.',
-    quedo: 'Aprendix en Cloud Run, con un servicio por módulo.'
-  },
-  {
     title: 'Intelica Consulting',
     rol: 'Analyst Developer',
     anios: '2024 — 2025',
@@ -41,18 +34,25 @@ const experienciasEs = [
     quedo: 'Los manuales técnicos del portal: base de datos, frontend y backend.'
   },
   {
-    title: 'Independiente → StudioXperto',
-    rol: 'Desarrollador full stack',
-    anios: '2019 — 2022',
-    description: 'Proyectos a medida para clientes de distintos sectores; desde 2021, bajo StudioXperto. Análisis, desarrollo y coordinación de un equipo pequeño.',
-    quedo: 'Sitios y sistemas de clientes que siguen en producción.'
+    title: 'StudioXperto',
+    rol: 'Socio · Líder técnico y desarrollador full stack',
+    anios: '2020 — hoy',
+    description: 'Un equipo de cuatro personas con clientes en Perú, Chile, España y EE. UU.: CentralWeb (CRM y marketing multiempresa), responsable de TI de AOA Chile, la migración de Aprendix y un generador de HTML con Gemini para la Universidad Corporativa Intercorp, monitoreo en Google Cloud para Ferreyros, y soporte de WordPress, servidores y n8n para RealtyPlus e Intelligent Punks.',
+    quedo: 'CentralWeb, que usa una decena de empresas, y sistemas de clientes en producción.'
+  },
+  {
+    title: 'Ibrevis · Plustech · Grupo Rojas · Madison Perú · Acceso Corp',
+    rol: 'Desarrollador full stack · contratos',
+    anios: '2019 — 2020',
+    description: 'Zappyn, gestión de ferias: caja, registro y el primer prototipo del plano web, en el equipo que firmó con StartUp Perú. Frontend en Angular para EsSalud, módulos de RRHH y proyectos con Gantt, soporte y TI en una agencia de marketing, y desarrollo sobre PostgreSQL en el sector automotriz.',
+    quedo: 'La idea del plano web de ferias, que hoy Zappyn vende como producto.'
   },
   {
     title: 'Sursa Gas',
-    rol: 'Practicante → Analista Programador Jr.',
-    anios: '2016 — 2018',
-    description: 'Sistemas a medida de ventas y producción. Mejora del 70 % en tiempos de respuesta de cálculos, búsquedas e impresiones.',
-    quedo: 'El sitio web de la empresa, que sigue en línea hasta hoy: sursagas.com'
+    rol: 'Practicante → Analista Programador Jr. → Proveedor del ERP',
+    anios: '2016 — 2024',
+    description: 'Entré para mejorar sus Excel y, por iniciativa propia, empecé su sistema de ventas en Access VBA con MySQL. Creció hasta ser su ERP: ventas, caja y producción. Al terminar mi contrato, en 2018, seguí como proveedor hasta 2024. Mejora del 70 % en tiempos de respuesta.',
+    quedo: 'Un ERP que la empresa usó hasta su cierre, en 2025, y su sitio web: sursagas.com'
   }
 ]
 
@@ -87,13 +87,6 @@ const experienciasEn = [
     quedo: 'A Design System used by 17 applications across the platform.'
   },
   {
-    title: 'StudioXperto',
-    rol: 'Analyst Developer',
-    anios: '2026',
-    description: 'Projects for Ferreyros, Universidad Corporativa Intercorp and UGEL Padre Abad: monitoring on Google Cloud, a Lumen to Laravel migration on Cloud Run, and an education platform with an offline app.',
-    quedo: 'Aprendix on Cloud Run, with one service per module.'
-  },
-  {
     title: 'Intelica Consulting',
     rol: 'Analyst Developer',
     anios: '2024 — 2025',
@@ -115,18 +108,25 @@ const experienciasEn = [
     quedo: "The portal's technical manuals: database, frontend and backend."
   },
   {
-    title: 'Freelance → StudioXperto',
-    rol: 'Full Stack Developer',
-    anios: '2019 — 2022',
-    description: 'Custom projects for clients across industries, under StudioXperto since 2021. Analysis, development and coordination of a small team.',
-    quedo: 'Client sites and systems that are still in production.'
+    title: 'StudioXperto',
+    rol: 'Partner · Tech lead and full stack developer',
+    anios: '2020 — present',
+    description: 'A team of four with clients in Peru, Chile, Spain and the US: CentralWeb (multi-company CRM and marketing), head of IT for AOA Chile, the Aprendix migration and an HTML generator with Gemini for Universidad Corporativa Intercorp, monitoring on Google Cloud for Ferreyros, and WordPress, server and n8n support for RealtyPlus and Intelligent Punks.',
+    quedo: 'CentralWeb, used by about ten companies, and client systems in production.'
+  },
+  {
+    title: 'Ibrevis · Plustech · Grupo Rojas · Madison Perú · Acceso Corp',
+    rol: 'Full stack developer · contracts',
+    anios: '2019 — 2020',
+    description: 'Zappyn, trade fair management: cash, registration and the first prototype of the web floor plan, in the team that signed with StartUp Perú. Angular frontend for EsSalud, HR and project modules with Gantt charts, support and IT at a marketing agency, and development on PostgreSQL in the automotive sector.',
+    quedo: 'The idea of the web floor plan for fairs, which Zappyn now sells as a product.'
   },
   {
     title: 'Sursa Gas',
-    rol: 'Intern → Junior Programmer Analyst',
-    anios: '2016 — 2018',
-    description: 'Custom sales and production systems. Response times for calculations, searches and printing improved by 70%.',
-    quedo: 'The company website, still online today: sursagas.com'
+    rol: 'Intern → Junior Programmer Analyst → ERP vendor',
+    anios: '2016 — 2024',
+    description: 'I joined to improve their spreadsheets and, on my own initiative, started their sales system in Access VBA with MySQL. It grew into their ERP: sales, cash and production. When my contract ended in 2018, I stayed on as their vendor until 2024. Response times improved by 70%.',
+    quedo: 'An ERP the company used until it closed in 2025, and its website: sursagas.com'
   }
 ]
 

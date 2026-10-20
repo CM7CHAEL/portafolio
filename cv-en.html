@@ -79,6 +79,7 @@
     .puesto .donde i { margin-left: 6pt; }
 
     .proyecto { margin: 0 0 2.5pt; font-size: 9.3pt; }
+    .puesto .stack { margin: 1pt 0 0; font-size: 8.6pt; color: var(--gris); }
 
     @page { size: A4; margin: 11mm 0; }
     @media print {
@@ -123,6 +124,9 @@
         <p><a href="https://github.com/CM7CHAEL">github.com/CM7CHAEL</a></p>
         <p><a href="https://cm7chael.github.io/portafolio/en/?ref=cv">cm7chael.github.io/portafolio</a></p>
 
+        <h2>Open source</h2>
+        <p><a href="https://github.com/CM7CHAEL/adr-plantilla">ADR template with Docusaurus</a></p>
+
         <h2>Skills</h2>
         <dl>
           <dt>Architecture</dt>
@@ -162,12 +166,10 @@
 
         <h2>Achievements</h2>
         <ul>
-          <li>Modular architecture with Module Federation: each team deploys its module without blocking the others.</li>
-          <li>In-house Design System published as a versioned package, with coordinated upgrades across every project that uses it.</li>
+          <li>Modular architecture with Module Federation and a versioned Design System: each team deploys its module without blocking the others.</li>
           <li>Automated deployments with federated identity (Workload Identity Federation): zero service account keys stored in repositories.</li>
           <li>Cloud cost governance: found a duplicated environment that made up 84% of a monthly bill, and applied retention policies to 66 GB of artifacts.</li>
           <li>BigQuery data lake: built the pilot that moved the transformations from Cloud Composer to Dataform, validated row by row against production with zero differences. The data team adopted it and an orchestration environment running 24/7 was shut down.</li>
-          <li>After a production incident, added a pipeline check that makes that class of error impossible to repeat.</li>
           <li>Conversational assistant in production on the platform: it answers by calling tools against the source of truth instead of a data dump, with per-user memory and usage telemetry for management.</li>
           <li>Three external portals (customers, suppliers and students), each with its own identity realm and the backend as the boundary: a third party's token never enters the internal network.</li>
         </ul>
@@ -183,16 +185,6 @@
             <li>Platform governance: cloud costs, repository access with mandatory review, production alerts and decisions documented as ADRs.</li>
             <li>Data platform (bronze, silver and gold layers on BigQuery): cost, access and dependency audit, and caught in time a data load whose removal would have silently frozen copper costing.</li>
             <li>AI governance: what each agent can do and say is defined by an allowlist of tools and versioned prompts, not in each module's code.</li>
-          </ul>
-        </div>
-
-        <div class="puesto">
-          <h3>Analyst Developer</h3>
-          <p class="donde">StudioXperto · Lima · remote <i>01/2026 – 05/2026</i></p>
-          <ul>
-            <li>Ferreyros: Google Cloud monitoring alerts for HTTP errors and connection locks, technical guides in Docusaurus, and query scripts over Firestore and PostgreSQL.</li>
-            <li>Aprendix (Universidad Corporativa Intercorp): from Lumen to Laravel, split into academic, administrative and reporting services on Cloud Run with Cloud SQL.</li>
-            <li>UGEL Padre Abad: teaching records with an offline app for field supervision (Ionic, Nuxt, Node.js, MongoDB) and automatic feedback with Azure AI.</li>
           </ul>
         </div>
 
@@ -223,25 +215,43 @@
         </div>
 
         <div class="puesto">
-          <h3>Freelance Full Stack Developer</h3>
-          <p class="donde">StudioXperto since 2021 · Lima <i>01/2019 – 08/2022</i></p>
+          <h3>Partner · Tech Lead and Full Stack Developer</h3>
+          <p class="donde">StudioXperto · Lima · freelance since 2020, company since 2021 <i>11/2020 – Present</i></p>
           <ul>
-            <li>Custom projects for clients across industries: analysis, full stack development and technical coordination of a small team, including training and follow-up.</li>
-            <li>Management modules for multi-site companies: tasks, HR and inventory with usage history per employee.</li>
+            <li>I lead a team of four with clients in Peru, Chile, Spain and the US: requirements with the client, architecture, development, deployment and support.</li>
+            <li>CentralWeb, our own product: multi-company CRM and marketing suite (WhatsApp Business, AI-assisted social media, bulk email and blog) used by about ten companies.</li>
+            <li>AOA Chile: head of IT. Institutional website with news, magazine and TV, built in 25 days, and an industry directory with a map and AI-assisted lead capture.</li>
+            <li>Universidad Corporativa Intercorp: an AI course assistant demo (Semantic Kernel, .NET) that we presented to the client, the Aprendix migration from Lumen to Laravel as services on Cloud Run, and an HTML generator from images with Gemini on Vertex AI.</li>
+            <li>Ferreyros (industrial sector): requirements gathered on visits to the technical and administrative areas, Google Cloud monitoring alerts and technical guides in Docusaurus.</li>
+            <li>Machinery rental ERP with fleet and real-time GPS and an Android app; attendance with biometric and face-recognition clocks; offline teaching records for UGEL Padre Abad.</li>
+            <li>RealtyPlus (Spain): WordPress websites and landing pages, servers and email configuration.</li>
+            <li>Intelligent Punks (US): n8n workflows, bug fixing on WordPress sites and their workflows, and QA review.</li>
+          </ul>
+          <p class="stack">Nuxt · Vue · React · Angular · Ionic — Node.js · .NET 10 · Laravel — MongoDB · MySQL · PostgreSQL · Redis — Google Cloud · DigitalOcean · Vercel · GitLab CI — Keycloak — Vertex AI · Gemini · Claude — n8n · WordPress — WhatsApp and Meta API</p>
+        </div>
+
+        <div class="puesto">
+          <h3>Full Stack Developer · contracts</h3>
+          <p class="donde">Ibrevis, Plustech, Grupo Rojas, Madison Perú and Acceso Corp · Lima <i>01/2019 – 10/2020</i></p>
+          <ul>
+            <li>Ibrevis: cash and registration modules for Zappyn, a trade fair management platform, and the first prototype of its web floor plan in Fabric.js, in the team that signed with StartUp Perú. Today Zappyn sells fair management and the floor plan as a product.</li>
+            <li>Plustech: Angular frontend and Java backend, and, as a vendor, the frontend of a system for EsSalud.</li>
+            <li>Grupo Rojas: HR control, task and project modules with Gantt charts (Node.js, Vuetify and Cloud Storage).</li>
+            <li>Madison Perú: support and frontend for each area, and IT while the role was filled: servers, Active Directory and email backups.</li>
+            <li>Acceso Corp (automotive sector): development and documentation on an in-house framework with the logic in PostgreSQL.</li>
           </ul>
         </div>
 
         <div class="puesto">
-          <h3>Intern → Junior Programmer Analyst</h3>
-          <p class="donde">Sursa Gas · Chilca <i>08/2016 – 12/2018</i></p>
+          <h3>Intern → Junior Programmer Analyst → ERP Vendor</h3>
+          <p class="donde">Sursa Gas · Chilca <i>08/2016 – 12/2024</i></p>
           <ul>
-            <li>As an intern, designed and built two integrated Sales and Production systems; as an analyst, improved response times for calculations, searches and printing by 70%.</li>
-            <li>The website I built is still online today: sursagas.com</li>
+            <li>Joined to improve the spreadsheets the company ran on and, on my own initiative, started its sales system in Access VBA with MySQL.</li>
+            <li>The project grew into its ERP. When my contract ended in 2018, I stayed in charge as a vendor until 2024, with a small team, on the sales, cash and production modules.</li>
+            <li>As an analyst, improved response times for calculations, searches and printing by 70%. The ERP stayed in use until the company closed in 2025.</li>
           </ul>
         </div>
 
-        <h2>Featured project</h2>
-        <p class="proyecto"><b>Content and directory platform for an industry publication.</b> Nuxt 4 and MongoDB with an admin panel, server-side HTML sanitizing and automatic sync with a YouTube channel. Built end to end in 25 days.</p>
       </section>
     </div>
   </main>
