@@ -71,7 +71,7 @@
 
     .principal > p { margin: 0 0 1pt; font-size: 9.4pt; }
     ul { margin: 0; padding: 0; list-style: none; }
-    li { position: relative; padding-left: 3.8mm; margin-bottom: 1.5pt; font-size: 9.3pt; break-inside: avoid; }
+    li { position: relative; padding-left: 3.8mm; margin-bottom: 1pt; font-size: 9.3pt; break-inside: avoid; }
     li::before { content: '▪'; position: absolute; left: 0; color: var(--acento); }
 
     .puesto { margin-top: 6pt; }
@@ -82,7 +82,7 @@
     .proyecto { margin: 0 0 2.5pt; font-size: 9.3pt; }
     .puesto .stack { margin: 0 0 2.5pt; font-size: 8.6pt; color: var(--gris); break-after: avoid; }
 
-    @page { size: A4; margin: 11mm 0; }
+    @page { size: A4; margin: 9.5mm 0; }
     @media print {
       html, body { background: #fff; }
       .barra, .aviso-cookies { display: none !important; }
@@ -149,7 +149,7 @@
           <dt>Gestión de la Seguridad de la Información</dt>
           <dd>Universidad ESAN <span class="fecha">2024</span></dd>
           <dt>Ingeniería en Sistemas Computacionales</dt>
-          <dd>Universidad Privada del Norte</dd>
+          <dd>Universidad Privada del Norte<br><i>estudios no concluidos</i></dd>
           <dt>Computación e Informática</dt>
           <dd>I.S.T.P. San Pedro del Valle de Mala · técnico <span class="fecha">2015 – 2017</span></dd>
           <dt>Programación web</dt>
@@ -163,16 +163,16 @@
 
       <section class="principal">
         <h2>Perfil</h2>
-        <p>Lead Full Stack Developer: construyo y sostengo plataformas empresariales desde 2016. Llevo la arquitectura y el desarrollo de una suite corporativa modular con autenticación centralizada, despliegues automatizados, un Design System propio y una capa de IA en producción.</p>
+        <p>Llevo plataformas de punta a punta: desde levantar el requerimiento con el área hasta operarlas en producción. Me muevo entre la arquitectura, el código y la coordinación con equipos y proveedores, llevo IA a producción con reglas y costos bajo control, y documento todo para que el sistema siga funcionando sin mí.</p>
 
         <h2>Logros</h2>
         <ul>
-          <li>Arquitectura modular con Module Federation y un Design System versionado: cada equipo despliega su módulo sin bloquear a los demás.</li>
-          <li>Despliegues automatizados con identidad federada (Workload Identity Federation): cero llaves de servicio almacenadas en los repositorios.</li>
-          <li>Gobierno de costos en la nube: identifiqué un entorno duplicado que concentraba el 84 % de una factura mensual y apliqué políticas de retención sobre 66 GB de artefactos.</li>
-          <li>Data lake en BigQuery: armé el piloto que llevó las transformaciones de Cloud Composer a Dataform, validado fila por fila contra producción sin una sola diferencia. El equipo de datos lo adoptó y se apagó un entorno de orquestación encendido las 24 horas.</li>
-          <li>Asistente conversacional en producción sobre la plataforma: responde con herramientas contra la fuente de verdad en vez de un volcado de datos, con memoria por usuario y telemetría de uso para gerencia.</li>
-          <li>Tres portales externos (clientes, proveedores y alumnos) con dominio de identidad propio y el backend como frontera: el token de un tercero nunca entra a la red interna.</li>
+          <li>Suite corporativa con despliegues sin llaves almacenadas (Workload Identity Federation) y un Design System que usan 17 aplicaciones.</li>
+          <li>Costos en la nube: detecté un entorno duplicado que era el 84 % de una factura mensual y apliqué retención sobre 66 GB de artefactos.</li>
+          <li>Plano de ferias de Zappyn: de un prototipo que no salió en 2019 a un producto que hoy se vende, con rutas, reserva de stands y un asistente con IA.</li>
+          <li>CentralWeb: CRM y suite de marketing de StudioXperto, en uso en diez empresas.</li>
+          <li>BSF: migré tablas con más de 7 millones de registros y unifiqué las plataformas de los clientes en un solo portal.</li>
+          <li>Sursa Gas: un sistema de ventas en Access que creció hasta ser su ERP (ventas, caja y producción) y se usó 8 años, hasta el cierre de la empresa.</li>
         </ul>
 
         <h2>Experiencia</h2>
@@ -181,11 +181,12 @@
           <h3>Lead Full Stack Developer</h3>
           <p class="donde">CELSA — Conductores Eléctricos Lima · Lima <i>06/2026 – Actualidad</i></p>
           <ul>
-            <li>Arquitectura y desarrollo de la suite corporativa: SSO, CI/CD y un Design System compartido por más de diez módulos desplegables por separado.</li>
+            <li>Arquitectura de la suite corporativa: microfrontends con Module Federation, SSO, CI/CD y un Design System compartido, más tres portales externos (clientes, proveedores y técnicos) con su propio dominio de identidad.</li>
             <li>Integraciones con SAP Business One mediante un gateway único que centraliza credenciales y evita que cada módulo consulte el ERP directamente.</li>
             <li>Gobierno de la plataforma: costos en la nube, accesos a repositorios con revisión obligatoria, alertas de producción y decisiones documentadas en ADR.</li>
-            <li>Plataforma de datos (capas bronze, silver y gold en BigQuery): auditoría de costos, accesos y dependencias, y detecté a tiempo una carga que, al quitarse, iba a congelar el costeo del cobre sin dar error.</li>
-            <li>Gobierno de la IA: lo que cada agente puede hacer y decir se define por lista blanca de herramientas y prompts versionados, no en el código de cada módulo.</li>
+            <li>Plataforma de datos en BigQuery (bronze, silver y gold): llevé las transformaciones de Cloud Composer a Dataform, validadas fila por fila, y detecté a tiempo una carga que, al quitarse, iba a congelar el costeo del cobre.</li>
+            <li>IA en producción: un asistente que responde con herramientas contra la fuente de verdad, con memoria por usuario; lo que cada agente puede hacer se define por lista blanca de herramientas y prompts versionados.</li>
+            <li>Automatizaciones con su responsable en un directorio de sistemas, y un agente de IA que toma tareas del tablero y abre pull requests.</li>
           </ul>
         </div>
 
@@ -194,14 +195,16 @@
           <p class="donde">StudioXperto · Lima · independiente desde 2020, empresa desde 2021 <i>11/2020 – 05/2026</i></p>
           <p class="stack">Nuxt · Vue · React · Angular · Ionic — Node.js · .NET 10 · Laravel — MongoDB · MySQL · PostgreSQL · Redis — Google Cloud · DigitalOcean · Vercel · GitLab CI — Keycloak — Vertex AI · Gemini · Claude — n8n · WordPress — WhatsApp y Meta API</p>
           <ul>
-            <li>Lideré un equipo de cuatro personas con clientes en Perú, Chile, España y EE. UU., desde el análisis hasta el soporte; de enero a mayo de 2026, a tiempo completo.</li>
-            <li>Universidad Corporativa Intercorp: demo de un asistente de cursos con IA (Semantic Kernel, .NET) que presentamos al cliente y migración de Aprendix de Lumen a Laravel en servicios sobre Cloud Run con Cloud SQL.</li>
-            <li>Ferreyros (sector industrial): requerimientos levantados en visitas al área técnica y administrativa, alertas de monitoreo en Google Cloud y guías técnicas en Docusaurus.</li>
-            <li>CentralWeb, producto propio: CRM y suite de marketing multiempresa (WhatsApp Business, redes con IA, correo masivo y blog) que usa una decena de empresas.</li>
+            <li>Lideré un pequeño equipo con clientes en Perú, Chile, España y EE. UU., desde el análisis hasta el soporte; de enero a mayo de 2026, a tiempo completo.</li>
+            <li>Universidad Corporativa Intercorp, dos proyectos: la migración de la plataforma Aprendix de Lumen a Laravel en servicios compartidos sobre Cloud Run y Cloud SQL, y un agente de IA para sus cursos (Semantic Kernel, .NET).</li>
+            <li>Ferreyros (sector industrial), a través de Verdandi: levanté requerimientos en sus oficinas con el área técnica y administrativa, armé las tareas de los programadores, consultas y reportes en PostgreSQL, alertas en Google Cloud y guías en Docusaurus.</li>
+            <li>CentralWeb, producto propio de StudioXperto que usa una decena de empresas: CRM con cotizaciones, envíos masivos por WhatsApp y correo, bandeja de WhatsApp, métricas de visitas web, blog y redes con IA.</li>
             <li>AOA Chile: responsable de TI. Sitio institucional con noticias, revista y TV, escrito en 25 días, y un directorio del sector con mapa y captación de contactos con IA.</li>
-            <li>ERP de alquiler de maquinaria con flota y GPS en tiempo real y app Android; asistencia con relojes biométricos y faciales; fichas pedagógicas sin conexión para la UGEL Padre Abad.</li>
-            <li>RealtyPlus (España): sitios y landings en WordPress, servidores y configuración de correo.</li>
-            <li>Intelligent Punks (EE. UU.): flujos en n8n, corrección de errores en sitios WordPress y en sus flujos, y revisión de QA.</li>
+            <li>Montacargas y Grúas Marco: su web (<a href="https://montacargasygruasmarco.com/">montacargasygruasmarco.com</a>) y un ERP de alquiler de maquinaria: flota con GPS en tiempo real, mantenimientos, almacén, compras, ventas, caja y RRHH, con app Android.</li>
+            <li>El Marati: su web (<a href="https://elmarati.com">elmarati.com</a>) y un sistema de asistencia con relojes biométricos y faciales, vacaciones, pagos y reportes.</li>
+            <li>UGEL Padre Abad: web y app de fichas pedagógicas que funcionan sin conexión.</li>
+            <li>RealtyPlus (España): sitios y landings en WordPress, servidores y correo.</li>
+            <li>Intelligent Punks (EE. UU.): flujos en n8n, errores en WordPress y revisión de QA.</li>
           </ul>
         </div>
 
@@ -210,8 +213,9 @@
           <p class="donde">Intelica Consulting · Miraflores <i>11/2024 – 12/2025</i></p>
           <ul>
             <li>Coordinación de equipos de QA, desarrollo y negocio: planificación, asignación y seguimiento, con 100 % de cumplimiento en plazos críticos.</li>
-            <li>Prototipo de asistente con IA (Semantic Kernel sobre Azure OpenAI): sesiones por usuario, consultas directas a la base de datos y funciones que generan Excel y PDF. Lo presenté y llevé su seguimiento.</li>
-            <li>Mentoría técnica y apoyo a los desarrolladores junior, y tableros de KPIs en Power BI con los que las áreas deciden.</li>
+            <li>Prototipo de asistente con IA (Semantic Kernel sobre Azure OpenAI): sesiones por usuario, consultas directas a la base de datos y funciones que generan Excel y PDF; lo presenté y le di seguimiento.</li>
+            <li>Mentoría técnica a los junior: apoyo en sus tareas y seguimiento de su avance.</li>
+            <li>Tableros de KPIs en Power BI con los que las áreas toman sus decisiones.</li>
           </ul>
         </div>
 
@@ -222,6 +226,7 @@
             <li>Sistema de control de accesos (SCA) en Chile y Perú: mejoras y soporte, el sistema de garita en Python, despliegues con Jenkins y por SSH, y documentación para usuarios.</li>
             <li>Migré tablas con más de 7 millones de registros de un sistema antiguo al nuevo con jobs programados, integré las plataformas de los clientes en un solo portal (.NET Core) y armé procesos batch con Energy Cloud y SAP.</li>
             <li>Móvil: mantenimiento de una app en Xamarin (.NET) y MVPs de control de vehículos con GPS e inventario de equipos con registro de incidencias.</li>
+            <li>Coordinación y seguimiento de los proveedores externos y de sus proyectos, incluidas las apps en Flutter.</li>
           </ul>
         </div>
 
@@ -229,7 +234,8 @@
           <h3>Desarrollador Full Stack</h3>
           <p class="donde">inLearning / IDAT · Cercado de Lima <i>09/2022 – 10/2023</i></p>
           <ul>
-            <li>Evolución del portal educativo EVA con Vue 3, .NET Core y SQL Server, y los manuales técnicos que permitieron mantenerlo después de mi salida.</li>
+            <li>Desarrollo full stack del portal educativo EVA en .NET Core y Vue 3, con SQL Server, y los manuales técnicos que permitieron mantenerlo después de mi salida.</li>
+            <li>Coordinación con el líder técnico y con el equipo, en Scrum.</li>
           </ul>
         </div>
 
@@ -239,9 +245,9 @@
           <ul>
             <li>Ibrevis: módulos de caja y registro de Zappyn, plataforma de gestión de ferias, y el primer prototipo de su plano web en Fabric.js, en el equipo que llegó a firmar con StartUp Perú. Hoy Zappyn vende la gestión de ferias y el plano como producto.</li>
             <li>Plustech: frontend en Angular y backend en Java, y como proveedor, el frontend de un sistema para EsSalud.</li>
-            <li>Grupo Rojas: módulos de control de RRHH, tareas y proyectos con diagrama de Gantt (Node.js, Vuetify y Cloud Storage).</li>
-            <li>Madison Perú: soporte y frontend para cada área, y TI mientras se cubría el puesto: servidores, Active Directory y respaldos de correo.</li>
-            <li>Acceso Corp (sector automotriz): desarrollo y documentación sobre un framework propio, con la lógica en PostgreSQL.</li>
+            <li>Grupo Rojas: RRHH, tareas y proyectos con Gantt (Node.js, Vuetify y Cloud Storage).</li>
+            <li>Madison Perú (agencia de marketing): desarrollo frontend en Vue y Vuetify de los módulos y sistemas de la empresa. En TI: cuentas de Microsoft y Active Directory, soporte TI y resolución de consultas de las áreas.</li>
+            <li>Acceso Corp (automotriz), programador junior: módulos como cobranza sobre un framework propio de bajo código que generaba la interfaz desde stored procedures en PostgreSQL; mantenimiento de módulos y manuales de usuario.</li>
           </ul>
         </div>
 
@@ -250,7 +256,7 @@
           <p class="donde">Sursa Gas · Chilca <i>08/2016 – 12/2024</i></p>
           <ul>
             <li>Entré para mejorar los Excel con los que trabajaba la empresa y, por iniciativa propia, empecé su sistema de ventas en Access VBA con MySQL.</li>
-            <li>Creció hasta ser su ERP, con una mejora del 70 % en tiempos de respuesta. Al terminar mi contrato, en 2018, seguí como proveedor hasta 2024, con un equipo pequeño, en ventas, caja y producción. Estuvo en uso hasta el cierre de la empresa, en 2025.</li>
+            <li>Creció hasta ser su ERP (ventas, caja y producción), un 70 % más rápido. Seguí como proveedor de 2018 a 2024, con un equipo pequeño; se usó hasta su cierre, en 2025.</li>
           </ul>
         </div>
 

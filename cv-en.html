@@ -70,7 +70,7 @@
 
     .principal > p { margin: 0 0 1pt; font-size: 9.4pt; }
     ul { margin: 0; padding: 0; list-style: none; }
-    li { position: relative; padding-left: 3.8mm; margin-bottom: 1.5pt; font-size: 9.3pt; break-inside: avoid; }
+    li { position: relative; padding-left: 3.8mm; margin-bottom: 1pt; font-size: 9.3pt; break-inside: avoid; }
     li::before { content: '▪'; position: absolute; left: 0; color: var(--acento); }
 
     .puesto { margin-top: 6pt; }
@@ -81,7 +81,7 @@
     .proyecto { margin: 0 0 2.5pt; font-size: 9.3pt; }
     .puesto .stack { margin: 0 0 2.5pt; font-size: 8.6pt; color: var(--gris); break-after: avoid; }
 
-    @page { size: A4; margin: 11mm 0; }
+    @page { size: A4; margin: 9.5mm 0; }
     @media print {
       html, body { background: #fff; }
       .barra, .aviso-cookies { display: none !important; }
@@ -148,7 +148,7 @@
           <dt>Information Security Management</dt>
           <dd>Universidad ESAN <span class="fecha">2024</span></dd>
           <dt>Computer Systems Engineering</dt>
-          <dd>Universidad Privada del Norte</dd>
+          <dd>Universidad Privada del Norte<br><i>not completed</i></dd>
           <dt>Computing and IT</dt>
           <dd>I.S.T.P. San Pedro del Valle de Mala · technical degree <span class="fecha">2015 – 2017</span></dd>
           <dt>Web development</dt>
@@ -162,16 +162,16 @@
 
       <section class="principal">
         <h2>Profile</h2>
-        <p>Lead Full Stack Developer building and running enterprise platforms since 2016. I lead the architecture and development of a modular corporate suite with centralized authentication, automated deployments, an in-house Design System and an AI layer in production.</p>
+        <p>I take platforms end to end: from gathering requirements with the business to running them in production. I work across architecture, code and coordination with teams and vendors, bring AI to production with clear rules and costs under control, and document everything so the system keeps running without me.</p>
 
         <h2>Achievements</h2>
         <ul>
-          <li>Modular architecture with Module Federation and a versioned Design System: each team deploys its module without blocking the others.</li>
-          <li>Automated deployments with federated identity (Workload Identity Federation): zero service account keys stored in repositories.</li>
-          <li>Cloud cost governance: found a duplicated environment that made up 84% of a monthly bill, and applied retention policies to 66 GB of artifacts.</li>
-          <li>BigQuery data lake: built the pilot that moved the transformations from Cloud Composer to Dataform, validated row by row against production with zero differences. The data team adopted it and an orchestration environment running 24/7 was shut down.</li>
-          <li>Conversational assistant in production on the platform: it answers by calling tools against the source of truth instead of a data dump, with per-user memory and usage telemetry for management.</li>
-          <li>Three external portals (customers, suppliers and students), each with its own identity realm and the backend as the boundary: a third party's token never enters the internal network.</li>
+          <li>Corporate suite with keyless deployments (Workload Identity Federation) and a Design System used by 17 applications.</li>
+          <li>Cloud costs: found a duplicated environment that was 84% of a monthly bill and applied retention to 66 GB of artifacts.</li>
+          <li>Zappyn trade fair floor plan: from a prototype that failed in 2019 to a product sold today, with routes, booth booking and an AI assistant.</li>
+          <li>CentralWeb: StudioXperto's CRM and marketing suite, used by about ten companies.</li>
+          <li>BSF: migrated tables with more than 7 million records and brought the customers' platforms into a single portal.</li>
+          <li>Sursa Gas: a sales system in Access that grew into its ERP (sales, cash and production) and ran for 8 years, until the company closed.</li>
         </ul>
 
         <h2>Experience</h2>
@@ -180,11 +180,12 @@
           <h3>Lead Full Stack Developer</h3>
           <p class="donde">CELSA — Conductores Eléctricos Lima · Lima <i>06/2026 – Present</i></p>
           <ul>
-            <li>Architecture and development of the corporate suite: SSO, CI/CD and a Design System shared by more than ten independently deployed modules.</li>
+            <li>Corporate suite architecture: microfrontends with Module Federation, SSO, CI/CD and a shared Design System, plus three external portals (customers, suppliers and technicians), each with its own identity realm.</li>
             <li>SAP Business One integrations through a single gateway that centralizes credentials and keeps each module from querying the ERP directly.</li>
             <li>Platform governance: cloud costs, repository access with mandatory review, production alerts and decisions documented as ADRs.</li>
-            <li>Data platform (bronze, silver and gold layers on BigQuery): cost, access and dependency audit, and caught in time a data load whose removal would have silently frozen copper costing.</li>
-            <li>AI governance: what each agent can do and say is defined by an allowlist of tools and versioned prompts, not in each module's code.</li>
+            <li>BigQuery data platform (bronze, silver and gold): moved the transformations from Cloud Composer to Dataform, validated row by row, and caught in time a data load whose removal would have frozen copper costing.</li>
+            <li>AI in production: an assistant that answers by calling tools against the source of truth, with per-user memory; what each agent can do is defined by an allowlist of tools and versioned prompts.</li>
+            <li>Automations with an owner in a systems directory, and an AI agent that picks up tasks from the board and opens pull requests.</li>
           </ul>
         </div>
 
@@ -193,14 +194,16 @@
           <p class="donde">StudioXperto · Lima · freelance since 2020, company since 2021 <i>11/2020 – 05/2026</i></p>
           <p class="stack">Nuxt · Vue · React · Angular · Ionic — Node.js · .NET 10 · Laravel — MongoDB · MySQL · PostgreSQL · Redis — Google Cloud · DigitalOcean · Vercel · GitLab CI — Keycloak — Vertex AI · Gemini · Claude — n8n · WordPress — WhatsApp and Meta API</p>
           <ul>
-            <li>Led a team of four with clients in Peru, Chile, Spain and the US, from requirements to support; full time from January to May 2026.</li>
-            <li>Universidad Corporativa Intercorp: an AI course assistant demo (Semantic Kernel, .NET) that we presented to the client and the Aprendix migration from Lumen to Laravel as services on Cloud Run with Cloud SQL.</li>
-            <li>Ferreyros (industrial sector): requirements gathered on visits to the technical and administrative areas, Google Cloud monitoring alerts and technical guides in Docusaurus.</li>
-            <li>CentralWeb, our own product: multi-company CRM and marketing suite (WhatsApp Business, AI-assisted social media, bulk email and blog) used by about ten companies.</li>
+            <li>Led a small team with clients in Peru, Chile, Spain and the US, from requirements to support; full time from January to May 2026.</li>
+            <li>Universidad Corporativa Intercorp, two projects: migrating the Aprendix platform from Lumen to Laravel as shared services on Cloud Run and Cloud SQL, and an AI agent for its courses (Semantic Kernel, .NET).</li>
+            <li>Ferreyros (industrial sector), through Verdandi: gathered requirements at their offices with the technical and administrative areas, wrote the developers' tasks, PostgreSQL queries and reports, Google Cloud alerts and guides in Docusaurus.</li>
+            <li>CentralWeb, StudioXperto's own product used by about ten companies: CRM with quotes, bulk WhatsApp and email, a WhatsApp inbox, web visit metrics, blog and AI social posts.</li>
             <li>AOA Chile: head of IT. Institutional website with news, magazine and TV, built in 25 days, and an industry directory with a map and AI-assisted lead capture.</li>
-            <li>Machinery rental ERP with fleet and real-time GPS and an Android app; attendance with biometric and face-recognition clocks; offline teaching records for UGEL Padre Abad.</li>
-            <li>RealtyPlus (Spain): WordPress websites and landing pages, servers and email configuration.</li>
-            <li>Intelligent Punks (US): n8n workflows, bug fixing on WordPress sites and their workflows, and QA review.</li>
+            <li>Montacargas y Grúas Marco: their website (<a href="https://montacargasygruasmarco.com/">montacargasygruasmarco.com</a>) and a machinery rental ERP: fleet with real-time GPS, maintenance, warehouse, purchasing, sales, cash and HR, with an Android app.</li>
+            <li>El Marati: their website (<a href="https://elmarati.com">elmarati.com</a>) and an attendance system with biometric and face-recognition clocks, vacations, payments and reports.</li>
+            <li>UGEL Padre Abad: website and app for teaching records that work offline.</li>
+            <li>RealtyPlus (Spain): WordPress sites and landing pages, servers and email.</li>
+            <li>Intelligent Punks (US): n8n workflows, WordPress bug fixing and QA review.</li>
           </ul>
         </div>
 
@@ -209,8 +212,9 @@
           <p class="donde">Intelica Consulting · Miraflores <i>11/2024 – 12/2025</i></p>
           <ul>
             <li>Coordinated QA, development and business teams: planning, assignment and follow-up, meeting 100% of critical deadlines.</li>
-            <li>AI assistant prototype (Semantic Kernel on Azure OpenAI): per-user sessions, direct database queries and functions that generate Excel and PDF files. I presented it and ran its follow-up.</li>
-            <li>Technical mentoring and support for junior developers, and Power BI KPI dashboards that the business areas use to make decisions.</li>
+            <li>AI assistant prototype (Semantic Kernel on Azure OpenAI): per-user sessions, direct database queries and Excel/PDF generation; I presented it and followed it up.</li>
+            <li>Technical mentoring for juniors: support on their tasks and tracking their progress.</li>
+            <li>KPI dashboards in Power BI that the business areas use to make their decisions.</li>
           </ul>
         </div>
 
@@ -218,9 +222,10 @@
           <h3>Systems Analyst</h3>
           <p class="donde">BSF Almacenes del Perú · Punta Hermosa <i>11/2023 – 10/2024</i></p>
           <ul>
-            <li>Access control system (SCA) in Chile and Peru: improvements and support, the gatehouse system in Python, deployments with Jenkins and over SSH, and user documentation.</li>
+            <li>Access control system (SCA) in Chile and Peru: improvements and support, the gatehouse system in Python, deployments with Jenkins and SSH, and user docs.</li>
             <li>Migrated tables with more than 7 million records from a legacy system to the new one using scheduled jobs, brought the customer platforms into a single portal (.NET Core), and built batch processes with Energy Cloud and SAP.</li>
             <li>Mobile: maintenance of a Xamarin (.NET) app, and MVPs for GPS vehicle tracking and equipment inventory with incident logging.</li>
+            <li>Coordinated and tracked external vendors and their projects, including the Flutter apps.</li>
           </ul>
         </div>
 
@@ -228,7 +233,8 @@
           <h3>Full Stack Developer</h3>
           <p class="donde">inLearning / IDAT · Cercado de Lima <i>09/2022 – 10/2023</i></p>
           <ul>
-            <li>Evolved the EVA learning portal with Vue 3, .NET Core and SQL Server, and wrote the technical manuals that kept it maintainable after I left.</li>
+            <li>Full stack development of the EVA learning portal in .NET Core and Vue 3, with SQL Server, and the technical manuals that let the team maintain it after I left.</li>
+            <li>Worked with the tech lead and the team, in Scrum.</li>
           </ul>
         </div>
 
@@ -238,9 +244,9 @@
           <ul>
             <li>Ibrevis: cash and registration modules for Zappyn, a trade fair management platform, and the first prototype of its web floor plan in Fabric.js, in the team that signed with StartUp Perú. Today Zappyn sells fair management and the floor plan as a product.</li>
             <li>Plustech: Angular frontend and Java backend, and, as a vendor, the frontend of a system for EsSalud.</li>
-            <li>Grupo Rojas: HR control, task and project modules with Gantt charts (Node.js, Vuetify and Cloud Storage).</li>
-            <li>Madison Perú: support and frontend for each area, and IT while the role was filled: servers, Active Directory and email backups.</li>
-            <li>Acceso Corp (automotive sector): development and documentation on an in-house framework with the logic in PostgreSQL.</li>
+            <li>Grupo Rojas: HR, tasks and projects with Gantt charts (Node.js, Vuetify, Cloud Storage).</li>
+            <li>Madison Perú (marketing agency): frontend development in Vue and Vuetify for the company's modules and systems. In IT: Microsoft accounts and Active Directory, IT support and resolving requests from the business areas.</li>
+            <li>Acceso Corp (automotive), junior developer: modules such as collections on an in-house low-code framework that generated the UI from PostgreSQL stored procedures; module maintenance and user manuals.</li>
           </ul>
         </div>
 
@@ -249,7 +255,7 @@
           <p class="donde">Sursa Gas · Chilca <i>08/2016 – 12/2024</i></p>
           <ul>
             <li>Joined to improve the spreadsheets the company ran on and, on my own initiative, started its sales system in Access VBA with MySQL.</li>
-            <li>It grew into its ERP, with response times 70% faster. When my contract ended in 2018, I stayed on as a vendor until 2024, with a small team, on sales, cash and production. It stayed in use until the company closed in 2025.</li>
+            <li>It grew into its ERP (sales, cash and production), 70% faster. I stayed on as a vendor until 2024, with a small team; it ran until the company closed in 2025.</li>
           </ul>
         </div>
 

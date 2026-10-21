@@ -16,7 +16,7 @@ const experienciasEs = [
     title: 'StudioXperto',
     rol: 'Socio · Líder técnico y desarrollador full stack',
     anios: '2020 — 2026',
-    description: 'Un equipo de cuatro personas con clientes en Perú, Chile, España y EE. UU.: CentralWeb (CRM y marketing multiempresa), responsable de TI de AOA Chile, una demo de IA y la migración de Aprendix para la Universidad Corporativa Intercorp, monitoreo en Google Cloud para Ferreyros, y soporte de WordPress, servidores y n8n para RealtyPlus e Intelligent Punks.',
+    description: 'Un pequeño equipo con clientes en Perú, Chile, España y EE. UU.: CentralWeb (CRM y marketing multiempresa), responsable de TI de AOA Chile, la migración de Aprendix y un agente de IA para la Universidad Corporativa Intercorp, levantamiento, reportes y monitoreo para Ferreyros, y soporte de WordPress, servidores y n8n para RealtyPlus e Intelligent Punks.',
     quedo: 'CentralWeb, que usa una decena de empresas, y sistemas de clientes en producción.'
   },
   {
@@ -90,7 +90,7 @@ const experienciasEn = [
     title: 'StudioXperto',
     rol: 'Partner · Tech lead and full stack developer',
     anios: '2020 — 2026',
-    description: 'A team of four with clients in Peru, Chile, Spain and the US: CentralWeb (multi-company CRM and marketing), head of IT for AOA Chile, an AI demo and the Aprendix migration for Universidad Corporativa Intercorp, monitoring on Google Cloud for Ferreyros, and WordPress, server and n8n support for RealtyPlus and Intelligent Punks.',
+    description: 'A small team with clients in Peru, Chile, Spain and the US: CentralWeb (multi-company CRM and marketing), head of IT for AOA Chile, the Aprendix migration and an AI agent for Universidad Corporativa Intercorp, requirements, reports and monitoring for Ferreyros, and WordPress, server and n8n support for RealtyPlus and Intelligent Punks.',
     quedo: 'CentralWeb, used by about ten companies, and client systems in production.'
   },
   {
