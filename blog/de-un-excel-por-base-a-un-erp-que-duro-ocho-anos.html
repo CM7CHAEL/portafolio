@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="icon" type="image/png" href="../assets/image/logo.png" sizes="64x64">
+  <link rel="alternate" type="application/rss+xml" title="Blog de Michael Cervera" href="https://cm7chael.github.io/portafolio/feed.xml">
+  <title>De un Excel por base a un ERP que duró ocho años | Michael Cervera</title>
+  <meta name="description" content="El primer sistema que hice para una empresa, con Access y MySQL: de 27 Excel sueltos a un ERP que se usó ocho años. Por qué creo que nadie quiso cambiarlo.">
+  <link rel="canonical" href="https://cm7chael.github.io/portafolio/blog/de-un-excel-por-base-a-un-erp-que-duro-ocho-anos.html">
+  <meta property="og:title" content="De un Excel por base a un ERP que duró ocho años">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-10-24T22:18:39.185Z">
+  <meta property="og:description" content="El primer sistema que hice para una empresa, con Access y MySQL: de 27 Excel sueltos a un ERP que se usó ocho años. Por qué creo que nadie quiso cambiarlo.">
+  <meta property="og:image" content="https://cm7chael.github.io/portafolio/assets/image/blog/erp-sursa.jpg">
+  <meta property="og:url" content="https://cm7chael.github.io/portafolio/blog/de-un-excel-por-base-a-un-erp-que-duro-ocho-anos.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"De un Excel por base a un ERP que duró ocho años","description":"El primer sistema que hice para una empresa, con Access y MySQL: de 27 Excel sueltos a un ERP que se usó ocho años. Por qué creo que nadie quiso cambiarlo.","image":"https://cm7chael.github.io/portafolio/assets/image/blog/erp-sursa.jpg","datePublished":"2026-10-24T22:18:39.185Z","dateModified":"2026-10-24T22:18:39.189Z","author":{"@type":"Person","name":"Michael Cervera Cobeñas","url":"https://cm7chael.github.io/portafolio/"},"mainEntityOfPage":"https://cm7chael.github.io/portafolio/blog/de-un-excel-por-base-a-un-erp-que-duro-ocho-anos.html","keywords":"ERP, Access, MySQL, Proyectos, Carrera"}</script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark nav-glass fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="../">Michael Cervera Cobeñas</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="../#experiencia">Trayectoria</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#proyectos">Casos</a></li>
+          <li class="nav-item"><a class="nav-link" href="../blog/">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="../#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container pagina">
+    <article class="articulo" id="articulo" data-slug="de-un-excel-por-base-a-un-erp-que-duro-ocho-anos">
+      <p class="articulo__ruta"><a href="./">&larr; Blog</a> <a class="blog-chip blog-chip--chico" id="articulo-categoria" href="./?c=proyectos">Proyectos</a></p>
+      <h1 id="articulo-titulo">De un Excel por base a un ERP que duró ocho años</h1>
+      <p class="post-card__fecha" id="articulo-fecha">24 de octubre de 2026 · 4 min de lectura</p>
+      <img class="articulo__portada" id="articulo-portada" alt="" width="1200" height="627" src="https://cm7chael.github.io/portafolio/assets/image/blog/erp-sursa.jpg">
+      <!-- Generado por generar-blog.js desde CentralWeb. No editar: se sobrescribe. -->
+      <div class="articulo__cuerpo" id="articulo-cuerpo">
+<p>En 2016 entré a Sursa Gas, una planta envasadora de gas en Chilca con sedes en Cañete, Chincha e Ica. Estaba en control interno y me tocaba revisar los Excel con los que trabajaba la empresa. De ahí salió el primer sistema que hice para una empresa de verdad, y se usó hasta que la empresa cerró, en 2025.</p>
+
+<p>Fue un sistema chico, hecho con lo que sabía en ese momento, y aun así nadie quiso cambiarlo. Cuento cómo lo armé y por qué creo que duró tanto.</p>
+
+<h2>Un Excel de siete pestañas</h2>
+
+<p>Todo vivía en un solo archivo: proformas, caja, guías, una hoja de validación y el estado de cuenta, cada uno en su pestaña. Funcionaba hasta que alguien editaba una fórmula sin querer. Ahí se movía todo, y nadie sabía en qué celda había empezado el problema.</p>
+
+<p>Y ese Excel no era uno solo: había un archivo por cada base de distribución. Eran 18 en Lima, 4 en Ica, 3 en Chincha y 2 en Cañete, todos separados. Para saber cómo iba una sede había que juntar la información archivo por archivo.</p>
+
+<p>Lo que más dolía era la caja. Lo que decía el Excel y lo que había en caja no cuadraban, y como no había un control de quién registraba qué, tampoco había forma de saber dónde se iba la diferencia.</p>
+
+<h2>Lo armé con lo que sabía</h2>
+
+<p>En el instituto estaba llevando MySQL, y por esos días veía los videos de Píldoras Informáticas sobre formularios en Access. Junté las dos cosas: MySQL para guardar los datos y Access con VBA para las pantallas. Los formularios y las macros me resolvían la parte visual sin tener que aprender otra herramienta.</p>
+
+<p>Le dije a mi jefe que podía hacer un sistema a la par de mi trabajo, y me dejó intentarlo. Nadie me lo había pedido. Lo empecé porque veía el problema todos los días.</p>
+
+<h2>Cada área registra lo suyo</h2>
+
+<p>Lo que más cambió fue que cada área empezó a registrar lo suyo: ventas cargaba sus ventas, caja su caja, y el sistema cruzaba las dos. Con eso salían solos los reportes que antes se armaban a mano, como los estados de cuenta, las ventas reales y las ventas por vendedor.</p>
+
+<p>Tampoco quedó un solo sistema para todo. No había conexión entre las sedes y todo corría en local, así que instalamos uno por sede: las 18 bases de Lima trabajaban en el mismo sistema, las de Ica en otro, y lo mismo en Chincha y en Cañete. Seguían siendo varios, pero eran cuatro sistemas en lugar de 27 Excel sueltos.</p>
+
+<p>Antes, tres digitadores pasaban todo el día cargando lo que llegaba de las 18 bases de Lima, que salían a campo. Con el sistema ese trabajo se terminaba a mediodía, y al final el registro lo llevaba una sola persona. Buena parte de la validación que control interno hacía a mano también pasó al sistema.</p>
+
+<h2>Empezar por la sede más chica</h2>
+
+<p>No lo lanzamos en todas las sedes a la vez. Empezamos por Cañete, que tenía solo dos bases y poco movimiento: si algo fallaba, fallaba en chico. Funcionó sin muchos problemas, y recién ahí viajamos a Chincha y después a Ica para explicárselo en persona a quienes lo iban a usar.</p>
+
+<p>Esos viajes son lo que más recuerdo de todo el proyecto.</p>
+
+<h2>Por qué duró</h2>
+
+<p>En 2018 terminó mi contrato y seguí como proveedor, con un equipo pequeño, hasta 2024. En ese tiempo el sistema pasó de ventas a caja y producción, y terminó siendo el ERP de la empresa.</p>
+
+<p>En algún momento quisieron cambiarlo por otro sistema, y no pasó. Creo que lo sostuvo la confianza: la de algunos accionistas en el trabajo que se había hecho, y la de las otras áreas, que lo recomendaban. La tecnología no tenía nada especial. Era Access.</p>
+
+<h2>Lo que haría distinto</h2>
+
+<p>No cambiaría las decisiones que tomé, porque de esos errores aprendí lo que sé hoy. Pero si lo empezara ahora, lo haría web desde el inicio, pensado en servicios que se puedan reutilizar, y con una app móvil para las bases que salían a campo.</p>
+
+<p>Y conectaría las sedes. Cada una tenía su sistema en local y no se veían entre ellas, así que la información de la empresa completa seguía repartida en cuatro lugares. Teníamos una IP pública, pero en ese momento no sabía cómo usarla para que todas trabajaran sobre lo mismo, con una VPN o un servidor central. En 2016 no sabía hacer nada de eso, así que lo hice con lo que tenía.</p>
+
+<h2>El cierre</h2>
+
+<p>En 2025 la empresa cerró. Se veía venir: después de unos años difíciles fue trabajando cada vez menos, hasta que se apagó. Igual fue duro, después de tantos años con ellos.</p>
+
+<p>Guardé el sistema y sigo en contacto con gente de la empresa. Tengo fe en que en algún momento se retome.</p>
+
+<h2>Lo que me llevo</h2>
+
+<p>Ocho años con Access y MySQL me dejaron claro que la gente no se queda con un sistema por la tecnología con la que está hecho. Se queda porque le resuelve algo que le dolía todos los días, y porque confía en quien lo mantiene.</p>
+
+<p>Si tienes un sistema chico que sigue vivo más años de los que esperabas, cuéntamelo por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>.</p>
+
+      </div>
+      <div class="stack articulo__tags" id="articulo-tags"><span class="stack__item">ERP</span><span class="stack__item">Access</span><span class="stack__item">MySQL</span><span class="stack__item">Proyectos</span><span class="stack__item">Carrera</span></div>
+      <aside class="articulo__cierre" id="articulo-cierre" hidden>
+        <img src="../assets/image/yo.jpg" alt="" width="64" height="64" loading="lazy">
+        <div>
+          <strong>Michael Cervera Cobeñas</strong>, Lead Full Stack Developer.
+          Si quieres comentar el artículo, <a href="../#contacto">escríbeme</a>.
+        </div>
+      </aside>
+    </article>
+    <section class="relacionados" id="articulo-relacionados" hidden>
+      <h2 id="relacionados-titulo">Más artículos</h2>
+      <div class="row" id="relacionados-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center">
+      <div>
+        <strong>Michael Cervera Cobeñas</strong>
+        <p class="mb-0 text-muted">Lead Full Stack Developer</p>
+      </div>
+      <div class="footer__links">
+        <a href="https://github.com/cm7chael" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/cm7chael/" target="_blank">LinkedIn</a>
+        <a href="../blog/">Blog</a>
+        <a href="../privacidad.html">Privacidad</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="estaticos.js"></script>
+  <script src="comun.js"></script>
+  <script src="../blog.js"></script>
+  <script src="../medicion.js"></script>
+</body>
+</html>

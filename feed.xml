@@ -6,7 +6,78 @@
     <atom:link href="https://cm7chael.github.io/portafolio/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Arquitectura, Cloud, IA aplicada y lo que voy aprendiendo construyendo plataformas empresariales.</description>
     <language>es</language>
-    <lastBuildDate>Tue, 20 Oct 2026 20:22:10 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 24 Oct 2026 22:18:39 GMT</lastBuildDate>
+    <item>
+      <title>De un Excel por base a un ERP que duró ocho años</title>
+      <link>https://cm7chael.github.io/portafolio/blog/de-un-excel-por-base-a-un-erp-que-duro-ocho-anos.html</link>
+      <guid isPermaLink="true">https://cm7chael.github.io/portafolio/blog/de-un-excel-por-base-a-un-erp-que-duro-ocho-anos.html</guid>
+      <pubDate>Sat, 24 Oct 2026 22:18:39 GMT</pubDate>
+      <dc:creator>Michael Cervera Cobeñas</dc:creator>
+      <category>ERP</category>
+      <category>Access</category>
+      <category>MySQL</category>
+      <category>Proyectos</category>
+      <category>Carrera</category>
+      <description>El primer sistema que hice para una empresa, con Access y MySQL: de 27 Excel sueltos a un ERP que se usó ocho años. Por qué creo que nadie quiso cambiarlo.</description>
+      <content:encoded><![CDATA[<p><img src="https://cm7chael.github.io/portafolio/assets/image/blog/erp-sursa.jpg" alt=""></p>
+<p>En 2016 entré a Sursa Gas, una planta envasadora de gas en Chilca con sedes en Cañete, Chincha e Ica. Estaba en control interno y me tocaba revisar los Excel con los que trabajaba la empresa. De ahí salió el primer sistema que hice para una empresa de verdad, y se usó hasta que la empresa cerró, en 2025.</p>
+
+<p>Fue un sistema chico, hecho con lo que sabía en ese momento, y aun así nadie quiso cambiarlo. Cuento cómo lo armé y por qué creo que duró tanto.</p>
+
+<h2>Un Excel de siete pestañas</h2>
+
+<p>Todo vivía en un solo archivo: proformas, caja, guías, una hoja de validación y el estado de cuenta, cada uno en su pestaña. Funcionaba hasta que alguien editaba una fórmula sin querer. Ahí se movía todo, y nadie sabía en qué celda había empezado el problema.</p>
+
+<p>Y ese Excel no era uno solo: había un archivo por cada base de distribución. Eran 18 en Lima, 4 en Ica, 3 en Chincha y 2 en Cañete, todos separados. Para saber cómo iba una sede había que juntar la información archivo por archivo.</p>
+
+<p>Lo que más dolía era la caja. Lo que decía el Excel y lo que había en caja no cuadraban, y como no había un control de quién registraba qué, tampoco había forma de saber dónde se iba la diferencia.</p>
+
+<h2>Lo armé con lo que sabía</h2>
+
+<p>En el instituto estaba llevando MySQL, y por esos días veía los videos de Píldoras Informáticas sobre formularios en Access. Junté las dos cosas: MySQL para guardar los datos y Access con VBA para las pantallas. Los formularios y las macros me resolvían la parte visual sin tener que aprender otra herramienta.</p>
+
+<p>Le dije a mi jefe que podía hacer un sistema a la par de mi trabajo, y me dejó intentarlo. Nadie me lo había pedido. Lo empecé porque veía el problema todos los días.</p>
+
+<h2>Cada área registra lo suyo</h2>
+
+<p>Lo que más cambió fue que cada área empezó a registrar lo suyo: ventas cargaba sus ventas, caja su caja, y el sistema cruzaba las dos. Con eso salían solos los reportes que antes se armaban a mano, como los estados de cuenta, las ventas reales y las ventas por vendedor.</p>
+
+<p>Tampoco quedó un solo sistema para todo. No había conexión entre las sedes y todo corría en local, así que instalamos uno por sede: las 18 bases de Lima trabajaban en el mismo sistema, las de Ica en otro, y lo mismo en Chincha y en Cañete. Seguían siendo varios, pero eran cuatro sistemas en lugar de 27 Excel sueltos.</p>
+
+<p>Antes, tres digitadores pasaban todo el día cargando lo que llegaba de las 18 bases de Lima, que salían a campo. Con el sistema ese trabajo se terminaba a mediodía, y al final el registro lo llevaba una sola persona. Buena parte de la validación que control interno hacía a mano también pasó al sistema.</p>
+
+<h2>Empezar por la sede más chica</h2>
+
+<p>No lo lanzamos en todas las sedes a la vez. Empezamos por Cañete, que tenía solo dos bases y poco movimiento: si algo fallaba, fallaba en chico. Funcionó sin muchos problemas, y recién ahí viajamos a Chincha y después a Ica para explicárselo en persona a quienes lo iban a usar.</p>
+
+<p>Esos viajes son lo que más recuerdo de todo el proyecto.</p>
+
+<h2>Por qué duró</h2>
+
+<p>En 2018 terminó mi contrato y seguí como proveedor, con un equipo pequeño, hasta 2024. En ese tiempo el sistema pasó de ventas a caja y producción, y terminó siendo el ERP de la empresa.</p>
+
+<p>En algún momento quisieron cambiarlo por otro sistema, y no pasó. Creo que lo sostuvo la confianza: la de algunos accionistas en el trabajo que se había hecho, y la de las otras áreas, que lo recomendaban. La tecnología no tenía nada especial. Era Access.</p>
+
+<h2>Lo que haría distinto</h2>
+
+<p>No cambiaría las decisiones que tomé, porque de esos errores aprendí lo que sé hoy. Pero si lo empezara ahora, lo haría web desde el inicio, pensado en servicios que se puedan reutilizar, y con una app móvil para las bases que salían a campo.</p>
+
+<p>Y conectaría las sedes. Cada una tenía su sistema en local y no se veían entre ellas, así que la información de la empresa completa seguía repartida en cuatro lugares. Teníamos una IP pública, pero en ese momento no sabía cómo usarla para que todas trabajaran sobre lo mismo, con una VPN o un servidor central. En 2016 no sabía hacer nada de eso, así que lo hice con lo que tenía.</p>
+
+<h2>El cierre</h2>
+
+<p>En 2025 la empresa cerró. Se veía venir: después de unos años difíciles fue trabajando cada vez menos, hasta que se apagó. Igual fue duro, después de tantos años con ellos.</p>
+
+<p>Guardé el sistema y sigo en contacto con gente de la empresa. Tengo fe en que en algún momento se retome.</p>
+
+<h2>Lo que me llevo</h2>
+
+<p>Ocho años con Access y MySQL me dejaron claro que la gente no se queda con un sistema por la tecnología con la que está hecho. Se queda porque le resuelve algo que le dolía todos los días, y porque confía en quien lo mantiene.</p>
+
+<p>Si tienes un sistema chico que sigue vivo más años de los que esperabas, cuéntamelo por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>.</p>
+
+<p><em>Publicado originalmente en <a href="https://cm7chael.github.io/portafolio/blog/de-un-excel-por-base-a-un-erp-que-duro-ocho-anos.html">mi blog</a>.</em></p>]]></content:encoded>
+    </item>
     <item>
       <title>El plano de ferias que no supe hacer en 2019</title>
       <link>https://cm7chael.github.io/portafolio/blog/plano-de-ferias-que-no-supe-hacer-2019.html</link>
