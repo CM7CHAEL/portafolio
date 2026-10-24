@@ -51,7 +51,7 @@ const experienciasEs = [
     title: 'Sursa Gas',
     rol: 'Practicante → Analista Programador Jr. → Proveedor del ERP',
     anios: '2016 — 2024',
-    description: 'Entré para mejorar sus Excel y, por iniciativa propia, empecé su sistema de ventas en Access VBA con MySQL. Creció hasta ser su ERP: ventas, caja y producción. Al terminar mi contrato, en 2018, seguí como proveedor hasta 2024. Mejora del 70 % en tiempos de respuesta.',
+    description: 'Entré para mejorar sus Excel y, por iniciativa propia, empecé su sistema de ventas en Access VBA con MySQL. Creció hasta ser su ERP: ventas, caja y producción. Desde 2018, ya fuera de la empresa, seguí como proveedor hasta 2024. Mejora del 70 % en tiempos de respuesta.',
     quedo: 'Un ERP que la empresa usó hasta su cierre, en 2025, y su sitio web: sursagas.com'
   }
 ]
@@ -125,7 +125,7 @@ const experienciasEn = [
     title: 'Sursa Gas',
     rol: 'Intern → Junior Programmer Analyst → ERP vendor',
     anios: '2016 — 2024',
-    description: 'I joined to improve their spreadsheets and, on my own initiative, started their sales system in Access VBA with MySQL. It grew into their ERP: sales, cash and production. When my contract ended in 2018, I stayed on as their vendor until 2024. Response times improved by 70%.',
+    description: 'I joined to improve their spreadsheets and, on my own initiative, started their sales system in Access VBA with MySQL. It grew into their ERP: sales, cash and production. From 2018, after leaving the company, I stayed on as their vendor until 2024. Response times improved by 70%.',
     quedo: 'An ERP the company used until it closed in 2025, and its website: sursagas.com'
   }
 ]
