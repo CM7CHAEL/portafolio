@@ -162,11 +162,11 @@
 
       <section class="principal">
         <h2>Profile</h2>
-        <p>I take platforms end to end: from gathering requirements with the business to running them in production. I work across architecture, code and coordination with teams and vendors, bring AI to production with clear rules and costs under control, and document everything so the system keeps running without me.</p>
+        <p>I take platforms end to end: from gathering requirements with the business to running them in production. I work across architecture, code and coordination with teams and vendors, bring AI to production with clear rules and costs under control, and document decisions so the team can move forward with its own judgment.</p>
 
         <h2>Achievements</h2>
         <ul>
-          <li>Corporate suite with keyless deployments (Workload Identity Federation) and a Design System used by 17 applications.</li>
+          <li>Corporate suite with keyless deployments (Workload Identity Federation) and a Design System used by 18 applications.</li>
           <li>Cloud costs: found a duplicated environment that was 84% of a monthly bill and applied retention to 66 GB of artifacts.</li>
           <li>Zappyn trade fair floor plan: from a prototype that failed in 2019 to a product sold today, with routes, booth booking and an AI assistant.</li>
           <li>CentralWeb: StudioXperto's CRM and marketing suite, used by about ten companies.</li>
@@ -180,9 +180,13 @@
           <h3>Lead Full Stack Developer</h3>
           <p class="donde">CELSA — Conductores Eléctricos Lima · Lima <i>06/2026 – Present</i></p>
           <ul>
+            <li>I lead a team of developers: projects split with a development owner per module, review of every pull request and written working rules so each person decides with their own judgment.</li>
             <li>Corporate suite architecture: microfrontends with Module Federation, SSO, CI/CD and a shared Design System, plus three external portals (customers, suppliers and technicians), each with its own identity realm.</li>
+            <li>Multi-company architecture to bring the suite to other companies in the group: the same code deployed once per company, each with its own identity, database and cloud, and group-wide reporting through the data lake.</li>
             <li>SAP Business One integrations through a single gateway that centralizes credentials and keeps each module from querying the ERP directly.</li>
+            <li>Gradual payroll system migration: a read-only gateway feeds the portal's HR module and the employee load into SAP, so the old system can be retired piece by piece instead of all at once.</li>
             <li>Platform governance: cloud costs, repository access with mandatory review, production alerts and decisions documented as ADRs.</li>
+            <li>Security and data governance: identity-based database access with no shared passwords, dedicated accounts for each application, separate test and production environments, and HR data exposed only through a read-only service that never shows salaries.</li>
             <li>BigQuery data platform (bronze, silver and gold): moved the transformations from Cloud Composer to Dataform, validated row by row, and caught in time a data load whose removal would have frozen copper costing.</li>
             <li>AI in production: an assistant that answers by calling tools against the source of truth, with per-user memory; what each agent can do is defined by an allowlist of tools and versioned prompts.</li>
             <li>Automations with an owner in a systems directory, and an AI agent that picks up tasks from the board and opens pull requests.</li>

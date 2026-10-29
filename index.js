@@ -10,7 +10,7 @@ const experienciasEs = [
     rol: 'Lead Full Stack Developer',
     anios: '2026 — hoy',
     description: 'Arquitectura modular con microfrontends, SSO corporativo con Keycloak, despliegues automatizados sin llaves y un Design System propio.',
-    quedo: 'Un Design System que usan 17 aplicaciones de la plataforma.'
+    quedo: 'Un Design System que usan 18 aplicaciones de la plataforma.'
   },
   {
     title: 'StudioXperto',
@@ -59,7 +59,7 @@ const experienciasEs = [
 const proyectosEs = [
   {
     title: 'Una suite modular con un solo login',
-    description: 'Más de 15 módulos sobre una arquitectura federada: cada equipo despliega el suyo sin bloquear a los demás. Inicio de sesión centralizado con Keycloak/OIDC, despliegues automatizados sin llaves de servicio y un Design System propio que usan 17 aplicaciones.',
+    description: 'Más de 15 módulos sobre una arquitectura federada: cada equipo despliega el suyo sin bloquear a los demás. Inicio de sesión centralizado con Keycloak/OIDC, despliegues automatizados sin llaves de servicio y un Design System propio que usan 18 aplicaciones.',
     link: 'blog/microfrontends-angular-native-federation-lecciones-produccion.html',
     linkText: 'Leer el artículo',
     stack: ['Native Federation', 'Keycloak/OIDC', 'Design System']
@@ -84,7 +84,7 @@ const experienciasEn = [
     rol: 'Lead Full Stack Developer',
     anios: '2026 — present',
     description: 'Modular architecture with microfrontends, corporate SSO with Keycloak, keyless automated deployments and an in-house Design System.',
-    quedo: 'A Design System used by 17 applications across the platform.'
+    quedo: 'A Design System used by 18 applications across the platform.'
   },
   {
     title: 'StudioXperto',
@@ -133,7 +133,7 @@ const experienciasEn = [
 const proyectosEn = [
   {
     title: 'A modular suite with a single login',
-    description: 'More than 15 modules on a federated architecture: each team deploys its own without blocking the others. Centralized sign-in with Keycloak/OIDC, keyless automated deployments and an in-house Design System used by 17 applications.',
+    description: 'More than 15 modules on a federated architecture: each team deploys its own without blocking the others. Centralized sign-in with Keycloak/OIDC, keyless automated deployments and an in-house Design System used by 18 applications.',
     link: 'blog/microfrontends-angular-native-federation-lecciones-produccion.html',
     linkText: 'Read the article (in Spanish)',
     stack: ['Native Federation', 'Keycloak/OIDC', 'Design System']
