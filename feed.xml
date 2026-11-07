@@ -6,7 +6,100 @@
     <atom:link href="https://cm7chael.github.io/portafolio/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Arquitectura, Cloud, IA aplicada y lo que voy aprendiendo construyendo plataformas empresariales.</description>
     <language>es</language>
-    <lastBuildDate>Sat, 24 Oct 2026 22:18:39 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 15:40:53 GMT</lastBuildDate>
+    <item>
+      <title>Cómo le pongo límites a un agente de IA en producción</title>
+      <link>https://cm7chael.github.io/portafolio/blog/limites-agente-ia-produccion.html</link>
+      <guid isPermaLink="true">https://cm7chael.github.io/portafolio/blog/limites-agente-ia-produccion.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:40:53 GMT</pubDate>
+      <dc:creator>Michael Cervera Cobeñas</dc:creator>
+      <category>IA</category>
+      <category>Agentes</category>
+      <category>Seguridad</category>
+      <category>LLM</category>
+      <category>Producción</category>
+      <description>Lo que aprendí pasando agentes de IA a producción: el prompt pide, pero los límites los pone el código. Herramientas, identidad, entradas y métricas.</description>
+      <content:encoded><![CDATA[<p><img src="https://cm7chael.github.io/portafolio/assets/image/blog/agentes-limites.jpg" alt=""></p>
+<p>Este año pasé varios agentes de IA a producción en la plataforma que lidero: un asistente que responde consultando los sistemas de la empresa y recuerda a cada usuario, uno que toma tareas del tablero y abre los cambios como pull request, y otro que revisa esos pull request antes de que una persona los apruebe.</p>
+
+<p>La pregunta que más me hice no fue qué modelo usar. Fue qué no debería poder hacer cada uno. Y la respuesta que fui encontrando se repite en todos: el prompt le pide al agente que se porte bien, pero los límites los pone el código.</p>
+
+<h2>Una lista blanca de herramientas</h2>
+
+<p>Un agente solo puede hacer lo que sus herramientas le permiten. Por eso cada agente tiene una <strong>lista blanca</strong>: las herramientas que puede usar, escritas en el código, no en el prompt. El agente comercial no ve las herramientas de los demás, aunque todos vivan en el mismo servicio.</p>
+
+<p>Una prueba automática revisa que cada herramienta que declara un agente exista de verdad en el registro. Parece poco, pero evita que un agente declare una herramienta que nadie registró y el error aparezca recién en una conversación real.</p>
+
+<h2>Los límites que importan van en el código</h2>
+
+<p>Al agente que programa le digo en el prompt que no toque la configuración de despliegue, los secretos ni el esquema de la base de datos. Pero eso no es lo que lo detiene. Antes de abrir el pull request, el código revisa el diff, y si toca una de esas rutas, el trabajo se corta.</p>
+
+<p>Con el revisor es igual. Solo aprueba si se cumplen tres cosas: cero hallazgos, las pruebas automáticas en verde y ningún archivo en zonas sensibles (permisos, integración con el ERP, despliegues). Las tres las comprueba el código. El modelo da su opinión sobre el cambio, pero no decide si se aprueba.</p>
+
+<p>Esto tuvo un efecto que no esperaba: en los repositorios que no tenían pruebas automáticas, el revisor no aprobó nada. Todo caía en "requiere revisión humana". Fue la mejor razón que encontré para que el equipo agregara las pruebas.</p>
+
+<h2>Su propia identidad, con lo mínimo</h2>
+
+<ul>
+  <li><strong>El agente no usa mi cuenta.</strong> Yo tengo permisos de administrador y puedo saltarme la protección de las ramas. Si el agente usara mi identidad, heredaría eso. Tiene su propia identidad en GitHub, que puede abrir pull request y nada más.</li>
+  <li><strong>No despliega ni hace merge.</strong> Eso lo hace una persona.</li>
+  <li><strong>Corre aislado.</strong> El que programa instala dependencias y ejecuta código que nadie revisó todavía, así que corre en un proyecto de nube aparte, sin acceso a producción.</li>
+  <li><strong>El revisor tiene otra identidad.</strong> Una cuenta no puede aprobar su propio pull request, y además así se ve en el historial quién escribió y quién revisó.</li>
+</ul>
+
+<h2>Lo que entra también se controla</h2>
+
+<p>Quise que el agente tomara también los tickets que escribe cualquier persona de la empresa. Ahí apareció el problema de la <strong>inyección de prompt</strong>: un texto escrito por cualquiera llegaría a un agente que puede escribir código. La solución fue separar: con un ticket, el agente solo lee, analiza y redacta la tarea. Una persona de TI decide si pasa al agente que programa.</p>
+
+<p>Con la memoria del asistente pasó algo parecido. Antes de que recordara nada, hicimos que cada usuario solo pudiera ver lo suyo en el almacén de recuerdos. Lo que un agente no debe ver no se le filtra con instrucciones: directamente no se le da.</p>
+
+<h2>Cuando duda, pregunta</h2>
+
+<p>Al principio el asistente, si no entendía algo, suponía. Y una suposición terminaba escrita como tarea en el tablero de otra persona.</p>
+
+<p>Ahora tiene una herramienta para preguntar. Cuando la usa, el servidor corta el turno y el usuario ve un formulario con opciones sugeridas y un campo para escribir otra cosa. Que el turno se corte lo decide el servidor, no el prompt. El agente no puede preguntar y seguir actuando como si ya tuviera la respuesta.</p>
+
+<h2>Medir dónde se equivoca</h2>
+
+<p>Sin medir, solo sabes lo que te cuentan. Cada respuesta del asistente guarda el modelo, cuánto tardó, qué herramientas usó y cuáles fallaron, y el usuario puede votarla con 👍 o 👎. Con eso armamos una bandeja de revisión con cinco señales:</p>
+
+<ul>
+  <li>respuestas votadas con 👎;</li>
+  <li>herramientas que fallaron;</li>
+  <li>respuestas donde el agente dijo que no podía hacer algo, que nos dicen qué herramienta construir después;</li>
+  <li>conversaciones largas sin ningún 👍;</li>
+  <li>respuestas que tardaron más de 12 segundos.</li>
+</ul>
+
+<p>A la bandeja se entra por el caso, nunca por la persona. Y abrir una conversación necesita un permiso propio y queda registrado siempre.</p>
+
+<p>Para el revisor la medida es más simple: cuántas veces aprobó y el cambio se mergeó tal cual, contra cuántas aprobó y luego hubo que corregir. Esa cifra es la que dirá cuándo se le puede dar más confianza.</p>
+
+<h2>Un tropiezo: la herramienta 30</h2>
+
+<p>Un día agregamos una herramienta al asistente y dejó de responder en todas las conversaciones, incluso en las que no tenían nada que ver con ella. El error del proveedor decía que el esquema tenía demasiados estados.</p>
+
+<p>Pasaba esto: cuando el modelo anunciaba que iba a hacer algo y no llamaba a ninguna herramienta, reintentábamos obligándolo a usar una. En ese modo el proveedor compila los esquemas de todas las herramientas juntas, y hay un techo. Con 29 herramientas pasaba y con 30 no. Ahora, si ese reintento falla, se reintenta sin obligar, y en el peor caso vuelve la respuesta normal.</p>
+
+<p>Lo que más tiempo nos costó fue otra cosa: nuestro código descartaba el cuerpo de la respuesta de error, y solo veíamos un "400" sin motivo. Desde ahí registramos siempre el motivo que da el proveedor.</p>
+
+<h2>Qué haría distinto si empezara hoy</h2>
+
+<ul>
+  <li><strong>Medir desde el primer día.</strong> La calidad y el costo arrancaron en cero el día que los instrumentamos; lo anterior no se puede recuperar.</li>
+  <li><strong>Pruebas automáticas antes que el revisor.</strong> Sin ellas, el revisor no puede aprobar nada.</li>
+  <li><strong>Decidir cómo se borra la memoria antes de guardar recuerdos.</strong> Que un usuario pueda borrar lo que el asistente sabe de él se diseña al inicio, no después.</li>
+  <li><strong>La medida de confianza antes de encenderlo.</strong> Decidir de entrada qué número tiene que alcanzar el agente para darle más autonomía, y no decidirlo a ojo después.</li>
+</ul>
+
+<h2>Si estás por poner un agente en producción</h2>
+
+<p>Antes de escribir el prompt, haz la lista de lo que el agente no debe poder hacer, y para cada cosa pregúntate qué la detiene si el modelo no te hace caso. Si la respuesta es "el prompt", todavía no está lista.</p>
+
+<p>Estoy llevando un programa de agentes de IA en UTEC Posgrado para ordenar todo esto. Si tú también estás poniendo agentes en producción, escríbeme por <a href="https://www.linkedin.com/in/cm7chael/" target="_blank" rel="noopener">LinkedIn</a>: me interesa saber cómo los evalúan otros equipos.</p>
+
+<p><em>Publicado originalmente en <a href="https://cm7chael.github.io/portafolio/blog/limites-agente-ia-produccion.html">mi blog</a>.</em></p>]]></content:encoded>
+    </item>
     <item>
       <title>De un Excel por base a un ERP que duró ocho años</title>
       <link>https://cm7chael.github.io/portafolio/blog/de-un-excel-por-base-a-un-erp-que-duro-ocho-anos.html</link>
