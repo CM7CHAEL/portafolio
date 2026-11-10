@@ -169,7 +169,7 @@
         <h2>Achievements</h2>
         <ul>
           <li>Corporate suite with keyless deployments (Workload Identity Federation) and a Design System used by 18 applications.</li>
-          <li>Cloud costs: found a duplicated environment that was 84% of a monthly bill and applied retention to 66 GB of artifacts.</li>
+          <li>Cloud and licensing costs: cut more than USD 1,000 a month (over 13,000 a year) by retiring orchestrators that ran all day, right-sizing the database and closing an account that was billed with no use.</li>
           <li>Zappyn trade fair floor plan: from a prototype that failed in 2019 to a product sold today, with routes, booth booking and an AI assistant.</li>
           <li>CentralWeb: StudioXperto's CRM and marketing suite, used by about ten companies.</li>
           <li>BSF: migrated tables with more than 7 million records and brought the customers' platforms into a single portal.</li>
@@ -187,7 +187,7 @@
             <li>Multi-company architecture to bring the suite to other companies in the group: the same code deployed once per company, each with its own identity, database and cloud, and group-wide reporting through the data lake.</li>
             <li>SAP Business One integrations through a single gateway that centralizes credentials and keeps each module from querying the ERP directly.</li>
             <li>Gradual payroll system migration: a read-only gateway feeds the portal's HR module and the employee load into SAP, so the old system can be retired piece by piece instead of all at once.</li>
-            <li>Platform governance: cloud costs, repository access with mandatory review, production alerts and decisions documented as ADRs.</li>
+            <li>Platform governance: repository access with mandatory review, production alerts and decisions documented as ADRs.</li>
             <li>Security and data governance: identity-based database access with no shared passwords, dedicated accounts for each application, separate test and production environments, and HR data exposed only through a read-only service that never shows salaries.</li>
             <li>BigQuery data platform (bronze, silver and gold): moved the transformations from Cloud Composer to Dataform, validated row by row, and caught in time a data load whose removal would have frozen copper costing.</li>
             <li>AI in production: an assistant that answers by calling tools against the source of truth, with per-user memory; what each agent can do is defined by an allowlist of tools and versioned prompts.</li>
